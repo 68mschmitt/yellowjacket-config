@@ -434,9 +434,9 @@
 
         default_layer {
             bindings = <
-                &kp Q     &kp J     &kp W     &kp M     REPEAT          CAPSWORD  &kp F     &kp U     &kp Y    &kp X
+                          &kp J     &kp W     &kp M     REPEAT          CAPSWORD  &kp F     &kp U     &kp Y
                 &kp A     &kp R     &kp S     &kp T     &kp G           &kp P     &kp N     &kp E     &kp I    &kp O
-                          &kp L     &kp C     &kp D     &kp V           &kp B     &kp H     &kp Z     &kp K
+                &kp Q     &kp L     &kp C     &kp D     &kp V           &kp B     &kp H     &kp Z     &kp K    &kp X
                                               SL(NAV_L) &kp SPACE       &kp BSPC  SL(NUM_L)
             >;
         };
