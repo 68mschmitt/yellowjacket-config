@@ -456,7 +456,7 @@
             bindings = <
                 SK(RGUI)  SK(RALT)  SK(RCTRL) SQ(RSHFT) &kp DEL         &kp PG_UP &kp HOME  &kp UARW  &kp END   &trans
                 SK(LGUI)  SK(LALT)  SK(LCTRL) SQ(LSHFT) &kp BSPC        &kp PG_DN &kp LARW  &kp DARW  &kp RARW  &kp LC(Z)
-                          &kp ESC   &kp TAB   &kp RET   &trans          &trans    &kp ESC   &kp TAB   &kp RET
+                          BT_SEL 0   &kp TAB   &kp RET   &trans          &trans    &kp ESC   &kp TAB   &kp RET
                                               &trans    &trans          &kp BSPC  &lt NUM_L DEL
             >;
         };
