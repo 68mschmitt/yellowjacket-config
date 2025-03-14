@@ -1,5 +1,0 @@
-config SHEILD_YELLOWJACKET_LEFT
-    def_bool $(shields_list_contains, yellowjacket_left)
-
-config SHEILD_YELLOWJACKET_RIGHT
-    def_bool $(shields_list_contains, yellowjacket_right)

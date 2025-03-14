@@ -20,8 +20,6 @@
 ---
 include:
   - board: nice_nano_v2
-    shield: yellowjacket_left 
+    shield: cradio_left
   - board: nice_nano_v2
-    shield: yellowjacket_right 
-  - board: nice_nano_v2
-    shield: tester_pro_micro
+    shield: cradio_right
