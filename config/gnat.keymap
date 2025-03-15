@@ -1,0 +1,254 @@
+/*
+ * Copyright (c) 2020 The ZMK Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/ext_power.h>
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/outputs.h>
+
+#define DEF_L 0
+#define NAV_L 1
+#define UPP_L 2
+#define SYM_L 3
+#define NUM_L 4
+#define SYS_L 5
+
+#define B0     BT_SEL 0
+#define B1     BT_SEL 1
+#define B2     BT_SEL 2
+#define B3     BT_SEL 3
+#define B4     BT_SEL 4
+#define OTGL   out OUT_TOG
+
+&caps_word {
+  continue-list = <UNDERSCORE MINUS BACKSPACE>;
+};
+
+&sk {
+  release-after-ms = <60000>;
+};
+
+/ {
+    ZMK_MACRO(mo_nav,
+        wait-ms = <0>;
+        tap-ms = <0>;
+        bindings
+        = <&macro_tap &kp K_CANCEL>
+        , <&macro_press &mo NAV_L>
+        , <&macro_pause_for_release>
+        , <&macro_release &mo NAV_L>;)
+
+    ZMK_MACRO(mo_upp,
+        wait-ms = <0>;
+        tap-ms = <0>;
+        bindings
+        = <&macro_tap &kp K_CANCEL>
+        , <&macro_press &mo UPP_L>
+        , <&macro_pause_for_release>
+        , <&macro_release &mo UPP_L>;)
+
+    ZMK_MACRO(mo_sym,
+        wait-ms = <0>;
+        tap-ms = <0>;
+        bindings
+        = <&macro_tap &kp K_CANCEL>
+        , <&macro_press &mo SYM_L>
+        , <&macro_pause_for_release>
+        , <&macro_release &mo SYM_L>;)
+
+    ZMK_MACRO(mo_sys,
+        wait-ms = <0>;
+        tap-ms = <0>;
+        bindings
+        = <&macro_tap &kp K_CANCEL>
+        , <&macro_press &mo SYS_L>
+        , <&macro_pause_for_release>
+        , <&macro_release &mo SYS_L>;)
+
+    ZMK_MACRO(leq,
+        wait-ms = <30>;
+        tap-ms = <40>;
+        bindings = <&kp LT &kp EQUAL>;)
+
+    ZMK_MACRO(eq,
+        wait-ms = <30>;
+        tap-ms = <40>;
+        bindings = <&kp EQUAL &kp EQUAL>;)
+
+    ZMK_MACRO(geq,
+        wait-ms = <30>;
+        tap-ms = <40>;
+        bindings = <&kp GT &kp EQUAL>;)
+
+    ZMK_MACRO(neq,
+        wait-ms = <30>;
+        tap-ms = <40>;
+        bindings = <&kp EXCL &kp EQUAL>;)
+
+    ZMK_MACRO(arrwf,
+        wait-ms = <30>;
+        tap-ms = <40>;
+        bindings = <&kp EQUAL &kp GT>;)
+
+    ZMK_MACRO(wclip,
+        wait-ms = <30>;
+        tap-ms = <40>;
+        bindings 
+        = <&macro_press &kp LGUI>
+        , <&macro_press &kp LSHFT>
+        , <&macro_press &kp N4>
+        , <&macro_release &kp LGUI &kp LSHFT &kp N4>;)
+        
+    combos {
+        compatible = "zmk,combos";
+
+        #define COMBO(NAME, BINDINGS, KEYPOS, LAYERS) \
+          combo_##NAME { \
+            bindings = <BINDINGS>; \
+            key-positions = <KEYPOS>; \
+            layers = <LAYERS>; \
+          };
+        /*                KEY POSITIONS
+
+          ╭────────────────────╮ ╭────────────────────╮
+          │      0   1   2   3 | |  4   5   6   7     │
+          │  8   9  10  11  12 │ │ 13  14  15  16  17 │
+          │ 18  19  20  21  22 │ │ 23  24  25  26  27 │
+          ╰───────────╮ 28  29 │ │ 30  31 ╭───────────╯
+                      ╰────────╯ ╰────────╯            */
+        // Letters
+        COMBO(lower_q, &kp Q, 0 1, DEF_L)
+        COMBO(upper_q, &kp LS(Q), 0 1, UPP_L)
+
+        COMBO(excl, &kp EXCL, 0 1, SYM_L)
+        
+        COMBO(lower_semi, &kp SEMI, 6 7, DEF_L)
+        COMBO(upper_semi, &kp LS(SEMI), 6 7, UPP_L)
+        
+        COMBO(f_twelve, &kp F12, 6 7, SYS_L)
+        
+        // Brackets
+        COMBO(left_bracket, &kp LBKT, 0 9, DEF_L UPP_L SYM_L NUM_L)
+        COMBO(right_bracket, &kp RBKT, 7 16, DEF_L UPP_L SYM_L NUM_L)
+        COMBO(left_parenthesis, &kp LPAR, 1 10, DEF_L UPP_L SYM_L NUM_L)
+        COMBO(right_parenthesis, &kp RPAR, 6 15, DEF_L UPP_L SYM_L NUM_L)
+        COMBO(left_brace, &kp LBRC, 2 11, DEF_L UPP_L SYM_L NUM_L)
+        COMBO(right_brace, &kp RBRC, 5 14, DEF_L UPP_L SYM_L NUM_L)
+
+        // Convenience
+        COMBO(esc, &kp ESC, 1 2, DEF_L)
+        COMBO(ent, &kp ENTER, 15 16, DEF_L)
+        COMBO(tab, &kp TAB, 11 12, DEF_L)
+        COMBO(w_clip, &wclip, 9 10 11, DEF_L)
+
+        COMBO(sys_l, &mo_sys, 28 29, NUM_L)
+    };
+
+    conditional_layers {
+        compatible = "zmk,conditional-layers";
+        tri_layer {
+            if-layers = <UPP_L SYM_L>;
+            then-layer = <NUM_L>;
+        };
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+
+        default_layer {
+            bindings = <
+        // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
+                           &kp W         &kp F         &kp P         &kp G             &kp J         &kp L         &kp U         &kp Y
+             &kp A         &kp R         &kp S         &kp T         &kp D             &kp H         &kp N         &kp E         &kp I         &kp O
+             &kp Z         &kp X         &kp C         &kp V         &kp B             &kp K         &kp M         &kp COMMA     &kp DOT       &kp FSLH
+        // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
+                                                       &mo_nav       &kp SPACE         &mo_upp       &mo_sym
+        //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
+            >;
+        };
+
+        nav_layer {
+            label = "Nav";
+            bindings = <
+        // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
+                           &trans        &trans        &trans        &trans            &kp PG_UP     &trans        &trans        &trans
+             &sk LGUI      &sk LALT      &sk LCTRL     &sk LSHFT     &trans            &kp PG_DN     &kp LARW      &kp DARW      &kp UARW      &kp RARW
+             &kp Z         &kp LC(X)     &kp LC(C)     &kp LC(V)     &trans            &trans        &trans        &trans        &trans        &trans
+        // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
+                                                       &trans        &trans            &kp BSPC      &kp DEL
+        //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
+            >;
+        };
+
+        upper_layer {
+            label = "Upp";
+            bindings = <
+        // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
+                           &kp LS(W)     &kp LS(F)     &kp LS(P)     &kp LS(G)         &kp LS(J)     &kp LS(L)     &kp LS(U)     &kp LS(Y)
+             &kp LS(A)     &kp LS(R)     &kp LS(S)     &kp LS(T)     &kp LS(D)         &kp LS(H)     &kp LS(N)     &kp LS(E)     &kp LS(I)     &kp LS(O)
+             &kp LS(Z)     &kp LS(X)     &kp LS(C)     &kp LS(V)     &kp LS(B)         &kp LS(K)     &kp LS(M)     &kp LT        &kp GT        &kp LS(FSLH)
+        // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
+                                                       &trans        &kp LS(SPACE)     &trans        &trans
+        //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
+            >;
+        };
+
+        sym_layer {
+            label = "Sym";
+            bindings = <
+        // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
+                           &kp AT        &kp HASH      &kp DLLR      &kp PRCNT         &neq          &leq          &eq           &geq
+             &kp COLON     &kp CARET     &kp AMPS      &kp STAR      &kp PLUS          &arrwf        &none         &none         &none         &kp PIPE
+             &kp SQT       &kp GRAVE     &kp TILDE     &kp BSLH      &kp EQUAL         &none         &none         &none         &none         &kp DQT
+        // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
+                                                       &kp UNDER     &kp MINUS         &trans        &trans
+        //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
+            >;
+        };
+        
+        num_layer {
+            label = "Num";
+            bindings = <
+        // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
+                           &kp N7        &kp N8        &kp N9        &none             &none         &none         &none         &none
+             &none         &kp N1        &kp N2        &kp N3        &none             &none         &none         &none         &none         &none
+             &none         &kp N4        &kp N5        &kp N6        &none             &none         &none         &kp COMMA     &kp DOT       &none
+        // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
+                                                       &kp N0        &kp SPACE         &none         &none
+        //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
+            >;
+        };
+        
+        sys_layer {
+            label = "Sys";
+            bindings = <
+        // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
+                           &OTGL         &none         &none         &none             &none         &kp F9        &kp F10       &kp F11
+             &none         &bt B0        &bt B1        &bt B2        &none             &none         &kp F1        &kp F2        &kp F3        &kp F4 
+             &none         &bt B3        &bt B4        &none         &none             &none         &kp F5        &kp F6        &kp F7        &kp F8 
+        // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
+                                                       &none         &none             &none         &none
+        //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
+            >;
+        };
+    };
+};
+
+/*
+        _layer {
+            label = "";
+            bindings = <
+        // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
+                           &none         &none         &none         &none             &none         &kp F9        &kp F10       &kp F11
+             &none         &none         &none         &none         &none             &none         &kp F1        &kp F2        &kp F3        &kp F4 
+             &none         &none         &none         &none         &none             &none         &kp F5        &kp F6        &kp F7        &kp F8 
+        // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
+                                                       &none         &none             &none         &none
+        //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
+            >;
+        };
+*/

@@ -1,0 +1,8 @@
+file_format: "1"
+id: rufous
+name: rufous
+type: shield
+url: https://github.com/rschenk/tern
+requires: [seeed_xiao]
+features:
+  - keys
