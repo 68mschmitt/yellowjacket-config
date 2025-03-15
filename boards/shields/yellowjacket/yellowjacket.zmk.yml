@@ -1,13 +1,13 @@
 file_format: "1"
-id: cradio
-name: Cradio/Sweep
+id: yellowjacket
+name: YellowJacket/Sweep
 type: shield
-url: https://github.com/davidphilipbarr/Sweep
+url: https://github.com/
 requires: [pro_micro]
 exposes: [i2c_oled]
 features:
   - keys
   - studio
 siblings:
-  - cradio_left
-  - cradio_right
+  - yellowjacket_left
+  - yellowjacket_right
