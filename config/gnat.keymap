@@ -122,32 +122,31 @@
                       ╰────────╯ ╰────────╯            */
         // Letters
         COMBO(lower_q, &kp Q, 0 1, DEF_L)
-        COMBO(upper_q, &kp LS(Q), 0 1, UPP_L)
+        // COMBO(upper_q, &kp LS(Q), 0 1, UPP_L)
 
         // Colons
         COMBO(colon, &kp COLON, 6 7, DEF_L)
-        COMBO(semicolon, &kp SEMICOLON, 24 25, DEF_L)
+        COMBO(semicolon, &kp SEMI, 24 25, DEF_L)
 
-        COMBO(excl, &kp EXCL, 0 1, SYM_L)
+        // COMBO(excl, &kp EXCL, 0 1, SYM_L)
 
-        COMBO(lower_semi, &kp SEMI, 6 7, DEF_L)
-        COMBO(upper_semi, &kp LS(SEMI), 6 7, UPP_L)
+        // COMBO(lower_semi, &kp SEMI, 6 7, DEF_L)
+        // COMBO(upper_semi, &kp LS(SEMI), 6 7, UPP_L)
 
         // Brackets
-        COMBO(left_bracket, &kp LBKT, 0 9, DEF_L UPP_L SYM_L NUM_L)
-        COMBO(right_bracket, &kp RBKT, 7 16, DEF_L UPP_L SYM_L NUM_L)
-        COMBO(left_parenthesis, &kp LPAR, 1 10, DEF_L UPP_L SYM_L NUM_L)
-        COMBO(right_parenthesis, &kp RPAR, 6 15, DEF_L UPP_L SYM_L NUM_L)
-        COMBO(left_brace, &kp LBRC, 2 11, DEF_L UPP_L SYM_L NUM_L)
-        COMBO(right_brace, &kp RBRC, 5 14, DEF_L UPP_L SYM_L NUM_L)
+        // COMBO(left_bracket, &kp LBKT, 0 9, DEF_L UPP_L SYM_L NUM_L)
+        // COMBO(right_bracket, &kp RBKT, 7 16, DEF_L UPP_L SYM_L NUM_L)
+        // COMBO(left_parenthesis, &kp LPAR, 1 10, DEF_L UPP_L SYM_L NUM_L)
+        // COMBO(right_parenthesis, &kp RPAR, 6 15, DEF_L UPP_L SYM_L NUM_L)
+        // COMBO(left_brace, &kp LBRC, 2 11, DEF_L UPP_L SYM_L NUM_L)
+        // COMBO(right_brace, &kp RBRC, 5 14, DEF_L UPP_L SYM_L NUM_L)
 
         // Convenience
-        COMBO(esc, &kp ESC, 1 2, DEF_L)
-        COMBO(ent, &kp ENTER, 15 16, DEF_L)
-        COMBO(tab, &kp TAB, 11 12, DEF_L)
-        COMBO(w_clip, &wclip, 9 10 11, DEF_L)
+        COMBO(esc, &kp ESC, 10 11, DEF_L)
+        COMBO(esc, &kp ESC, 14 15, DEF_L)
+        // COMBO(w_clip, &wclip, 9 10 11, DEF_L)
 
-        COMBO(sys_l, &mo_sys, 28 29, NUM_L)
+        // COMBO(sys_l, &mo_sys, 28 29, NUM_L)
     };
 
     conditional_layers {
