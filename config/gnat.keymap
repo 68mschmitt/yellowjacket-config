@@ -94,11 +94,6 @@
         tap-ms = <40>;
         bindings = <&lt ARR_L ENTER>;)
 
-    ZMK_MACRO(SP_LT,
-        wait-ms = <30>;
-        tap-ms = <40>;
-        bindings = <&lt NUM_L SPACE>;)
-
     ZMK_MACRO(MS_LT,
         wait-ms = <30>;
         tap-ms = <40>;
@@ -190,7 +185,7 @@
              &HR_G_L       &HR_A_L       &HR_C_L       &HR_S_L       &kp G             &kp M         &HR_S_R       &HR_C_R       &HR_A_R       &HR_G_R
              &FNC_LT       &SYS_LT       &kp C         &kp D         &kp V             &kp K         &kp H         &kp COMMA     &kp DOT       &kp FSLH
         // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
-                                                       &SP_LT        &SP_LT            &MS_LT        &AR_LT
+                                                       &SP_LT        &BR_LT            &MS_LT        &AR_LT
         //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
             >;
         };
