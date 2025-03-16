@@ -122,7 +122,7 @@
 
         // Operators
         COMBO(q_equals, &kp EQUAL, 30 31, DEF_L)
-        COMBO(q_plus,   &kp plus,   4 31, DEF_L)
+        COMBO(q_plus,   &kp PLUS,   4 31, DEF_L)
 
         COMBO(q_dash,       &kp MINUS,      30 13, DEF_L)
         COMBO(q_underscore, &kp UNDERSCORE, 31 13, DEF_L)
@@ -134,10 +134,6 @@
 
     conditional_layers {
         compatible = "zmk,conditional-layers";
-        tri_layer {
-            if-layers = <UPP_L SYM_L>;
-            then-layer = <NUM_L>;
-        };
     };
 
     keymap {
