@@ -25,37 +25,6 @@
 #define B4     BT_SEL 4
 #define OTGL   out OUT_TOG
 
-// Number layer LT
-#define SP_LT &lt NUM_L SPACE
-
-// Mouse layer LT
-#define MS_LT &lt MOUS_L BSPC
-
-// Arrow layer LT
-#define AR_LT &lt ARR_L ENTER
-
-// Function layer LT
-#define FNC_LT &lt FUNC_L Z
-
-// Bluetooth layer LT
-#define SYS_LT &lt SYS_L A
-
-// Brackets layer LT
-#define BR_LT &lt BR_L TAB
-
-// Home row mods
-// Left hand
-#define HR_G_L &ht_tp LGUI A
-#define HR_A_L &ht_tp LALT R
-#define HR_S_L &ht_tp LCTRL S
-#define HR_T_L &ht_tp LSHIFT T
-
-// Right hand
-#define HR_G_R &ht_tp RGUI O
-#define HR_A_R &ht_tp RALT I
-#define HR_S_R &ht_tp RCTRL E
-#define HR_T_R &ht_tp RSHIFT N
-
 &caps_word {
   continue-list = <UNDERSCORE MINUS BACKSPACE>;
 };
@@ -65,6 +34,81 @@
 };
 
 / {
+    ZMK_MACRO(HR_T_R,
+        wait-ms = <30>;
+        tap-ms = <40>;
+        bindings = <&ht_tp RSHIFT N>;)
+
+    ZMK_MACRO(HR_S_R,
+        wait-ms = <30>;
+        tap-ms = <40>;
+        bindings = <&ht_tp RCTRL E>;)
+
+    ZMK_MACRO(HR_A_R,
+        wait-ms = <30>;
+        tap-ms = <40>;
+        bindings = <&ht_tp RALT I>;)
+
+    ZMK_MACRO(HR_G_R,
+        wait-ms = <30>;
+        tap-ms = <40>;
+        bindings = <&ht_tp RGUI O>;)
+
+    ZMK_MACRO(HR_T_L,
+        wait-ms = <30>;
+        tap-ms = <40>;
+        bindings = <&ht_tp LSHIFT T>;)
+
+    ZMK_MACRO(HR_S_L,
+        wait-ms = <30>;
+        tap-ms = <40>;
+        bindings = <&ht_tp LCTRL S>;)
+
+    ZMK_MACRO(HR_A_L,
+        wait-ms = <30>;
+        tap-ms = <40>;
+        bindings = <&ht_tp LALT R>;)
+
+    ZMK_MACRO(HR_G_L,
+        wait-ms = <30>;
+        tap-ms = <40>;
+        bindings = <&ht_tp LGUI A>;)
+
+    ZMK_MACRO(BR_LT,
+        wait-ms = <30>;
+        tap-ms = <40>;
+        bindings = <&lt BR_L TAB>;)
+
+    ZMK_MACRO(SYS_LT,
+        wait-ms = <30>;
+        tap-ms = <40>;
+        bindings = <&lt SYS_L A>;)
+
+    ZMK_MACRO(FNC_LT,
+        wait-ms = <30>;
+        tap-ms = <40>;
+        bindings = <&lt FUNC_L Z>;)
+
+    ZMK_MACRO(AR_LT,
+        wait-ms = <30>;
+        tap-ms = <40>;
+        bindings = <&lt ARR_L ENTER>;)
+
+    ZMK_MACRO(SP_LT,
+        wait-ms = <30>;
+        tap-ms = <40>;
+        bindings = <&lt NUM_L SPACE>;)
+
+    ZMK_MACRO(MS_LT,
+        wait-ms = <30>;
+        tap-ms = <40>;
+        bindings = <&lt MOUS_L BSPC>;)
+
+    ZMK_MACRO(SP_LT,
+        wait-ms = <30>;
+        tap-ms = <40>;
+        bindings = <&lt NUM_L SPACE>;)
+
     combos {
         compatible = "zmk,combos";
 
@@ -143,10 +187,10 @@
             bindings = <
         // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
                            &kp W         &kp F         &kp P         &kp B             &kp J         &kp L         &kp U         &kp Y
-             HR_G_L        HR_A_L        HR_C_L        HR_S_L        &kp G             &kp M         HR_S_R        HR_C_R        HR_A_R        HR_G_R
-             FNC_LT        SYS_LT        &kp C         &kp D         &kp V             &kp K         &kp H         &kp COMMA     &kp DOT       &kp FSLH
+             &HR_G_L       &HR_A_L       &HR_C_L       &HR_S_L       &kp G             &kp M         &HR_S_R       &HR_C_R       &HR_A_R       &HR_G_R
+             &FNC_LT       &SYS_LT       &kp C         &kp D         &kp V             &kp K         &kp H         &kp COMMA     &kp DOT       &kp FSLH
         // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
-                                                       SP_LT         SP_LT             MS_LT         AR_LT
+                                                       &SP_LT        &SP_LT            &MS_LT        &AR_LT
         //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
             >;
         };
@@ -207,11 +251,11 @@
             label = "Sys";
             bindings = <
         // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-                           &OTGL         &none         &none         &none             &none         &kp F9        &kp F10       &kp F11
-             &bt B0        &none         &bt B1        &bt B2        &none             &none         &kp F1        &kp F2        &kp F3        &kp F4 
-             &bt B3        &none         &bt B4        &none         &none             &none         &kp F5        &kp F6        &kp F7        &kp F8 
+                           &trans         &trans        &trans         &trans             &trans         &trans      &trans        &trans
+             &trans        &trans         &trans        &trans         &trans             &trans         &trans      &OTGL         &bt B3        &trans
+             &trans        &trans         &trans        &trans         &trans             &trans         &bt B0      &bt B1        &bt B2        &trans
         // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
-                                                       &none         &none             &none         &none
+                                                       &trans         &trans             &trans         &trans
         //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
             >;
         };
