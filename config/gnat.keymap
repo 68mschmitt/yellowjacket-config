@@ -142,8 +142,8 @@
         // COMBO(right_brace, &kp RBRC, 5 14, DEF_L UPP_L SYM_L NUM_L)
 
         // Convenience
-        COMBO(esc, &kp ESC, 10 11, DEF_L)
-        COMBO(esc, &kp ESC, 14 15, DEF_L)
+        COMBO(left_esc, &kp ESC, 10 11, DEF_L)
+        COMBO(right_esc, &kp ESC, 14 15, DEF_L)
         // COMBO(w_clip, &wclip, 9 10 11, DEF_L)
 
         // COMBO(sys_l, &mo_sys, 28 29, NUM_L)
