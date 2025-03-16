@@ -124,13 +124,15 @@
         COMBO(lower_q, &kp Q, 0 1, DEF_L)
         COMBO(upper_q, &kp LS(Q), 0 1, UPP_L)
 
+        // Colons
+        COMBO(colon, &kp COLON, 6 7, DEF_L)
+        COMBO(semicolon, &kp SEMICOLON, 24 25, DEF_L)
+
         COMBO(excl, &kp EXCL, 0 1, SYM_L)
-        
+
         COMBO(lower_semi, &kp SEMI, 6 7, DEF_L)
         COMBO(upper_semi, &kp LS(SEMI), 6 7, UPP_L)
-        
-        COMBO(f_twelve, &kp F12, 6 7, SYS_L)
-        
+
         // Brackets
         COMBO(left_bracket, &kp LBKT, 0 9, DEF_L UPP_L SYM_L NUM_L)
         COMBO(right_bracket, &kp RBKT, 7 16, DEF_L UPP_L SYM_L NUM_L)
@@ -162,11 +164,11 @@
         default_layer {
             bindings = <
         // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-                           &kp W         &kp F         &kp P         &kp G             &kp J         &kp L         &kp U         &kp Y
-             &kp A         &kp R         &kp S         &kp T         &kp D             &kp H         &kp N         &kp E         &kp I         &kp O
-             &kp Z         &kp X         &kp C         &kp V         &kp B             &kp K         &kp M         &kp COMMA     &kp DOT       &kp FSLH
+                           &kp W         &kp F         &kp P         &kp B             &kp J         &kp L         &kp U         &kp Y
+             &kp LG(A)     &kp LA(R)     &kp LC(S)     &kp LS(T)     &kp G             &kp M         &kp RS(N)     &kp RC(E)     &kp RA(I)     &kp RG(O)
+             &kp Z         &kp X         &kp C         &kp D         &kp V             &kp K         &kp H         &kp COMMA     &kp DOT       &kp FSLH
         // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
-                                                       &mo_nav       &kp SPACE         &mo_upp       &mo_sym
+                                                       &kp SPACE     &kp TAB           &kp BSPC      &kp ENTER
         //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
             >;
         };
