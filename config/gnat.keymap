@@ -106,7 +106,7 @@
         COMBO(q_9, &kp N9,  7 31, DEF_L)
 
         // Quick special characters
-        COMBO(q_1_sp, &kp EXClAMATION, 24 31, DEF_L)
+        COMBO(q_1_sp, &kp EXCLAMATION, 24 31, DEF_L)
         COMBO(q_2_sp, &kp AT_SIGN,     25 31, DEF_L)
         COMBO(q_3_sp, &kp POUND,       26 31, DEF_L)
         COMBO(q_4_sp, &kp DOLLAR,      14 31, DEF_L)
