@@ -35,74 +35,143 @@
 
 / {
     ZMK_MACRO(HR_T_R,
-        wait-ms = <30>;
-        tap-ms = <40>;
-        bindings = <&ht_tp RSHIFT N>;)
+        wait-ms = <0>;
+        wait-ms = <0>;
+        bindings
+        = <&macro_tap &kp N>
+        , <&macro_press &kp RSHIFT>
+        , <&macro_pause_for_release>
+        , <&macro_release &kp RSHIFT> ;)
 
     ZMK_MACRO(HR_S_R,
-        wait-ms = <30>;
-        tap-ms = <40>;
-        bindings = <&ht_tp RCTRL E>;)
+        wait-ms = <0>;
+        wait-ms = <0>;
+        bindings
+        = <&ht E>
+        , <&macro_press &kp RCTRL>
+        , <&macro_pause_for_release>
+        , <&macro_release &kp RCTRL>
+        ;)
 
     ZMK_MACRO(HR_A_R,
-        wait-ms = <30>;
-        tap-ms = <40>;
-        bindings = <&ht_tp RALT I>;)
+        wait-ms = <0>;
+        wait-ms = <0>;
+        bindings
+        = <&ht I>
+        , <&macro_press &kp RALT>
+        , <&macro_pause_for_release>
+        , <&macro_release &kp RALT>
+        ;)
 
     ZMK_MACRO(HR_G_R,
-        wait-ms = <30>;
-        tap-ms = <40>;
-        bindings = <&ht_tp RGUI O>;)
+        wait-ms = <0>;
+        wait-ms = <0>;
+        bindings
+        = <&ht O>
+        , <&macro_press &kp RGUI>
+        , <&macro_pause_for_release>
+        , <&macro_release &kp RGUI>
+        ;)
 
     ZMK_MACRO(HR_T_L,
-        wait-ms = <30>;
-        tap-ms = <40>;
-        bindings = <&ht_tp LSHIFT T>;)
+        wait-ms = <&macro_release &kp >;
+        wait-ms = <0>;
+        bindings
+        = <&ht T>
+        , <&macro_press &kp LSHIFT>
+        , <&macro_pause_for_release>
+        , <&macro_release &kp LSHIFT>
+        ;)
 
     ZMK_MACRO(HR_S_L,
-        wait-ms = <30>;
-        tap-ms = <40>;
-        bindings = <&ht_tp LCTRL S>;)
+        wait-ms = <&macro_release &kp >;
+        wait-ms = <0>;
+        bindings
+        = <&ht S>
+        , <&macro_press &kp LCTRL>
+        , <&macro_pause_for_release>
+        , <&macro_release &kp LCTRL>
+        ;)
 
     ZMK_MACRO(HR_A_L,
-        wait-ms = <30>;
-        tap-ms = <40>;
-        bindings = <&ht_tp LALT R>;)
+        wait-ms = <&macro_release &kp >;
+        wait-ms = <0>;
+        bindings
+        = <&ht R>
+        , <&macro_press &kp LALT>
+        , <&macro_pause_for_release>
+        , <&macro_release &kp LALT>
+        ;)
 
     ZMK_MACRO(HR_G_L,
-        wait-ms = <30>;
-        tap-ms = <40>;
-        bindings = <&ht_tp LGUI A>;)
+        wait-ms = <&macro_release &kp >;
+        wait-ms = <0>;
+        bindings
+        = <&ht A>
+        , <&macro_press &kp LGUI>
+        , <&macro_pause_for_release>
+        , <&macro_release &kp LGUI>
+        ;)
 
     ZMK_MACRO(BR_LT,
-        wait-ms = <30>;
-        tap-ms = <40>;
-        bindings = <&lt BR_L TAB>;)
+        wait-ms = <0>;
+        wait-ms = <0>;
+        bindings
+        = <&ht B>
+        , <&macro_press &mo BR_L>
+        , <&macro_pause_for_release>
+        , <&macro_release &mo BR_L>
+        ;)
 
     ZMK_MACRO(SYS_LT,
-        wait-ms = <30>;
-        tap-ms = <40>;
-        bindings = <&lt SYS_L A>;)
+        wait-ms = <0>;
+        wait-ms = <0>;
+        bindings
+        = <&ht A>
+        , <&macro_press &mo SYS_L>
+        , <&macro_pause_for_release>
+        , <&macro_release &mo SYS_L>
+        ;)
 
     ZMK_MACRO(FNC_LT,
-        wait-ms = <30>;
-        tap-ms = <40>;
-        bindings = <&lt FUNC_L Z>;)
+        wait-ms = <0>;
+        wait-ms = <0>;
+        bindings
+        = <&ht Z>
+        , <&macro_press &mo FUNC_L>
+        , <&macro_pause_for_release>
+        , <&macro_release &mo FUNC_L>
+        ;)
 
     ZMK_MACRO(AR_LT,
-        wait-ms = <30>;
-        tap-ms = <40>;
-        bindings = <&lt ARR_L ENTER>;)
+        wait-ms = <0>;
+        wait-ms = <0>;
+        bindings
+        = <&ht R>
+        , <&macro_press &mo ARR_L>
+        , <&macro_pause_for_release>
+        , <&macro_release &mo ARR_L>
+        ;)
 
     ZMK_MACRO(MS_LT,
-        wait-ms = <30>;
-        tap-ms = <40>;
-        bindings = <&lt MOUS_L BSPC>;)
+        wait-ms = <0>;
+        wait-ms = <0>;
+        bindings
+        = <&ht C>
+        , <&macro_press &mo MOUS_L>
+        , <&macro_pause_for_release>
+        , <&macro_release &mo MOUS_L>
+        ;)
 
     ZMK_MACRO(SP_LT,
-        wait-ms = <30>;
-        tap-ms = <40>;
-        bindings = <&lt NUM_L SPACE>;)
+        wait-ms = <0>;
+        wait-ms = <0>;
+        bindings
+        = <&ht E>
+        , <&macro_press &mo NUM_L>
+        , <&macro_pause_for_release>
+        , <&macro_release &mo NUM_L>
+        ;)
 
     combos {
         compatible = "zmk,combos";
