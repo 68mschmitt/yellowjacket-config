@@ -34,7 +34,7 @@
 };
 
 / {
-    ZMK_MACRO(HR_T_R,
+    ZMK_MACRO(HR_S_R,
         wait-ms = <0>;
         wait-ms = <0>;
         bindings
@@ -43,7 +43,7 @@
         , <&macro_pause_for_release>
         , <&macro_release &kp RSHIFT> ;)
 
-    ZMK_MACRO(HR_S_R,
+    ZMK_MACRO(HR_C_R,
         wait-ms = <0>;
         wait-ms = <0>;
         bindings
@@ -73,7 +73,7 @@
         , <&macro_release &kp RGUI>
         ;)
 
-    ZMK_MACRO(HR_T_L,
+    ZMK_MACRO(HR_S_L,
         wait-ms = <&macro_release &kp >;
         wait-ms = <0>;
         bindings
@@ -83,7 +83,7 @@
         , <&macro_release &kp LSHIFT>
         ;)
 
-    ZMK_MACRO(HR_S_L,
+    ZMK_MACRO(HR_C_L,
         wait-ms = <&macro_release &kp >;
         wait-ms = <0>;
         bindings
