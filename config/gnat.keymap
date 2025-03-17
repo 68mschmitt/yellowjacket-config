@@ -212,7 +212,6 @@
         COMBO(q_7, &kp N7,  5 31, DEF_L)
         COMBO(q_8, &kp N8,  6 31, DEF_L)
         COMBO(q_9, &kp N9,  7 31, DEF_L)
-        789456123rkkrkrrk||||---|||||
 
         // Quick special characters
         COMBO(q_1_sp, &kp EXCLAMATION, 24 31, DEF_L)
