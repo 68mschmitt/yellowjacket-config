@@ -137,7 +137,7 @@
         // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
                              &trans        &trans        &trans        &trans            &msc SCRL_UP   &kp HOME      &kp UP        &kp PG_UP
                &trans        &trans        &trans        &trans        &trans            &msc SCRL_DOWN &kp LEFT      &kp DOWN      &kp RIGHT     &kp RGUI
-               &trans        &trans        &trans        &trans        &trans            &INS           &kp END       &kp DEL       &kp PG_DN     &sl ARR_L
+               &trans        &trans        &trans        &trans        &trans            &kp INS        &kp END       &kp DEL       &kp PG_DN     &sl ARR_L
         // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
                                                          &trans        &trans              &trans       &sl DEF_L
         //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
