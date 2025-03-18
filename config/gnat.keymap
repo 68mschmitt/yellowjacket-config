@@ -9,6 +9,7 @@
 #include <dt-bindings/zmk/ext_power.h>
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/outputs.h>
+#include <dt-bindings/zmk/pointing.h>
 
 #define DEF_L 0
 #define NUM_L 1
@@ -24,6 +25,8 @@
 #define B3     BT_SEL 3
 #define B4     BT_SEL 4
 #define OTGL   out OUT_TOG
+#define BT_C   BT_CLR
+#define BT_C_A BT_CLR_ALL
 
 &caps_word {
   continue-list = <UNDERSCORE MINUS BACKSPACE>;
@@ -128,13 +131,26 @@
             >;
         };
 
+        arrow_layer {
+            label = "Arrows";
+            bindings = <
+        // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
+                             &trans        &trans        &trans        &trans              &trans       &kp N7        &kp UP        &kp N9
+               &trans        &trans        &trans        &trans        &trans              &trans       &kp LEFT      &kp DOWN      &kp RIGHT     &trans
+               &trans        &trans        &trans        &trans        &trans              &trans       &kp N1        &kp INS       &kp N3        &kp DOT
+        // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
+                                                         &trans        &trans              &trans       &trans
+        //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
+            >;
+        };
+
         num_layer {
             label = "Num";
             bindings = <
         // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-                             &trans        &trans        &trans        &trans              &trans         &kp N7        &kp N8        &kp N9
-               &trans        &trans        &trans        &trans        &trans              &trans         &kp N6        &kp N5        &kp N4        &trans
-               &trans        &trans        &trans        &trans        &trans              &trans         &kp N1        &kp N2        &kp N3        &kp DOT
+                             &trans        &trans        &trans        &trans              &trans       &kp N7        &kp N8        &kp N9
+               &trans        &trans        &trans        &trans        &trans              &trans       &kp N6        &kp N5        &kp N4        &trans
+               &trans        &trans        &trans        &trans        &trans              &trans       &kp N1        &kp N2        &kp N3        &kp DOT
         // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
                                                          &trans        &trans              &trans        &trans
         //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
@@ -145,24 +161,11 @@
             label = "Mouse";
             bindings = <
         // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-                             &trans        &trans        &trans        &trans              &trans         &trans        &trans        &trans
-               &trans        &trans        &trans        &trans        &trans              &trans         &trans        &trans        &trans        &trans
-               &trans        &trans        &trans        &trans        &trans              &trans         &trans        &trans        &trans        &trans
+                             &mkp MB2      &mkp MB3      &mkp MB1      &msc SCRL_UP     &msc SCRL_UP    &mkp MB1       &mmv MOVE_UP     &mkp MB3
+               &trans        &trans        &trans        &trans        &msc SCRL_DOWN   &msc SCRL_DOWN  &mmv MOVE_LEFT &mmv MOVE_DOWN   &mmv MOVE_RIGHT &trans
+               &trans        &trans        &trans        &trans        &trans           &mkp MB4        &msc SCRL_LEFT &mkp MB3         &msc SCRL_RIGHT &mkp MB5
         // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
-                                                         &trans        &trans              &trans        &trans
-        //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
-            >;
-        };
-
-        arrow_layer {
-            label = "Arrows";
-            bindings = <
-        // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-                             &trans        &trans        &trans        &trans              &trans         &kp N7        &kp N8        &kp N9
-               &trans        &trans        &trans        &trans        &trans              &trans         &kp N6        &kp N5        &kp N4        &trans
-               &trans        &trans        &trans        &trans        &trans              &trans         &kp N1        &kp N2        &kp N3        &kp DOT
-        // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
-                                                         &trans        &trans              &trans        &trans
+                                                         &trans        &trans           &trans       &trans
         //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
             >;
         };
@@ -171,11 +174,11 @@
             label = "Functions";
             bindings = <
         // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-                             &kp F9        &kp F10       &kp F11       &kp F12             &trans         &trans        &trans        &trans
-               &trans        &kp F5        &kp F6        &kp F7        &kp F8              &trans         &trans        &trans        &trans        &trans
-               &trans        &kp F1        &kp F2        &kp F3        &kp F4              &trans         &trans        &trans        &trans        &trans
+                             &kp F9        &kp F10       &kp F11       &kp F12             &trans       &trans        &trans        &trans
+               &trans        &kp F5        &kp F6        &kp F7        &kp F8              &trans       &trans        &trans        &trans        &trans
+               &trans        &kp F1        &kp F2        &kp F3        &kp F4              &trans       &trans        &trans        &trans        &trans
         // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
-                                                         &trans        &trans              &trans        &trans
+                                                         &trans        &trans              &trans       &trans
         //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
             >;
         };
@@ -184,9 +187,9 @@
             label = "Sys";
             bindings = <
         // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-                           &trans         &trans        &trans         &trans             &trans         &trans      &trans        &trans
-             &trans        &trans         &trans        &trans         &trans             &trans         &trans      &OTGL         &bt B3        &trans
-             &trans        &trans         &trans        &trans         &trans             &trans         &bt B0      &bt B1        &bt B2        &trans
+                           &trans         &trans        &trans         &kp C_VOL_UP       &OTGL          &trans      &trans        &trans
+             &trans        &trans         &trans        &kp C_PP       &kp C_VOL_DOWN     &trans         &bt B3      &bt BT_C      &bt BT_CLR_ALL &trans
+             &trans        &trans         &trans        &trans         &kp C_MUTE         &trans         &bt B0      &bt B1        &bt B2         &trans
         // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
                                                        &trans         &trans             &trans         &trans
         //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
@@ -197,9 +200,9 @@
             label = "Brackets";
             bindings = <
         // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-                             &trans        &trans        &trans        &trans              &trans         &trans        &trans        &trans
-               &trans        &trans        &trans        &trans        &trans              &trans         &trans        &trans        &trans        &trans
-               &trans        &trans        &trans        &trans        &trans              &trans         &trans        &trans        &trans        &trans
+                             &trans        &trans        &kp LBRC      &kp RBRC            &trans         &trans        &trans        &trans
+               &trans        &trans        &trans        &kp LPAR      &kp RPAR            &trans         &trans        &trans        &trans        &trans
+               &trans        &trans        &trans        &kp LBKT      &kp RBKT            &trans         &trans        &trans        &trans        &trans
         // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
                                                          &trans        &trans              &trans        &trans
         //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
