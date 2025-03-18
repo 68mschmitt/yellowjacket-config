@@ -74,7 +74,7 @@
         COMBO(right_esc, &kp ESC, 14 15, DEF_L)
 
         // Backspace
-        COMBO(backspace_combo, &kp Backspace, 23 24, DEF_L)
+        COMBO(backspace_combo, &kp BACKSPACE, 23 24, DEF_L)
 
         // Quick numbers
         COMBO(q_0, &kp N0, 31 17, DEF_L)
