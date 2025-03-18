@@ -29,122 +29,15 @@
   continue-list = <UNDERSCORE MINUS BACKSPACE>;
 };
 
-&sk {
-  release-after-ms = <60000>;
+&mt {
+    tapping-term = <200>;
+};
+
+&lt {
+    tapping-term = <200>;
 };
 
 / {
-    ZMK_MACRO(HR_S_R,
-        bindings
-        = <&macro_tap &kp N>
-        , <&macro_press &kp RSHIFT>
-        , <&macro_pause_for_release>
-        , <&macro_release &kp RSHIFT> ;)
-
-    ZMK_MACRO(HR_C_R,
-        bindings
-        = <&kp E>
-        , <&macro_press &kp RCTRL>
-        , <&macro_pause_for_release>
-        , <&macro_release &kp RCTRL>
-        ;)
-
-    ZMK_MACRO(HR_A_R,
-        bindings
-        = <&kp I>
-        , <&macro_press &kp RALT>
-        , <&macro_pause_for_release>
-        , <&macro_release &kp RALT>
-        ;)
-
-    ZMK_MACRO(HR_G_R,
-        bindings
-        = <&kp O>
-        , <&macro_press &kp RGUI>
-        , <&macro_pause_for_release>
-        , <&macro_release &kp RGUI>
-        ;)
-
-    ZMK_MACRO(HR_S_L,
-        bindings
-        = <&kp T>
-        , <&macro_press &kp LSHIFT>
-        , <&macro_pause_for_release>
-        , <&macro_release &kp LSHIFT>
-        ;)
-
-    ZMK_MACRO(HR_C_L,
-        bindings
-        = <&kp S>
-        , <&macro_press &kp LCTRL>
-        , <&macro_pause_for_release>
-        , <&macro_release &kp LCTRL>
-        ;)
-
-    ZMK_MACRO(HR_A_L,
-        bindings
-        = <&kp R>
-        , <&macro_press &kp LALT>
-        , <&macro_pause_for_release>
-        , <&macro_release &kp LALT>
-        ;)
-
-    ZMK_MACRO(HR_G_L,
-        bindings
-        = <&kp A>
-        , <&macro_press &kp LGUI>
-        , <&macro_pause_for_release>
-        , <&macro_release &kp LGUI>
-        ;)
-
-    ZMK_MACRO(SYS_LT,
-        bindings
-        = <&kp A>
-        , <&macro_press &kp SYS_L>
-        , <&macro_pause_for_release>
-        , <&macro_release &kp SYS_L>
-        ;)
-
-    ZMK_MACRO(FNC_LT,
-        bindings
-        = <&kp Z>
-        , <&macro_press &kp FUNC_L>
-        , <&macro_pause_for_release>
-        , <&macro_release &kp FUNC_L>
-        ;)
-
-    ZMK_MACRO(SP_LT,
-        bindings
-        = <&kp SPACE>
-        , <&macro_press &kp NUM_L>
-        , <&macro_pause_for_release>
-        , <&macro_release &kp NUM_L>
-        ;)
-
-    ZMK_MACRO(BR_LT,
-        bindings
-        = <&kp TAB>
-        , <&macro_press &kp BR_L>
-        , <&macro_pause_for_release>
-        , <&macro_release &kp BR_L>
-        ;)
-
-    ZMK_MACRO(AR_LT,
-        bindings
-        = <&kp ENTER>
-        , <&macro_press &kp ARR_L>
-        , <&macro_pause_for_release>
-        , <&macro_release &kp ARR_L>
-        ;)
-
-    ZMK_MACRO(MS_LT,
-        bindings
-        = <&kp BACKSPACE>
-        , <&macro_press &kp MOUS_L>
-        , <&macro_pause_for_release>
-        , <&macro_release &kp MOUS_L>
-        ;)
-
     combos {
         compatible = "zmk,combos";
 
@@ -223,10 +116,10 @@
             bindings = <
         // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
                            &kp W         &kp F         &kp P         &kp B             &kp J         &kp L         &kp U         &kp Y
-             &HR_G_L       &HR_A_L       &HR_C_L       &HR_S_L       &kp G             &kp M         &HR_S_R       &HR_C_R       &HR_A_R       &HR_G_R
-             &FNC_LT       &SYS_LT       &kp C         &kp D         &kp V             &kp K         &kp H         &kp COMMA     &kp DOT       &kp FSLH
+             &mt GUI A     &mt LALT R    &mt LCTRL S   &mt LSHIFT T  &kp G             &kp M         &mt RSHIFT N  &mt RCTRL E   &mt RALT I    &mt RGUI O
+             &lt FUNC_L Z  &lt SYS_L X   &kp C         &kp D         &kp V             &kp K         &kp H         &kp COMMA     &kp DOT       &kp FSLH
         // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
-                                                       &SP_LT        &BR_LT            &MS_LT        &AR_LT
+                                                    &lt NUM_L SPACE  &lt BR_L TAB &lt MOUS_L BACKSPACE &lt ARR_L ENTER
         //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
             >;
         };
