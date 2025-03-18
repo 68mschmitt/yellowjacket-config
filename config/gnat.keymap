@@ -29,10 +29,6 @@
   continue-list = <UNDERSCORE MINUS BACKSPACE>;
 };
 
-&lt {
-    tapping-term = <200>;
-};
-
 / {
 
     behaviors {
@@ -138,7 +134,7 @@
         // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
                              &trans        &trans        &trans        &trans              &trans         &kp N7        &kp N8        &kp N9
                &trans        &trans        &trans        &trans        &trans              &trans         &kp N6        &kp N5        &kp N4        &trans
-               &trans        &trans        &trans        &trans        &trans              &trans         &kp N1        &kp N2        &kp N3        &trans
+               &trans        &trans        &trans        &trans        &trans              &trans         &kp N1        &kp N2        &kp N3        &kp DOT
         // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
                                                          &trans        &trans              &trans        &trans
         //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
