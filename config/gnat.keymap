@@ -31,10 +31,6 @@
 #define BT_C   BT_CLR
 #define BT_C_A BT_CLR_ALL
 
-&caps_word {
-  continue-list = <UNDERSCORE MINUS BACKSPACE>;
-};
-
 / {
 
     behaviors {
