@@ -123,7 +123,7 @@
             bindings = <
         // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
                            &kp W         &kp F         &kp P         &kp B             &kp J         &kp L         &kp U         &kp Y
-             &hm LGUI A     &hm LALT R    &hm LCTRL S   &hm LSHIFT T  &kp G             &kp M         &hm RSHIFT N  &hm RCTRL E   &hm RALT I    &hm RGUI O
+             &hm LGUI A    &hm LALT R    &hm LCTRL S   &hm LSHIFT T  &kp G             &kp M         &hm RSHIFT N  &hm RCTRL E   &hm RALT I    &hm RGUI O
              &lt FUNC_L Z  &lt SYS_L X   &kp C         &kp D         &kp V             &kp K         &kp H         &kp COMMA     &kp DOT       &kp FSLH
         // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
                                                     &lt NUM_L SPACE  &lt BR_L TAB &lt MOUS_L BACKSPACE &lt ARR_L ENTER
@@ -135,11 +135,11 @@
             label = "Arrows";
             bindings = <
         // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-                             &trans        &trans        &trans        &trans              &trans       &kp N7        &kp UP        &kp N9
-               &trans        &trans        &trans        &trans        &trans              &trans       &kp LEFT      &kp DOWN      &kp RIGHT     &trans
-               &trans        &trans        &trans        &trans        &trans              &trans       &kp N1        &kp INS       &kp N3        &kp DOT
+                             &trans        &trans        &trans        &trans            &msc SCRL_UP   &kp HOME      &kp UP        &kp PG_UP
+               &trans        &trans        &trans        &trans        &trans            &msc SCRL_DOWN &kp LEFT      &kp DOWN      &kp RIGHT     &kp RGUI
+               &trans        &trans        &trans        &trans        &trans            &INS           &kp END       &kp DEL       &kp PG_DN     &sl ARR_L
         // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
-                                                         &trans        &trans              &trans       &trans
+                                                         &trans        &trans              &trans       &sl DEF_L
         //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
             >;
         };
@@ -162,10 +162,10 @@
             bindings = <
         // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
                              &mkp MB2      &mkp MB3      &mkp MB1      &msc SCRL_UP     &msc SCRL_UP    &mkp MB1       &mmv MOVE_UP     &mkp MB3
-               &trans        &trans        &trans        &trans        &msc SCRL_DOWN   &msc SCRL_DOWN  &mmv MOVE_LEFT &mmv MOVE_DOWN   &mmv MOVE_RIGHT &trans
+               &trans        &trans        &trans        &trans        &msc SCRL_DOWN   &msc SCRL_DOWN  &mmv MOVE_LEFT &mmv MOVE_DOWN   &mmv MOVE_RIGHT &sl MOUS_L
                &trans        &trans        &trans        &trans        &trans           &mkp MB4        &msc SCRL_LEFT &mkp MB3         &msc SCRL_RIGHT &mkp MB5
         // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
-                                                         &trans        &trans           &trans       &trans
+                                                         &trans        &trans           &sl DEF_L       &trans
         //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
             >;
         };
