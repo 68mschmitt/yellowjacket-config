@@ -11,7 +11,7 @@
 #include <dt-bindings/zmk/outputs.h>
 #include <dt-bindings/zmk/pointing.h>
 
-#define ZMK_POINTING_DEFAULT_MOVE_VAL 1500
+#define ZMK_POINTING_DEFAULT_MOVE_VAL 2000
 #define ZMK_POINTING_DEFAULT_SCRL_VAL 20
 
 #define DEF_L  0
@@ -72,11 +72,12 @@
         COMBO(colon,     &kp COLON, 15 16, DEF_L)
         COMBO(semicolon, &kp SEMI,  24 25, DEF_L)
 
-        // Backspace
-        COMBO(backspace_combo, &kp BACKSPACE, 14 15, DEF_L)
+        // Escape Keys
+        COMBO(left_esc,  &kp ESC, 10 11, DEF_L)
+        COMBO(right_esc, &kp ESC, 14 15, DEF_L)
 
         // Space
-        COMBO(space_combo, &kp SPACE, 10 11, DEF_L)
+        COMBO(space_combo, &kp LSHIFT, 29 30, DEF_L)
 
         // Quick numbers
         COMBO(q_0, &kp N0, 31 17, DEF_L)
@@ -132,7 +133,7 @@
              &hm LGUI A    &hm LALT R    &hm LCTRL S   &hm LSHIFT T  &kp G             &kp M         &hm RSHIFT N  &hm RCTRL E   &hm RALT I    &hm RGUI O
              &lt FUNC_L Z  &lt SYS_L X   &kp C         &kp D         &kp V             &kp K         &kp H         &kp COMMA     &kp DOT       &kp FSLH
         // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
-                                                       &kp LSHIFT    &lt BR_L TAB     &lt MOUS_L ESC &lt ARR_L ENTER
+                                                       &kp SPACE     &lt BR_L TAB &lt MOUS_L BACKSPACE &lt ARR_L ENTER
         //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
             >;
         };
