@@ -23,8 +23,6 @@ if SHIELD_GNAT_RIGHT || SHIELD_GNAT_LEFT
 config ZMK_SPLIT
 	default y
 
-endif
-
 
 if ZMK_DISPLAY
 
@@ -46,6 +44,7 @@ config SSD1306_REVERSE_MODE
 	default n
 
 endif # ZMK_DISPLAY
+
 
 if LVGL
 
