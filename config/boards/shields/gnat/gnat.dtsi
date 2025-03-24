@@ -4,7 +4,7 @@
 * SPDX-License-Identifier: MIT
 */
 #include <dt-bindings/zmk/matrix_transform.h>
-#include <gnat-pinctrl.dtsi>
+#include "gnat-pinctrl.dtsi"
 / {
 
     chosen {
