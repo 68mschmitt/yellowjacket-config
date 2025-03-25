@@ -133,7 +133,7 @@
              &hm LGUI A    &hm LALT R    &hm LCTRL S   &hm LSHIFT T  &kp G             &kp M         &hm RSHIFT N  &hm RCTRL E   &hm RALT I    &hm RGUI O
              &lt FUNC_L Z  &lt SYS_L X   &kp C         &kp D         &kp V             &kp K         &kp H         &kp COMMA     &kp DOT       &kp FSLH
         // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
-                                                       &kp SPACE     &lt BR_L TAB &lt MOUS_L BACKSPACE &lt ARR_L ENTER
+                                                    &lt NUM_L SPACE  &lt BR_L TAB &lt MOUS_L BACKSPACE &lt ARR_L ENTER
         //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
             >;
         };
