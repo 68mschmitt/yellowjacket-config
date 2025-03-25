@@ -48,7 +48,8 @@
             #binding-cells = <2>;
             flavor = "tap-preferred";
             tapping-term-ms = <100>;
-            bindings = <$tl>, <$kp>;
+            quick-tap-ms = <0>;
+            bindings = <&tl>, <&kp>;
             display-name = "My-layer-tap";
         };
     };
