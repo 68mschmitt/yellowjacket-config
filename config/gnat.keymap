@@ -37,10 +37,19 @@
         hm: homerow_mods {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
-            tapping-term-ms = <150>;
+            tapping-term-ms = <100>;
             quick-tap-ms = <0>;
             flavor = "tap-preferred";
             bindings = <&kp>, <&kp>;
+        };
+
+        my_lt: my_layer_tap {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <100>;
+            bindings = <$tl>, <$kp>;
+            display-name = "My-layer-tap";
         };
     };
 
@@ -126,14 +135,14 @@
         compatible = "zmk,keymap";
 
         default_layer {
-            label = "Colemak-DH";
+            label = "Base";
             bindings = <
         // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
                            &kp W         &kp F         &kp P         &kp B             &kp J         &kp L         &kp U         &kp Y
              &hm LGUI A    &hm LALT R    &hm LCTRL S   &hm LSHIFT T  &kp G             &kp M         &hm RSHIFT N  &hm RCTRL E   &hm RALT I    &hm RGUI O
-             &lt FUNC_L Z  &lt SYS_L X   &kp C         &kp D         &kp V             &kp K         &kp H         &kp COMMA     &kp DOT       &kp FSLH
+        &my_lt FUNC_L Z   &my_lt SYS_L X &kp C         &kp D         &kp V             &kp K         &kp H         &kp COMMA     &kp DOT       &kp FSLH
         // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
-                                                    &lt NUM_L SPACE  &lt BR_L TAB &lt MOUS_L BACKSPACE &lt ARR_L ENTER
+                                                    &my_lt NUM_L SPACE  &my_lt BR_L TAB &my_lt MOUS_L BACKSPACE &my_lt ARR_L ENTER
         //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
             >;
         };
@@ -144,15 +153,15 @@
         // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
                              &trans        &trans        &trans        &trans            &msc SCRL_UP   &kp HOME      &kp UP        &kp PG_UP
                &trans        &trans        &trans        &trans        &trans            &msc SCRL_DOWN &kp LEFT      &kp DOWN      &kp RIGHT     &kp RGUI
-               &trans        &trans        &trans        &trans        &trans            &kp INS        &kp END       &kp DEL       &kp PG_DN     &to ARR_L
+               &trans        &trans        &trans        &trans        &trans            &kp INS        &kp END       &kp DEL       &kp PG_DN     &tog ARR_L
         // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
-                                                         &trans        &trans              &trans       &to DEF_L
+                                                         &trans        &trans              &trans       &tog DEF_L
         //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
             >;
         };
 
         num_layer {
-            label = "Num";
+            label = "Number";
             bindings = <
         // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
                              &trans        &trans        &trans        &trans              &trans       &kp N7        &kp N8        &kp N9
@@ -169,10 +178,10 @@
             bindings = <
         // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
                              &mkp MB2      &mkp MB3      &mkp MB1      &msc SCRL_UP     &msc SCRL_UP    &mkp MB1       &mmv MOVE_UP     &mkp MB2
-               &trans        &trans        &trans        &trans        &msc SCRL_DOWN   &msc SCRL_DOWN  &mmv MOVE_LEFT &mmv MOVE_DOWN   &mmv MOVE_RIGHT &to MOUS_L
+               &trans        &trans        &trans        &trans        &msc SCRL_DOWN   &msc SCRL_DOWN  &mmv MOVE_LEFT &mmv MOVE_DOWN   &mmv MOVE_RIGHT &tog MOUS_L
                &trans        &trans        &trans        &trans        &trans           &mkp MB4        &msc SCRL_LEFT &mkp MB3         &msc SCRL_RIGHT &mkp MB5
         // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
-                                                         &trans        &trans           &to DEF_L       &trans
+                                                         &trans        &trans           &tog DEF_L       &trans
         //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
             >;
         };
@@ -191,7 +200,7 @@
         };
         
         sys_layer {
-            label = "Sys";
+            label = "System";
             bindings = <
         // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
                            &trans         &trans        &trans         &kp C_VOL_UP       &OTGL          &trans      &trans        &trans
