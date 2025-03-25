@@ -49,7 +49,7 @@
             flavor = "tap-preferred";
             tapping-term-ms = <100>;
             quick-tap-ms = <0>;
-            bindings = <&tl>, <&kp>;
+            bindings = <&lt>, <&kp>;
             display-name = "My-layer-tap";
         };
     };
