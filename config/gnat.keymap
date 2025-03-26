@@ -27,6 +27,7 @@
 #define B2     BT_SEL 2
 #define B3     BT_SEL 3
 #define B4     BT_SEL 4
+#define B5     BT_SEL 5
 #define OTGL   out OUT_TOG
 #define BT_C   BT_CLR
 #define BT_C_A BT_CLR_ALL
@@ -37,7 +38,7 @@
         hm: homerow_mods {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
-            tapping-term-ms = <200>;
+            tapping-term-ms = <150>;
             quick-tap-ms = <0>;
             flavor = "tap-preferred";
             bindings = <&kp>, <&kp>;
@@ -156,10 +157,10 @@
             bindings = <
         // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
                              &trans        &trans        &trans        &trans              &trans       &kp N7        &kp N8        &kp N9
-               &trans        &trans        &trans        &trans        &trans              &trans       &kp N6        &kp N5        &kp N4        &trans
+               &trans        &trans        &trans        &trans        &trans              &trans       &kp N4        &kp N5        &kp N6        &kp N0
                &trans        &trans        &trans        &trans        &trans              &trans       &kp N1        &kp N2        &kp N3        &kp DOT
         // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
-                                                         &trans        &trans              &trans        &trans
+                                                         &trans        &trans              &trans       &trans
         //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
             >;
         };
@@ -195,8 +196,8 @@
             bindings = <
         // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
                            &trans         &trans        &trans         &kp C_VOL_UP       &OTGL          &trans      &trans        &trans
-             &trans        &trans         &trans        &kp C_PP       &kp C_VOL_DN       &trans         &bt B3      &bt BT_C      &bt BT_CLR_ALL &trans
-             &trans        &trans         &trans        &trans         &kp C_MUTE         &trans         &bt B0      &bt B1        &bt B2         &trans
+             &trans        &trans         &trans        &kp C_PP       &kp C_VOL_DN       &trans         &bt B3      &bt B4        &bt B5         &bt BT_C 
+             &trans        &trans         &trans        &trans         &kp C_MUTE         &trans         &bt B0      &bt B1        &bt B2         &bt BT_CLR_ALL 
         // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
                                                         &trans         &trans             &trans         &trans
         //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
