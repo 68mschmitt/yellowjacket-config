@@ -117,6 +117,10 @@
         // Dash
         COMBO(q_dash, &kp MINUS, 13 30, DEF_L)
         COMBO(q_underscore, &kp UNDER, 13 31, DEF_L)
+
+        // Toggle arrow or mouse layer
+        COMBO(tog_mouse, &tog MOUS_L, 17 30, DEF_L)
+        COMBO(tog_arrow, &tog ARR_L, 30 31, DEF_L)
     };
 
     conditional_layers {
