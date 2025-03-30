@@ -15,8 +15,8 @@
 #define ZMK_POINTING_DEFAULT_SCRL_VAL 20
 
 #define DEF_L  0
-#define ARR_L  1
-#define NUM_L  2
+#define NUM_L  1
+#define ARR_L  2
 #define MOUS_L 3
 #define FUNC_L 4
 #define SYS_L  5
@@ -119,8 +119,8 @@
         COMBO(q_underscore, &kp UNDER, 13 31, DEF_L)
 
         // Toggle arrow or mouse layer
-        COMBO(tog_mouse, &tog MOUS_L, 17 30, DEF_L)
-        COMBO(tog_arrow, &tog ARR_L, 30 31, DEF_L)
+        COMBO(tog_mouse, &tog MOUS_L, 17 30, DEF_L ARR_L MOUS_L)
+        COMBO(tog_arrow, &tog ARR_L, 30 31, DEF_L ARR_L MOUS_L)
     };
 
     conditional_layers {
@@ -164,7 +164,7 @@
                &trans        &trans        &trans        &trans        &trans            &msc SCRL_DOWN &kp LEFT      &kp DOWN      &kp RIGHT     &kp RGUI
                &trans        &trans        &trans        &trans        &trans            &kp INS        &kp END       &kp DEL       &kp PG_DN     &tog ARR_L
         // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
-                                                         &trans        &trans            &trans         &tog ARR_L
+                                                         &trans        &trans            &trans         &trans
         //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
             >;
         };
@@ -174,10 +174,10 @@
             bindings = <
         // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
                              &mkp MB2      &mkp MB3      &mkp MB1      &msc SCRL_UP     &msc SCRL_UP    &mkp MB1       &mmv MOVE_UP     &mkp MB2
-               &trans        &trans        &trans        &trans        &msc SCRL_DOWN   &msc SCRL_DOWN  &mmv MOVE_LEFT &mmv MOVE_DOWN   &mmv MOVE_RIGHT &tog MOUS_L
+               &trans        &trans        &trans        &trans        &msc SCRL_DOWN   &msc SCRL_DOWN  &mmv MOVE_LEFT &mmv MOVE_DOWN   &mmv MOVE_RIGHT &trans
                &trans        &trans        &trans        &trans        &trans           &mkp MB4        &msc SCRL_LEFT &mkp MB3         &msc SCRL_RIGHT &mkp MB5
         // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
-                                                         &trans        &trans           &tog MOUS_L     &trans
+                                                         &trans        &trans           &trans          &trans
         //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
             >;
         };
