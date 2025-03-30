@@ -136,22 +136,9 @@
         // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
                            &kp W         &kp F         &kp P         &kp B             &kp J         &kp L         &kp U         &kp Y
              &hm LGUI A    &hm LALT R    &hm LCTRL S   &hm LSHIFT T  &kp G             &kp M         &hm RSHIFT N  &hm RCTRL E   &hm RALT I    &hm RGUI O
-             &lt FUNC_L Z  &lt SYS_L X &kp C         &kp D         &kp V             &kp K         &kp H         &kp COMMA     &kp DOT       &kp FSLH
+             &lt FUNC_L Z  &lt SYS_L X   &kp C         &kp D         &kp V             &kp K         &kp H         &kp COMMA     &kp DOT       &kp FSLH
         // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
                                                     &lt NUM_L SPACE  &lt BR_L TAB &lt MOUS_L BACKSPACE &lt ARR_L ENTER
-        //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
-            >;
-        };
-
-        arrow_layer {
-            label = "Arrows";
-            bindings = <
-        // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-                             &trans        &trans        &trans        &trans            &msc SCRL_UP   &kp HOME      &kp UP        &kp PG_UP
-               &trans        &trans        &trans        &trans        &trans            &msc SCRL_DOWN &kp LEFT      &kp DOWN      &kp RIGHT     &kp RGUI
-               &trans        &trans        &trans        &trans        &trans            &kp INS        &kp END       &kp DEL       &kp PG_DN     &tog ARR_L
-        // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
-                                                         &trans        &trans              &trans       &tog DEF_L
         //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
             >;
         };
@@ -169,6 +156,19 @@
             >;
         };
 
+        arrow_layer {
+            label = "Arrows";
+            bindings = <
+        // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
+                             &trans        &trans        &trans        &trans            &msc SCRL_UP   &kp HOME      &kp UP        &kp PG_UP
+               &trans        &trans        &trans        &trans        &trans            &msc SCRL_DOWN &kp LEFT      &kp DOWN      &kp RIGHT     &kp RGUI
+               &trans        &trans        &trans        &trans        &trans            &kp INS        &kp END       &kp DEL       &kp PG_DN     &tog ARR_L
+        // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
+                                                         &trans        &trans            &trans         &tog ARR_L
+        //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
+            >;
+        };
+
         mouse_layer {
             label = "Mouse";
             bindings = <
@@ -177,7 +177,7 @@
                &trans        &trans        &trans        &trans        &msc SCRL_DOWN   &msc SCRL_DOWN  &mmv MOVE_LEFT &mmv MOVE_DOWN   &mmv MOVE_RIGHT &tog MOUS_L
                &trans        &trans        &trans        &trans        &trans           &mkp MB4        &msc SCRL_LEFT &mkp MB3         &msc SCRL_RIGHT &mkp MB5
         // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
-                                                         &trans        &trans           &tog DEF_L       &trans
+                                                         &trans        &trans           &tog MOUS_L     &trans
         //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
             >;
         };
