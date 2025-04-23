@@ -2,7 +2,7 @@
 
 This repository contains the ZMK firmware configuration for the **Yellow Jacket** mechanical keyboard, which is internally referred to as **gnat** in the code.
 
-> 💡 The keyboard design is based on the [gnat keyboard by jonkeykong](https://github.com/jonkeykong/gnat), with custom modifications tailored for the Yellow Jacket layout.
+> 💡 The keyboard design is based on the [Yellow Jacket keyboard by jimmerricks](https://github.com/jimmerricks/bugs), with custom modifications tailored for the Yellow Jacket layout.
 
 ---
 
