@@ -21,6 +21,7 @@
 #define FUNC_L 4
 #define SYS_L  5
 #define BR_L   6
+#define GA_L   7
 
 #define B0     BT_SEL 0
 #define B1     BT_SEL 1
@@ -118,9 +119,10 @@
         COMBO(q_dash, &kp MINUS, 13 30, DEF_L)
         COMBO(q_underscore, &kp UNDER, 13 31, DEF_L)
 
-        // Toggle arrow or mouse layer
-        COMBO(tog_mouse, &tog MOUS_L, 17 30, DEF_L ARR_L MOUS_L)
-        COMBO(tog_arrow, &tog ARR_L, 30 31, DEF_L ARR_L MOUS_L)
+        // Toggle arrow, mouse, or gaming layer
+        COMBO(tog_mouse,  &tog MOUS_L, 17 30, DEF_L ARR_L MOUS_L)
+        COMBO(tog_arrow,  &tog ARR_L,  30 31, DEF_L ARR_L MOUS_L)
+        COMBO(tog_gaming, &tog GA_L,    4  7, DEF_L ARR_L MOUS_L)
     };
 
     conditional_layers {
@@ -217,6 +219,19 @@
                &trans        &trans        &kp LBKT      &kp RBKT      &trans            &trans         &trans        &trans        &trans        &trans
         // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
                                                          &trans        &trans            &trans        &trans
+        //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
+            >;
+        };
+
+        gaming_layer {
+            label = "Gaming";
+            bindings = <
+        // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
+                             &kp Q         &kp W         &kp E         &kp N1            &trans         &trans        &trans        &trans
+               &kp LSHIFT    &A            &kp S         &kp D         &kp N2            &trans         &trans        &trans        &trans        &trans
+               &kp LCTRL     &none         &none         &none         &kp N3            &trans         &trans        &trans        &trans        &trans
+        // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
+                                                         &kp SPACE     &kp TAB           &trans        &trans
         //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
             >;
         };
