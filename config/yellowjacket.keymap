@@ -230,7 +230,7 @@
             bindings = <
         // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
                              &kp Q         &kp W         &kp E         &kp N1            &trans         &trans        &trans        &trans
-               &kp LSHIFT    &A            &kp S         &kp D         &kp N2            &trans         &trans        &trans        &trans        &trans
+               &kp LSHIFT    &kp A         &kp S         &kp D         &kp N2            &trans         &trans        &trans        &trans        &trans
                &kp LCTRL     &none         &none         &none         &kp N3            &trans         &trans        &trans        &trans        &trans
         // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
                                                          &kp SPACE     &kp TAB           &trans        &trans
