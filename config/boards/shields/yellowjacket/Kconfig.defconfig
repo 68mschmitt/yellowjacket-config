@@ -1,7 +1,7 @@
 # Copyright (c) 2020 The ZMK Contributors
 # SPDX-License-Identifier: MIT
 
-if SHIELD_GNAT_LEFT
+if SHIELD_YELLOWJACKET_LEFT
 
 config ZMK_KEYBOARD_NAME
 	default "Yellow Jacket"
@@ -11,14 +11,14 @@ config ZMK_SPLIT_BLE_ROLE_CENTRAL
 
 endif
 
-if SHIELD_GNAT_RIGHT
+if SHIELD_YELLOWJACKET_RIGHT
 
 config ZMK_KEYBOARD_NAME
-	default "gnat_R"
+	default "yellowjacket_R"
 
 endif
 
-if SHIELD_GNAT_RIGHT || SHIELD_GNAT_LEFT
+if SHIELD_YELLOWJACKET_RIGHT || SHIELD_YELLOWJACKET_LEFT
 
 config ZMK_SPLIT
 	default y

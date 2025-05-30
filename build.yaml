@@ -20,6 +20,6 @@
 ---
 include:
   - board: nice_nano_v2
-    shield: gnat_left
+    shield: yellowjacket_left
   - board: nice_nano_v2
-    shield: gnat_right
+    shield: yellowjacket_right
