@@ -122,9 +122,9 @@
         COMBO(q_underscore, &kp UNDER, 13 31, DEF_L)
 
         // Toggle arrow, mouse, or gaming layer
-        COMBO(tog_mouse,  &tog MOUS_L, 17 30, DEF_L ARR_L MOUS_L)
-        COMBO(tog_arrow,  &tog ARR_L,  30 31, DEF_L ARR_L MOUS_L)
-        COMBO(tog_gaming, &tog GA_L,    4  7, DEF_L ARR_L MOUS_L)
+        COMBO(tog_mouse,  &tog MOUS_L, 17 30, DEF_L ARR_L MOUS_L GA_L)
+        COMBO(tog_arrow,  &tog ARR_L,  30 31, DEF_L ARR_L MOUS_L GA_L)
+        COMBO(tog_gaming, &tog GA_L,    4  7, DEF_L ARR_L MOUS_L GA_L)
     };
 
     conditional_layers {
