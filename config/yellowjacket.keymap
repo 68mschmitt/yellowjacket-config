@@ -203,7 +203,7 @@
             label = "System";
             bindings = <
         // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-                           &trans         &trans        &trans         &kp C_VOL_UP       &OTGL          &trans      &trans        &trans
+                           &trans         &trans        &trans         &kp C_VOL_UP       &OTGL          &trans      &trans        &studio_unlock
              &trans        &trans         &trans        &kp C_PP       &kp C_VOL_DN       &trans         &bt B3      &bt B4        &bt B5         &bt BT_C 
              &trans        &trans         &trans        &trans         &kp C_MUTE         &trans         &bt B0      &bt B1        &bt B2         &bt BT_CLR_ALL 
         // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
@@ -236,6 +236,18 @@
                                                          &kp SPACE     &kp TAB           &trans        &trans
         //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
             >;
+        };
+
+        extra1 {
+            status = "reserved";
+        };
+
+        extra2 {
+            status = "reserved";
+        };
+
+        extra3 {
+            status = "reserved";
         };
 
     };
