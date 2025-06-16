@@ -7,11 +7,15 @@
 #include "yellowjacket-pinctrl.dtsi"
 #include "yellowjacket-layouts.dtsi"
 
+&splitkb_yellowjacket_layout {
+    transform = <&default_transform>;
+};
+
 / {
 
     chosen {
         zmk-kscan = &kscan0;
-        zmk,physical-layout = &default_transform;
+        zmk,physical-layout = &splitkb_yellowjacket_layout;
     };
 
     default_transform: keymap_transform_0 {
