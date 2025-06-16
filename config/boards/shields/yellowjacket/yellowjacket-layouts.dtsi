@@ -2,7 +2,7 @@
 
   / {
     yellowjacket_layout: yellowjacket_layout {
-        compatible = "zmk, physical-layout";
+        compatible = "zmk,physical-layout";
         display-name = "Default Layout";
 
         keys  //                     w   h    x    y     rot    rx    ry
