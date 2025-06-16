@@ -41,10 +41,10 @@
         ;
     };
 
-    position_map {
+    splitkb_yellowjacket_position_map {
         compatible = "zmk,physical-layout-position-map";
         complete;
-        layout1: layout1 {
+        default {
             physical-layout = <&splitkb_yellowjacket_layout>;
             positions =
                 <     0  1  2  3          4  5  6  7   >,
