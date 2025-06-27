@@ -80,9 +80,10 @@
         COMBO(ded_shift_combo, &kp LSHIFT, 29 30, DEF_L)
 
         // Left hand quotes
-        COMBO(q_grave_l, &kp GRAVE, 9 28, DEF_L)
-        COMBO(q_single_quote_l, &kp SINGLE_QUOTE, 10 28, DEF_L)
-        COMBO(q_quote_l, &kp DOUBLE_QUOTES, 11 28, DEF_L)
+        COMBO(q_grave_l,        &kp GRAVE,          9 28, DEF_L)
+        COMBO(q_single_quote_l, &kp SINGLE_QUOTE,  10 28, DEF_L)
+        COMBO(q_quote_l,        &kp DOUBLE_QUOTES, 11 28, DEF_L)
+        COMBO(q_tilde_l,        &kp TILDE,          8 28, DEF_L)
 
         // Quick numbers
         COMBO(q_0, &kp N0, 31 17, DEF_L)
@@ -119,7 +120,7 @@
         COMBO(q_dash, &kp MINUS, 13 30, DEF_L)
 
         // Underscore left hand
-        COMBO(q_underscore, &kp UNDER, 20 21, DEF_L)
+        COMBO(q_underscore, &kp UNDER, 19 20, DEF_L)
 
         // Toggle arrow, mouse, or gaming layer
         COMBO(tog_mouse,  &tog MOUS_L, 17 30, DEF_L ARR_L MOUS_L GA_L)
