@@ -54,7 +54,7 @@ Key Position Reference:
 ### QWERTY Layout
 
 ```
-       Q     W     E     R         T     Y     U     I
+       W     E     R     T         Y     U     I     O
 GUI/A  ALT/S CTRL/D SHIFT/F G     H     SHIFT/J CTRL/K ALT/L GUI/;
 FN/Z   SYS/X  C     V     B       N     M     ,     .     /
              NUM/SPACE BR/TAB   MOUS/BSPC ARR/ENTER
@@ -189,13 +189,15 @@ Combos allow you to access additional characters and functions by pressing two k
 
 ### Letters & Punctuation
 
-| Combo | Keys (QWERTY) | Keys (Colemak) | Output | Description |
-|-------|---------------|----------------|--------|-------------|
-| P | S+D | R+S | P | P letter combo |
-| Q | - | R+S | Q | Q letter combo (Colemak only) |
-| : | K+L | E+I | : | Colon |
-| ; | M+, | H+, | ; | Semicolon |
-| Esc | D+F OR J+K | S+T OR N+E | Esc | Escape key |
+| Combo | Position | QWERTY Keys | Colemak Keys | Output | Description |
+|-------|----------|-------------|--------------|--------|-------------|
+| Q | 0+1 | W+E | W+F | Q | Q letter combo |
+| P | 6+7 | I+O | U+Y | P | P letter combo |
+| : | 15+16 | K+L | E+I | : | Colon |
+| ; | 24+25 | M+, | H+, | ; | Semicolon |
+| Esc | 10+11 OR 14+15 | D+F OR J+K | S+T OR N+E | Esc | Escape key |
+
+**Note**: Both Q and P are now available as combos in both layouts for consistency.
 
 ### Quick Numbers
 **Hold `Enter` + Right Hand Key**:
