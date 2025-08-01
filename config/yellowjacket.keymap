@@ -41,8 +41,8 @@
         hm: homerow_mods {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
-            tapping-term-ms = <150>;
-            quick-tap-ms = <0>;
+            tapping-term-ms = <300>;
+            quick-tap-ms = <175>;
             flavor = "tap-preferred";
             bindings = <&kp>, <&kp>;
         };
@@ -83,51 +83,54 @@
         COMBO(ded_shift_combo, &kp LSHIFT, 29 30, DEF_L)
 
         // Left hand quotes
-        COMBO(q_grave_l,        &kp GRAVE,          9 28, DEF_L)
-        COMBO(q_single_quote_l, &kp SINGLE_QUOTE,  10 28, DEF_L)
-        COMBO(q_quote_l,        &kp DOUBLE_QUOTES, 11 28, DEF_L)
-        COMBO(q_tilde_l,        &kp TILDE,          8 28, DEF_L)
+        COMBO(q_grave_l,        &kp GRAVE,          9 29, DEF_L)
+        COMBO(q_single_quote_l, &kp SINGLE_QUOTE,  10 29, DEF_L)
+        COMBO(q_quote_l,        &kp DOUBLE_QUOTES, 11 29, DEF_L)
+        COMBO(q_tilde_l,        &kp TILDE,          8 29, DEF_L)
 
         // Quick numbers
-        COMBO(q_0, &kp N0, 31 17, DEF_L)
-        COMBO(q_1, &kp N1, 24 31, DEF_L)
-        COMBO(q_2, &kp N2, 25 31, DEF_L)
-        COMBO(q_3, &kp N3, 26 31, DEF_L)
-        COMBO(q_4, &kp N4, 14 31, DEF_L)
-        COMBO(q_5, &kp N5, 15 31, DEF_L)
-        COMBO(q_6, &kp N6, 16 31, DEF_L)
-        COMBO(q_7, &kp N7,  5 31, DEF_L)
-        COMBO(q_8, &kp N8,  6 31, DEF_L)
-        COMBO(q_9, &kp N9,  7 31, DEF_L)
+        COMBO(q_0, &kp N0, 30 17, DEF_L)
+        COMBO(q_1, &kp N1, 24 30, DEF_L)
+        COMBO(q_2, &kp N2, 25 30, DEF_L)
+        COMBO(q_3, &kp N3, 26 30, DEF_L)
+        COMBO(q_4, &kp N4, 14 30, DEF_L)
+        COMBO(q_5, &kp N5, 15 30, DEF_L)
+        COMBO(q_6, &kp N6, 16 30, DEF_L)
+        COMBO(q_7, &kp N7,  5 30, DEF_L)
+        COMBO(q_8, &kp N8,  6 30, DEF_L)
+        COMBO(q_9, &kp N9,  7 30, DEF_L)
 
         // Quick special characters
-        COMBO(q_1_sp, &kp EXCLAMATION, 24 30, DEF_L)
-        COMBO(q_2_sp, &kp AT_SIGN,     25 30, DEF_L)
-        COMBO(q_3_sp, &kp POUND,       26 30, DEF_L)
-        COMBO(q_4_sp, &kp DOLLAR,      14 30, DEF_L)
-        COMBO(q_5_sp, &kp PERCENT,     15 30, DEF_L)
-        COMBO(q_6_sp, &kp CARET,       16 30, DEF_L)
-        COMBO(q_7_sp, &kp AMPERSAND,    5 30, DEF_L)
-        COMBO(q_8_sp, &kp ASTERISK,     6 30, DEF_L)
-        COMBO(q_9_sp, &kp LPAR,         7 30, DEF_L)
+        COMBO(q_1_sp, &kp EXCLAMATION, 24 31, DEF_L)
+        COMBO(q_2_sp, &kp AT_SIGN,     25 31, DEF_L)
+        COMBO(q_3_sp, &kp POUND,       26 31, DEF_L)
+        COMBO(q_4_sp, &kp DOLLAR,      14 31, DEF_L)
+        COMBO(q_5_sp, &kp PERCENT,     15 31, DEF_L)
+        COMBO(q_6_sp, &kp CARET,       16 31, DEF_L)
+        COMBO(q_7_sp, &kp AMPERSAND,    5 31, DEF_L)
+        COMBO(q_8_sp, &kp ASTERISK,     6 31, DEF_L)
+        COMBO(q_9_sp, &kp LPAR,         7 31, DEF_L)
 
         // Backslash && Pipe
-        COMBO(q_backslash, &kp BACKSLASH, 30 27, DEF_L)
-        COMBO(q_pipe, &kp PIPE, 27 31, DEF_L)
+        COMBO(q_backslash, &kp BACKSLASH, 31 27, DEF_L)
+        COMBO(q_pipe, &kp PIPE, 27 30, DEF_L)
 
         // Operators
-        COMBO(q_equals, &kp EQUAL, 23 30, DEF_L)
-        COMBO(q_plus,   &kp PLUS,  4 30, DEF_L)
+        COMBO(q_equals, &kp EQUAL, 23 31, DEF_L)
+        COMBO(q_plus,   &kp PLUS,  4 31, DEF_L)
 
         // Dash right hand
-        COMBO(q_dash, &kp MINUS, 13 30, DEF_L)
+        COMBO(q_dash, &kp MINUS, 13 31, DEF_L)
 
-        // Underscore left hand
-        COMBO(q_underscore, &kp UNDER, 19 20, DEF_L)
+        // Underscore left hand (removed - was interfering with X key)
+        // COMBO(q_underscore, &kp UNDER, 19 20, DEF_L)
+
+        // SYS layer combo (Z + /)
+        COMBO(sys_layer, &mo SYS_L, 18 27, DEF_L)
 
         // Toggle arrow, mouse, or gaming layer
-        COMBO(tog_mouse,  &tog MOUS_L, 17 30, DEF_L ARR_L MOUS_L GA_L)
-        COMBO(tog_arrow,  &tog ARR_L,  30 31, DEF_L ARR_L MOUS_L GA_L)
+        COMBO(tog_mouse,  &tog MOUS_L, 17 31, DEF_L ARR_L MOUS_L GA_L)
+        COMBO(tog_arrow,  &tog ARR_L,  31 30, DEF_L ARR_L MOUS_L GA_L)
         COMBO(tog_gaming, &tog GA_L,    4  7, DEF_L ARR_L MOUS_L GA_L)
     };
 
@@ -144,7 +147,7 @@
         // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
                            &kp W         &kp E         &kp R         &kp T             &kp Y         &kp U         &kp I         &kp O
              &hm LGUI A    &hm LALT S    &hm LCTRL D   &hm LSHIFT F  &kp G             &kp H         &hm RSHIFT J  &hm RCTRL K   &hm RALT L    &hm RGUI SEMI
-             &lt FUNC_L Z  &lt SYS_L X   &kp C         &kp V         &kp B             &kp N         &kp M         &kp COMMA     &kp DOT       &kp FSLH
+             &lt FUNC_L Z  &kp X         &kp C         &kp V         &kp B             &kp N         &kp M         &kp COMMA     &kp DOT       &kp FSLH
         // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
                                                     &lt BR_L TAB  &lt NUM_L SPACE &lt ARR_L ENTER &lt MOUS_L BACKSPACE
         //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯

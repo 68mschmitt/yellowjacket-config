@@ -17,15 +17,25 @@ A comprehensive ZMK configuration for the YellowJacket split ergonomic keyboard 
 
 ## Layout Selection
 
-This configuration supports both QWERTY and Colemak base layouts. Choose your preferred layout by copying the appropriate keymap file:
+This configuration includes two completely separate keymap configurations with different optimizations:
 
 ### Available Layouts:
-- **QWERTY**: `yellowjacket-qwerty.keymap` - Standard QWERTY layout
-- **Colemak**: `yellowjacket-colemak.keymap` - Colemak layout for efficiency
+- **QWERTY**: `yellowjacket-qwerty.keymap` - QWERTY with fast-typing optimizations
+- **Colemak**: `yellowjacket-colemak.keymap` - Original Colemak configuration
+
+### Key Differences Between Keymaps:
+
+| Feature | QWERTY Keymap | Colemak Keymap |
+|---------|---------------|----------------|
+| **Base Layout** | W-E-R-T-Y-U-I-O (Q/P as combos) | W-F-P-B-J-L-U-Y (Q as combo) |
+| **Thumb Layout** | BR/TAB NUM/SPACE ARR/ENTER MOUS/BSPC | NUM/SPACE BR/TAB MOUS/BSPC ARR/ENTER |
+| **Home Row Timing** | 300ms tap, 175ms quick-tap | 150ms tap, 0ms quick-tap |
+| **Optimization** | Fast typing & key rolling | Standard ZMK behavior |
+| **Combos** | Updated for swapped thumbs | Original positions |
 
 ### Switching Layouts:
 
-**For QWERTY (current default):**
+**For QWERTY:**
 ```bash
 cp config/yellowjacket-qwerty.keymap config/yellowjacket.keymap
 ```
@@ -57,7 +67,7 @@ Key Position Reference:
        W     E     R     T         Y     U     I     O
 GUI/A  ALT/S CTRL/D SHIFT/F G     H     SHIFT/J CTRL/K ALT/L GUI/;
 FN/Z   SYS/X  C     V     B       N     M     ,     .     /
-             NUM/SPACE BR/TAB   MOUS/BSPC ARR/ENTER
+             BR/TAB NUM/SPACE   ARR/ENTER MOUS/BSPC
 ```
 
 ### Colemak Layout
@@ -104,12 +114,14 @@ The home row keys double as modifiers when held:
 | I | I | Alt |
 | O | O | GUI (Windows/Cmd) |
 
-**Timing**: 150ms tapping term with tap-preferred behavior.
+**QWERTY Timing**: 300ms tapping term with 175ms quick-tap window and tap-preferred behavior. These longer timings prevent accidental modifier activation during fast typing and key rolling.
+
+**Colemak Timing**: 150ms tapping term with 0ms quick-tap window and tap-preferred behavior. Standard ZMK timing for typical use.
 
 ## Layers
 
 ### 1. NUM Layer (Number Pad)
-**Activation**: Hold `Space` key
+**Activation**: Hold `Space` key (right thumb)
 
 ```
              -     -     -     -         -     7     8     9
@@ -119,8 +131,8 @@ The home row keys double as modifiers when held:
 ```
 
 ### 2. ARR Layer (Arrows & Navigation)
-**Activation**: Hold `Enter` key  
-**Toggle**: Combo `Space+Enter` (thumb keys)
+**Activation**: Hold `Enter` key (right thumb)  
+**Toggle**: Combo `Enter+Backspace` (thumb keys)
 
 ```
              -     -     -     -       Scrl↑  Home   ↑    PgUp
@@ -130,7 +142,7 @@ The home row keys double as modifiers when held:
 ```
 
 ### 3. MOUS Layer (Mouse Control)
-**Activation**: Hold `Backspace` key  
+**Activation**: Hold `Backspace` key (right thumb)  
 **Toggle**: Combo `Backspace+;` (positions 17+30)
 
 ```
@@ -161,7 +173,7 @@ The home row keys double as modifiers when held:
 ```
 
 ### 6. BR Layer (Brackets)
-**Activation**: Hold `Tab` key
+**Activation**: Hold `Tab` key (left thumb)
 
 ```
              -     {     }     -         -     -     -     -
@@ -187,77 +199,76 @@ Three additional layers (extra1, extra2, extra3) are reserved for future customi
 
 Combos allow you to access additional characters and functions by pressing two keys simultaneously.
 
+**Important**: The two keymaps have different combo positions due to different thumb layouts!
+
 ### Letters & Punctuation
 
-| Combo | Position | QWERTY Keys | Colemak Keys | Output | Description |
-|-------|----------|-------------|--------------|--------|-------------|
-| Q | 0+1 | W+E | W+F | Q | Q letter combo |
-| P | 6+7 | I+O | U+Y | P | P letter combo |
-| : | 15+16 | K+L | E+I | : | Colon |
-| ; | 24+25 | M+, | H+, | ; | Semicolon |
-| Esc | 10+11 OR 14+15 | D+F OR J+K | S+T OR N+E | Esc | Escape key |
+| Combo | QWERTY Position | QWERTY Keys | Colemak Position | Colemak Keys | Output |
+|-------|-----------------|-------------|------------------|--------------|--------|
+| Q | 0+1 | W+E | 9+10 | R+S | Q |
+| P | 6+7 | I+O | - | - | P |
+| : | 15+16 | K+L | 15+16 | E+I | : |
+| ; | 24+25 | M+, | 24+25 | H+, | ; |
+| Esc | 10+11 OR 14+15 | D+F OR J+K | 10+11 OR 14+15 | S+T OR N+E | Esc |
 
-**Note**: Both Q and P are now available as combos in both layouts for consistency.
+**Note**: QWERTY has both Q and P as combos. Colemak only has Q as combo (P is direct on base layer).
 
 ### Quick Numbers
-**Hold `Enter` + Right Hand Key**:
 
-| Number | QWERTY Combo | Colemak Combo | Position |
-|--------|--------------|---------------|----------|
-| 0 | Enter+; | Enter+O | 31+17 |
-| 1 | Enter+M | Enter+M | 31+24 |
-| 2 | Enter+, | Enter+, | 31+25 |
-| 3 | Enter+. | Enter+. | 31+26 |
-| 4 | Enter+J | Enter+N | 31+14 |
-| 5 | Enter+K | Enter+E | 31+15 |
-| 6 | Enter+L | Enter+I | 31+16 |
-| 7 | Enter+Y | Enter+L | 31+5 |
-| 8 | Enter+U | Enter+U | 31+6 |
-| 9 | Enter+I | Enter+Y | 31+7 |
+| Number | QWERTY (Enter+Key) | QWERTY Position | Colemak (Enter+Key) | Colemak Position |
+|--------|-------------------|-----------------|-------------------|------------------|
+| 0 | Enter+; | 30+17 | Enter+O | 31+17 |
+| 1 | Enter+M | 30+24 | Enter+M | 31+24 |
+| 2 | Enter+, | 30+25 | Enter+, | 31+25 |
+| 3 | Enter+. | 30+26 | Enter+. | 31+26 |
+| 4 | Enter+J | 30+14 | Enter+N | 31+14 |
+| 5 | Enter+K | 30+15 | Enter+E | 31+15 |
+| 6 | Enter+L | 30+16 | Enter+I | 31+16 |
+| 7 | Enter+Y | 30+5 | Enter+L | 31+5 |
+| 8 | Enter+U | 30+6 | Enter+U | 31+6 |
+| 9 | Enter+I | 30+7 | Enter+Y | 31+7 |
 
 ### Special Characters
-**Hold `Backspace` + Right Hand Key**:
 
-| Character | QWERTY Combo | Colemak Combo | Position |
-|-----------|--------------|---------------|----------|
-| ! | Bspc+M | Bspc+M | 30+24 |
-| @ | Bspc+, | Bspc+, | 30+25 |
-| # | Bspc+. | Bspc+. | 30+26 |
-| $ | Bspc+J | Bspc+N | 30+14 |
-| % | Bspc+K | Bspc+E | 30+15 |
-| ^ | Bspc+L | Bspc+I | 30+16 |
-| & | Bspc+Y | Bspc+L | 30+5 |
-| * | Bspc+U | Bspc+U | 30+6 |
-| ( | Bspc+I | Bspc+Y | 30+7 |
+| Character | QWERTY (Bspc+Key) | QWERTY Position | Colemak (Bspc+Key) | Colemak Position |
+|-----------|-------------------|-----------------|-------------------|------------------|
+| ! | Bspc+M | 31+24 | Bspc+M | 30+24 |
+| @ | Bspc+, | 31+25 | Bspc+, | 30+25 |
+| # | Bspc+. | 31+26 | Bspc+. | 30+26 |
+| $ | Bspc+J | 31+14 | Bspc+N | 30+14 |
+| % | Bspc+K | 31+15 | Bspc+E | 30+15 |
+| ^ | Bspc+L | 31+16 | Bspc+I | 30+16 |
+| & | Bspc+Y | 31+5 | Bspc+L | 30+5 |
+| * | Bspc+U | 31+6 | Bspc+U | 30+6 |
+| ( | Bspc+I | 31+7 | Bspc+Y | 30+7 |
 
 ### Quotes
-**Hold `Space` + Left Hand Key**:
 
-| Character | QWERTY Combo | Colemak Combo | Position |
-|-----------|--------------|---------------|----------|
-| ~ | Space+Z | Space+Z | 28+18 |
-| ` | Space+S | Space+R | 28+9 |
-| ' | Space+D | Space+S | 28+10 |
-| " | Space+F | Space+T | 28+11 |
+| Character | QWERTY (Space+Key) | QWERTY Position | Colemak (Space+Key) | Colemak Position |
+|-----------|-------------------|-----------------|-------------------|------------------|
+| ~ | Space+Z | 29+18 | Space+Z | 28+18 |
+| ` | Space+S | 29+9 | Space+R | 28+9 |
+| ' | Space+D | 29+10 | Space+S | 28+10 |
+| " | Space+F | 29+11 | Space+T | 28+11 |
 
 ### Operators & Symbols
 
-| Symbol | QWERTY Combo | Colemak Combo | Position | Description |
-|--------|--------------|---------------|----------|-------------|
-| = | N+Bspc | M+Bspc | 23+30 | Equals |
-| + | T+Bspc | J+Bspc | 4+30 | Plus |
-| - | H+Bspc | M+Bspc | 13+30 | Minus |
-| _ | X+C | X+C | 19+20 | Underscore |
-| \ | Bspc+/ | Bspc+/ | 30+27 | Backslash |
-| \| | /+Enter | /+Enter | 27+31 | Pipe |
+| Symbol | QWERTY Combo | QWERTY Position | Colemak Combo | Colemak Position | Description |
+|--------|--------------|-----------------|---------------|------------------|-------------|
+| = | N+Bspc | 23+31 | M+Bspc | 23+30 | Equals |
+| + | T+Bspc | 4+31 | J+Bspc | 4+30 | Plus |
+| - | H+Bspc | 13+31 | M+Bspc | 13+30 | Minus |
+| _ | X+C | 19+20 | X+C | 19+20 | Underscore |
+| \ | Bspc+/ | 31+27 | Bspc+/ | 30+27 | Backslash |
+| \| | /+Enter | 27+30 | /+Enter | 27+31 | Pipe |
 
 ### Layer Toggles
 
-| Function | QWERTY Combo | Colemak Combo | Position |
-|----------|--------------|---------------|----------|
-| Mouse Toggle | ;+Bspc | O+Bspc | 17+30 |
-| Arrow Toggle | Bspc+Enter | Bspc+Enter | 30+31 |
-| Gaming Toggle | R+I | B+Y | 4+7 |
+| Function | QWERTY Combo | QWERTY Position | Colemak Combo | Colemak Position |
+|----------|--------------|-----------------|---------------|------------------|
+| Mouse Toggle | ;+Bspc | 17+31 | O+Bspc | 17+30 |
+| Arrow Toggle | Bspc+Enter | 31+30 | Bspc+Enter | 30+31 |
+| Gaming Toggle | R+I | 4+7 | B+Y | 4+7 |
 
 ### Special Functions
 
@@ -269,9 +280,9 @@ Combos allow you to access additional characters and functions by pressing two k
 
 ### Basic Typing
 1. **Normal typing**: Use like any QWERTY keyboard
-2. **Modifiers**: Hold home row keys for Ctrl, Alt, Shift, GUI
-3. **Numbers**: Hold Space + right hand for number pad
-4. **Arrows**: Hold Enter for navigation
+2. **Modifiers**: Hold home row keys for 300ms+ for Ctrl, Alt, Shift, GUI
+3. **Numbers**: Hold Space (right thumb) + right hand for number pad
+4. **Arrows**: Hold Enter (right thumb) for navigation
 
 ### Layer Access Patterns
 - **Temporary**: Hold layer key → type → release
@@ -281,10 +292,10 @@ Combos allow you to access additional characters and functions by pressing two k
 ### Efficient Workflows
 
 #### Programming
-1. **Brackets**: Hold Tab for (), [], {}
-2. **Numbers**: Hold Space for number pad
+1. **Brackets**: Hold Tab (left thumb) for (), [], {}
+2. **Numbers**: Hold Space (right thumb) for number pad
 3. **Special chars**: Use Backspace combos for !@#$%^&*
-4. **Navigation**: Hold Enter for arrows and page keys
+4. **Navigation**: Hold Enter (right thumb) for arrows and page keys
 
 #### Gaming
 1. **Toggle gaming layer**: R+I combo
@@ -295,13 +306,14 @@ Combos allow you to access additional characters and functions by pressing two k
 #### System Control
 1. **Bluetooth**: Hold X → BT0-5 for pairing, BT_CLR to disconnect
 2. **Media**: Hold X → Play/Pause, Volume controls
-3. **Mouse**: Hold Backspace or toggle with ;+Backspace combo
+3. **Mouse**: Hold Backspace (right thumb) or toggle with ;+Backspace combo
 
 ## Tips and Tricks
 
 ### Home Row Mods
-- **Practice slowly** - let muscle memory develop for the 150ms timing
-- **Tap quickly** for letters, **hold deliberately** for modifiers
+- **Practice slowly** - let muscle memory develop for the 300ms timing
+- **Tap quickly** for letters (under 175ms), **hold deliberately** for modifiers (300ms+)
+- **Key rolling friendly** - longer timings prevent accidental modifier activation
 - **Use opposite hand** for modifier+key combinations when possible
 
 ### Combo Mastery
@@ -321,7 +333,7 @@ Combos allow you to access additional characters and functions by pressing two k
 
 ### Customization
 - Modify `yellowjacket.keymap` for personal preferences
-- Adjust `tapping-term-ms` in behaviors section for home row mod timing
+- Adjust `tapping-term-ms` (currently 300ms) and `quick-tap-ms` (currently 175ms) in behaviors section for home row mod timing
 - Add custom combos using the COMBO macro pattern
 
 ---

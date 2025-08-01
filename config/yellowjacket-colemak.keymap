@@ -65,8 +65,8 @@
           │ 18  19  20  21  22 │ │ 23  24  25  26  27 │
           ╰───────────╮ 28  29 │ │ 30  31 ╭───────────╯
                       ╰────────╯ ╰────────╯            */
-        // Q combo at top corners
-        COMBO(lower_q, &kp Q, 0 1, DEF_L)
+        // Remap Q to combo
+        COMBO(lower_q, &kp Q, 9 10, DEF_L)
 
         // Colon and semi-colon
         COMBO(colon,     &kp COLON, 15 16, DEF_L)
