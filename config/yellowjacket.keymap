@@ -66,24 +66,25 @@
           ╰───────────╮ 28  29 │ │ 30  31 ╭───────────╯
                       ╰────────╯ ╰────────╯            */
         // Remap Q to combo
-        COMBO(lower_q, &kp Q, 9 10, DEF_L)
+        COMBO(lower_q, &kp Q, 19 20, DEF_L)
 
         // Colon and semi-colon
-        COMBO(colon,     &kp COLON, 15 16, DEF_L)
+        COMBO(colon,     &kp COLON, 25 26, DEF_L)
         COMBO(semicolon, &kp SEMI,  24 25, DEF_L)
 
         // Escape Keys
-        COMBO(left_esc,  &kp ESC, 10 11, DEF_L ARR_L MOUS_L GA_L)
-        COMBO(right_esc, &kp ESC, 14 15, DEF_L ARR_L MOUS_L GA_L)
+        COMBO(right_esc, &kp ESC, 23 24, DEF_L ARR_L)
 
         // Double thumb turbo shift mode
-        COMBO(ded_shift_combo, &kp LSHIFT, 29 30, DEF_L)
+        /* COMBO(ded_shift_combo, &kp LSHIFT, 29 30, DEF_L) */
+        // TRIAL: Caps lock on double left thumb
+        COMBO(caps_lock, &kp CAPSLOCK, 28 29, DEF_L)
 
         // Left hand quotes
-        COMBO(q_grave_l,        &kp GRAVE,          9 28, DEF_L)
-        COMBO(q_single_quote_l, &kp SINGLE_QUOTE,  10 28, DEF_L)
-        COMBO(q_quote_l,        &kp DOUBLE_QUOTES, 11 28, DEF_L)
-        COMBO(q_tilde_l,        &kp TILDE,          8 28, DEF_L)
+        COMBO(q_grave_l,        &kp GRAVE,          9 29, DEF_L)
+        COMBO(q_single_quote_l, &kp SINGLE_QUOTE,  10 29, DEF_L)
+        COMBO(q_quote_l,        &kp DOUBLE_QUOTES, 11 29, DEF_L)
+        COMBO(q_tilde_l,        &kp TILDE,          8 29, DEF_L)
 
         // Quick numbers
         COMBO(q_0, &kp N0, 31 17, DEF_L)
@@ -120,10 +121,10 @@
         COMBO(q_dash, &kp MINUS, 13 30, DEF_L)
 
         // Underscore left hand
-        COMBO(q_underscore, &kp UNDER, 19 20, DEF_L)
+        COMBO(q_underscore, &kp UNDER, 12 29, DEF_L)
 
         // Toggle arrow, mouse, or gaming layer
-        COMBO(tog_mouse,  &tog MOUS_L, 17 30, DEF_L ARR_L MOUS_L GA_L)
+        COMBO(tog_mouse,  &tog MOUS_L, 31 23, DEF_L ARR_L MOUS_L GA_L)
         COMBO(tog_arrow,  &tog ARR_L,  30 31, DEF_L ARR_L MOUS_L GA_L)
         COMBO(tog_gaming, &tog GA_L,    4  7, DEF_L ARR_L MOUS_L GA_L)
     };
