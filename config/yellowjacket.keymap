@@ -66,14 +66,14 @@
           ╰───────────╮ 28  29 │ │ 30  31 ╭───────────╯
                       ╰────────╯ ╰────────╯            */
         // Remap Q to combo
-        COMBO(lower_q, &kp Q, 19 20, DEF_L)
+        COMBO(lower_q, &kp Q, 9 10 29, DEF_L)
 
         // Colon and semi-colon
-        COMBO(colon,     &kp COLON, 25 26, DEF_L)
+        COMBO(colon,     &kp COLON, 15 16 30, DEF_L)
         COMBO(semicolon, &kp SEMI,  24 25, DEF_L)
 
         // Escape Keys
-        COMBO(right_esc, &kp ESC, 5 6, DEF_L ARR_L)
+        COMBO(right_esc, &kp ESC, 14 15 30, DEF_L ARR_L)
 
         // Double thumb turbo shift mode
         /* COMBO(ded_shift_combo, &kp LSHIFT, 29 30, DEF_L) */
