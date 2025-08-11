@@ -73,7 +73,7 @@
         COMBO(semicolon, &kp SEMI,  24 25, DEF_L)
 
         // Escape Keys
-        COMBO(right_esc, &kp ESC, 23 24, DEF_L ARR_L)
+        COMBO(right_esc, &kp ESC, 5 6, DEF_L ARR_L)
 
         // Double thumb turbo shift mode
         /* COMBO(ded_shift_combo, &kp LSHIFT, 29 30, DEF_L) */
