@@ -1,0 +1,2 @@
+config SHIELD_YELLOWJACKET_RIGHT
+    def_bool $(shields_list_contains,yellowjacket_right)

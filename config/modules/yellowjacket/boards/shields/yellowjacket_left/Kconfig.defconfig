@@ -1,0 +1,5 @@
+if SHIELD_YELLOWJACKET_LEFT
+
+# Put default config options for this shield here if needed.
+
+endif # SHIELD_YELLOWJACKET_LEFT

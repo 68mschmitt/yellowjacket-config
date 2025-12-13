@@ -1,0 +1,2 @@
+# Empty is OK for a shield-only module.
+# Keep this file so module.yml can reference it.
