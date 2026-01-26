@@ -11,6 +11,19 @@
     col-offset = <16>;
 };
 
+/* USB CDC ACM for logging */
+&zephyr_udc0 {
+    cdc_acm_uart0: cdc_acm_uart0 {
+        compatible = "zephyr,cdc-acm-uart";
+    };
+};
+
+/ {
+    chosen {
+        zephyr,console = &cdc_acm_uart0;
+    };
+};
+
 &spi0 {
     status = "okay";
     compatible = "nordic,nrf-spim";
