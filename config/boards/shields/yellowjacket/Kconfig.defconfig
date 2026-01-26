@@ -4,17 +4,17 @@
 if SHIELD_YELLOWJACKET_LEFT
 
 config ZMK_KEYBOARD_NAME
-	default "Yellow Jacket"
-
-config ZMK_SPLIT_BLE_ROLE_CENTRAL
-	default y
+	default "yellowjacket_L"
 
 endif
 
 if SHIELD_YELLOWJACKET_RIGHT
 
 config ZMK_KEYBOARD_NAME
-	default "yellowjacket_R"
+	default "Yellow Jacket"
+
+config ZMK_SPLIT_BLE_ROLE_CENTRAL
+	default y
 
 endif
 
