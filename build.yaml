@@ -21,24 +21,22 @@
 include:
   # ========== Keyboard 1 (YJ1) ==========
   - board: nice_nano
-    shield: yellowjacket_left
+    shield: yellowjacket_yj1_left
     snippet: studio-rpc-usb-uart
-    cmake-args: "-DCONFIG_ZMK_STUDIO=y -DCONFIG_ZMK_KEYBOARD_NAME=\"YJ1\""
+    cmake-args: -DCONFIG_ZMK_STUDIO=y
     artifact-name: yj1_left
   - board: nice_nano
-    shield: yellowjacket_right
-    cmake-args: "-DCONFIG_ZMK_KEYBOARD_NAME=\"YJ1\""
+    shield: yellowjacket_yj1_right
     artifact-name: yj1_right
 
   # ========== Keyboard 2 (YJ2) ==========
   - board: nice_nano
-    shield: yellowjacket_left
+    shield: yellowjacket_yj2_left
     snippet: studio-rpc-usb-uart
-    cmake-args: "-DCONFIG_ZMK_STUDIO=y -DCONFIG_ZMK_KEYBOARD_NAME=\"YJ2\""
+    cmake-args: -DCONFIG_ZMK_STUDIO=y
     artifact-name: yj2_left
   - board: nice_nano
-    shield: yellowjacket_right
-    cmake-args: "-DCONFIG_ZMK_KEYBOARD_NAME=\"YJ2\""
+    shield: yellowjacket_yj2_right
     artifact-name: yj2_right
 
   # ========== Utilities ==========
@@ -47,7 +45,6 @@ include:
 
   # ========== Debug (optional) ==========
   - board: nice_nano
-    shield: yellowjacket_left
+    shield: yellowjacket_yj1_left
     snippet: zmk-usb-logging
-    cmake-args: "-DCONFIG_ZMK_KEYBOARD_NAME=\"YJ1\""
     artifact-name: yj1_left_logging
