@@ -33,8 +33,7 @@ config ZMK_DISPLAY
     select LV_USE_LABEL
     select LV_USE_IMG
 
-config PINCTRL
-	default y
+CONFIG_PINCTRL=y
 
 config I2C
 	default y
