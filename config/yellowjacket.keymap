@@ -24,7 +24,6 @@
 #define SYS_L  5
 #define BR_L   6
 #define GA_L   7
-#define STENO_L   8
 
 #define B0     BT_SEL 0
 #define B1     BT_SEL 1
@@ -129,7 +128,6 @@
         COMBO(tog_mouse,  &tog MOUS_L, 31 23, DEF_L ARR_L MOUS_L GA_L)
         COMBO(tog_arrow,  &tog ARR_L,  30 31, DEF_L ARR_L MOUS_L GA_L)
         COMBO(tog_gaming, &tog GA_L,    4  7, DEF_L ARR_L MOUS_L GA_L)
-        COMBO(tog_steno,  &tog STENO_L, 0  3, DEF_L ARR_L MOUS_L GA_L STENO_L)
     };
 
     conditional_layers {
@@ -242,28 +240,6 @@
         //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
             >;
         };
-
-        STENO_L {
-            label = "Stenography";
-            bindings = <
-        //               ╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
-                              &none         &none         &none         &none             &none         &none        &none          &none
-               &kp Q          &kp W         &kp E         &kp R         &kp T             &kp U         &kp I        &kp O          &kp P        &kp LBKT
-               &kp A          &kp S         &kp D         &kp F         &kp G             &kp J         &kp K        &kp L          &kp SEMI     &kp SINGLE_QUOTE
-        // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
-                                                          &kp C         &kp V             &kp N         &kp M
-        //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
-            >;
-        };
-
-        extra2 {
-            status = "reserved";
-        };
-
-        extra3 {
-            status = "reserved";
-        };
-
     };
 };
 
