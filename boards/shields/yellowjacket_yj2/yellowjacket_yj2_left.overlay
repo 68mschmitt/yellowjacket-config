@@ -5,7 +5,3 @@
  */
 
 #include "yellowjacket_yj2.dtsi"
-
-&oled {
-    inversion-on;
-};

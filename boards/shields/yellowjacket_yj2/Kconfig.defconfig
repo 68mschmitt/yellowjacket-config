@@ -16,6 +16,9 @@ if SHIELD_YELLOWJACKET_YJ2_RIGHT
 config ZMK_KEYBOARD_NAME
 	default "YJ2_R"
 
+config SSD1306_REVERSE_MODE
+	default y
+
 endif
 
 if SHIELD_YELLOWJACKET_YJ2_RIGHT || SHIELD_YELLOWJACKET_YJ2_LEFT
@@ -33,14 +36,10 @@ config ZMK_DISPLAY
     select LV_USE_LABEL
     select LV_USE_IMG
 
-
 config I2C
 	default y
 
 config SSD1306
-	default y
-
-config SSD1306_REVERSE_MODE
 	default y
 
 endif # ZMK_DISPLAY
