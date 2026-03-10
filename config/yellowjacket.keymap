@@ -138,7 +138,7 @@
         COMBO(tog_arrow,    &tog ARR_L,  30 31, DEF_L ARR_L MOUS_L GA_L L_M_L)
         COMBO(tog_gaming,   &tog GA_L,    4  7, DEF_L ARR_L MOUS_L GA_L L_M_L)
 
-        COMBO(v_not_working_combo, &kp V, 3 12, DEF_L)
+        COMBO(v_not_working_combo, &kp V, 10 22, DEF_L)
     };
 
     conditional_layers {
