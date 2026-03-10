@@ -20,31 +20,31 @@
 ---
 include:
   # ========== Keyboard 1 (YJ1) ==========
-  - board: nice_nano
+  - board: nice_nano/nrf52840/zmk
     shield: yellowjacket_yj1_left
     snippet: studio-rpc-usb-uart
     cmake-args: -DCONFIG_ZMK_STUDIO=y
     artifact-name: yj1_left
-  - board: nice_nano
+  - board: nice_nano/nrf52840/zmk
     shield: yellowjacket_yj1_right
     artifact-name: yj1_right
 
   # ========== Keyboard 2 (YJ2) ==========
-  - board: nice_nano
+  - board: nice_nano/nrf52840/zmk
     shield: yellowjacket_yj2_left
     snippet: studio-rpc-usb-uart
     cmake-args: -DCONFIG_ZMK_STUDIO=y
     artifact-name: yj2_left
-  - board: nice_nano
+  - board: nice_nano/nrf52840/zmk
     shield: yellowjacket_yj2_right
     artifact-name: yj2_right
 
   # ========== Utilities ==========
-  - board: nice_nano
+  - board: nice_nano/nrf52840/zmk
     shield: settings_reset
 
   # ========== Debug (optional) ==========
-  - board: nice_nano
+  - board: nice_nano/nrf52840/zmk
     shield: yellowjacket_yj1_left
     snippet: zmk-usb-logging
     artifact-name: yj1_left_logging
