@@ -137,6 +137,8 @@
         COMBO(tog_mouse_l,  &tog L_M_L,  29 22, DEF_L ARR_L MOUS_L GA_L L_M_L)
         COMBO(tog_arrow,    &tog ARR_L,  30 31, DEF_L ARR_L MOUS_L GA_L L_M_L)
         COMBO(tog_gaming,   &tog GA_L,    4  7, DEF_L ARR_L MOUS_L GA_L L_M_L)
+
+        COMBO(v_not_working_combo, &kp v, 20 21, DEF_L)
     };
 
     conditional_layers {
