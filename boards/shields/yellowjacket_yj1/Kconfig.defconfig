@@ -1,24 +1,24 @@
 # Copyright (c) 2020 The ZMK Contributors
 # SPDX-License-Identifier: MIT
 
-if SHIELD_YELLOWJACKET_LEFT
+if SHIELD_YELLOWJACKET_YJ1_LEFT
 
 config ZMK_KEYBOARD_NAME
-	default "Yellow Jacket"
+	default "YJ1"
 
-config ZMK_SPLIT_BLE_ROLE_CENTRAL
+config ZMK_SPLIT_ROLE_CENTRAL
 	default y
 
 endif
 
-if SHIELD_YELLOWJACKET_RIGHT
+if SHIELD_YELLOWJACKET_YJ1_RIGHT
 
 config ZMK_KEYBOARD_NAME
-	default "yellowjacket_R"
+	default "YJ1_R"
 
 endif
 
-if SHIELD_YELLOWJACKET_RIGHT || SHIELD_YELLOWJACKET_LEFT
+if SHIELD_YELLOWJACKET_YJ1_RIGHT || SHIELD_YELLOWJACKET_YJ1_LEFT
 
 config ZMK_SPLIT
 	default y
@@ -33,7 +33,6 @@ config ZMK_DISPLAY
     select LV_USE_LABEL
     select LV_USE_IMG
 
-CONFIG_PINCTRL=y
 
 config I2C
 	default y

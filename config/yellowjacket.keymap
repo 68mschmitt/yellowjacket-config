@@ -16,15 +16,15 @@
 #include <dt-bindings/zmk/pointing.h>
 
 
-#define DEF_L  0
-#define NUM_L  1
-#define ARR_L  2
-#define MOUS_L 3
-#define FUNC_L 4
-#define SYS_L  5
-#define BR_L   6
-#define GA_L   7
-#define STENO_L   8
+#define DEF_L   0
+#define NUM_L   1
+#define ARR_L   2
+#define MOUS_L  3
+#define FUNC_L  4
+#define SYS_L   5
+#define BR_L    6
+#define GA_L    7
+#define L_M_L   8
 
 #define B0     BT_SEL 0
 #define B1     BT_SEL 1
@@ -43,9 +43,18 @@
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
             tapping-term-ms = <150>;
-            quick-tap-ms = <0>;
-            flavor = "tap-preferred";
+            quick-tap-ms = <150>;
+            flavor = "balanced";
             bindings = <&kp>, <&kp>;
+        };
+
+        lt_qk: layer_tap_quick {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            tapping-term-ms = <150>;
+            quick-tap-ms = <150>;
+            flavor = "balanced";
+            bindings = <&mo>, <&kp>;
         };
     };
 
@@ -57,6 +66,7 @@
             bindings = <BINDINGS>; \
             key-positions = <KEYPOS>; \
             layers = <LAYERS>; \
+            timeout-ms = <30>; \
           };
         /*                KEY POSITIONS
 
@@ -77,10 +87,7 @@
         COMBO(left_esc,  &kp ESC,  9 10 11, DEF_L NUM_L ARR_L)
         COMBO(right_esc, &kp ESC, 14 15 16, DEF_L NUM_L ARR_L)
 
-        // Double thumb turbo shift mode
-        /* COMBO(ded_shift_combo, &kp LSHIFT, 29 30, DEF_L) */
-        // TRIAL: Caps lock on double left thumb
-        COMBO(caps_lock, &kp CAPSLOCK, 28 29, DEF_L)
+        COMBO(caps_word_combo, &caps_word, 29 30, DEF_L)
 
         // Left hand quotes
         COMBO(q_grave_l,        &kp GRAVE,          9 29, DEF_L)
@@ -126,10 +133,12 @@
         COMBO(q_underscore, &kp UNDER, 12 29, DEF_L)
 
         // Toggle arrow, mouse, or gaming layer
-        COMBO(tog_mouse,  &tog MOUS_L, 31 23, DEF_L ARR_L MOUS_L GA_L)
-        COMBO(tog_arrow,  &tog ARR_L,  30 31, DEF_L ARR_L MOUS_L GA_L)
-        COMBO(tog_gaming, &tog GA_L,    4  7, DEF_L ARR_L MOUS_L GA_L)
-        COMBO(tog_steno,  &tog STENO_L, 0  3, DEF_L ARR_L MOUS_L GA_L STENO_L)
+        COMBO(tog_mouse_r,  &tog MOUS_L, 31 23, DEF_L ARR_L MOUS_L GA_L L_M_L)
+        COMBO(tog_mouse_l,  &tog L_M_L,  29 22, DEF_L ARR_L MOUS_L GA_L L_M_L)
+        COMBO(tog_arrow,    &tog ARR_L,  30 31, DEF_L ARR_L MOUS_L GA_L L_M_L)
+        COMBO(tog_gaming,   &tog GA_L,    4  7, DEF_L ARR_L MOUS_L GA_L L_M_L)
+
+        COMBO(v_not_working_combo, &kp V, 10 12, DEF_L)
     };
 
     conditional_layers {
@@ -145,9 +154,9 @@
         //               ╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
                            &kp W         &kp F         &kp P         &kp B             &kp J         &kp L         &kp U         &kp Y
              &hm LGUI A    &hm LALT R    &hm LCTRL S   &hm LSHIFT T  &kp G             &kp M         &hm RSHIFT N  &hm RCTRL E   &hm RALT I    &hm RGUI O
-             &lt FUNC_L Z  &lt SYS_L X   &kp C         &kp D         &kp V             &kp K         &kp H         &kp COMMA     &kp DOT       &kp FSLH
+             &lt_qk FUNC_L Z  &lt_qk SYS_L X   &kp C         &kp D         &kp V             &kp K         &kp H         &kp COMMA     &kp DOT       &kp FSLH
         // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
-                                                    &lt NUM_L SPACE  &lt BR_L TAB &lt MOUS_L BACKSPACE &lt ARR_L ENTER
+                                                    &lt_qk NUM_L SPACE  &lt_qk BR_L TAB &lt_qk MOUS_L BACKSPACE &lt_qk ARR_L ENTER
         //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
             >;
         };
@@ -243,15 +252,15 @@
             >;
         };
 
-        STENO_L {
-            label = "Stenography";
+        mouse_layer_2 {
+            label = "Mouse";
             bindings = <
         //               ╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
-                              &none         &none         &none         &none             &none         &none        &none          &none
-               &kp Q          &kp W         &kp E         &kp R         &kp T             &kp U         &kp I        &kp O          &kp P        &kp LBKT
-               &kp A          &kp S         &kp D         &kp F         &kp G             &kp J         &kp K        &kp L          &kp SEMI     &kp SINGLE_QUOTE
+                             &mkp MB2      &mkp MB3      &mkp MB1      &trans           &trans          &trans       &trans         &trans
+               &trans        &trans        &trans        &trans        &trans           &trans          &trans       &trans         &trans       &trans
+               &trans        &trans        &trans        &trans        &trans           &trans          &trans       &trans         &trans       &trans
         // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
-                                                          &kp C         &kp V             &kp N         &kp M
+                                                         &trans        &trans           &trans          &trans
         //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
             >;
         };
@@ -259,11 +268,6 @@
         extra2 {
             status = "reserved";
         };
-
-        extra3 {
-            status = "reserved";
-        };
-
     };
 };
 
