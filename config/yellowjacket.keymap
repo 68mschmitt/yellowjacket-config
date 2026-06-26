@@ -25,6 +25,7 @@
 #define BR_L    6
 #define GA_L    7
 #define L_M_L   8
+#define N_M_L   9
 
 #define B0     BT_SEL 0
 #define B1     BT_SEL 1
@@ -138,10 +139,11 @@
         COMBO(q_underscore, &kp UNDER, 12 29)
 
         // Toggle arrow, mouse, or gaming layer
-        COMBO(tog_mouse_r,  &tog MOUS_L, 31 23)
-        COMBO(tog_mouse_l,  &tog L_M_L,  29 22)
-        COMBO(tog_arrow,    &tog ARR_L,  30 31)
-        COMBO(tog_gaming,   &tog GA_L,    4  7)
+        COMBO(tog_mouse_r,  &tog MOUS_L,		31 23)
+        COMBO(tog_mouse_l,  &tog L_M_L,			29 22)
+        COMBO(tog_arrow,    &tog ARR_L,			30 31)
+        COMBO(tog_gaming,   &tog GA_L,			 4  7)
+        COMBO(to_no_mods,   &tog no_mods_layer, 28 31)
 
         COMBO(v_not_working_combo, &kp V, 10 12)
     };
@@ -270,8 +272,16 @@
             >;
         };
 
-        extra2 {
-            status = "reserved";
+        no_mods_layer {
+            bindings = <
+        //               ╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
+							  &kp W       &kp F         &kp P         &kp B             &kp J         &kp L         &kp U         &kp Y
+             &kp A			  &kp R		  &kp S			&kp T		  &kp G             &kp M         &kp N			&kp E		  &kp I			&kp O
+             &kp Z			  &kp X		  &kp C         &kp D         &kp V             &kp K         &kp H         &kp COMMA     &kp DOT       &kp FSLH
+        // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
+                                                    &lt_qk NUM_L SPACE  &lt_qk BR_L TAB &lt_qk MOUS_L BACKSPACE &lt_qk ARR_L ENTER
+        //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
+            >;
         };
     };
 };
