@@ -143,7 +143,7 @@
         COMBO(tog_mouse_l,  &tog L_M_L,			29 22)
         COMBO(tog_arrow,    &tog ARR_L,			30 31)
         COMBO(tog_gaming,   &tog GA_L,			 4  7)
-        COMBO(to_no_mods,   &tog no_mods_layer, 28 31)
+        COMBO(to_no_mods,   &tog N_M_L,			28 31)
 
         COMBO(v_not_working_combo, &kp V, 10 12)
     };
