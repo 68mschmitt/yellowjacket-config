@@ -13,17 +13,15 @@
 #     shield: reviung41
 #   - board: nice_nano_v2
 #     shield: corne_left
-#     snippet: studio-rpc-usb-uart
-#     cmake-args: -DCONFIG_ZMK_STUDIO=y
-#     artifact-name: corne_left_with_studio
+#     snippet: zmk-usb-logging
+#     cmake-args: -DCONFIG_ZMK_LOG_LEVEL_DBG=y
+#     artifact-name: corne_left_with_logging
 #
 ---
 include:
   # ========== Keyboard 1 (YJ1) ==========
   - board: nice_nano@2.0.0//zmk
     shield: yellowjacket_yj1_left
-    snippet: studio-rpc-usb-uart
-    cmake-args: -DCONFIG_ZMK_STUDIO=y
     artifact-name: yj1_left
   - board: nice_nano@2.0.0//zmk
     shield: yellowjacket_yj1_right
@@ -32,8 +30,6 @@ include:
   # ========== Keyboard 2 (YJ2) ==========
   - board: nice_nano@2.0.0//zmk
     shield: yellowjacket_yj2_left
-    snippet: studio-rpc-usb-uart
-    cmake-args: -DCONFIG_ZMK_STUDIO=y
     artifact-name: yj2_left
   - board: nice_nano@2.0.0//zmk
     shield: yellowjacket_yj2_right
