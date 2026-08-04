@@ -59,6 +59,38 @@
         };
     };
 
+    macros {
+        m_swipe_left: m_swipe_left {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LCTRL>
+                , <&macro_tap &kp LEFT>
+                , <&macro_release &kp LCTRL>
+                ;
+        };
+
+        m_swipe_right: m_swipe_right {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LCTRL>
+                , <&macro_tap &kp RIGHT>
+                , <&macro_release &kp LCTRL>
+                ;
+        };
+
+        m_mission_control: m_mission_control {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LCTRL>
+                , <&macro_tap &kp UP>
+                , <&macro_release &kp LCTRL>
+                ;
+        };
+    };
+
     combos {
         compatible = "zmk,combos";
 
@@ -139,13 +171,16 @@
         COMBO(q_underscore, &kp UNDER, 12 29)
 
         // Toggle arrow, mouse, or gaming layer
-        COMBO(tog_mouse_r,  &tog MOUS_L,		31 23)
-        COMBO(tog_mouse_l,  &tog L_M_L,			29 22)
-        COMBO(tog_arrow,    &tog ARR_L,			30 31)
-        COMBO(tog_gaming,   &tog GA_L,			 4  7)
-        COMBO(to_no_mods,   &tog N_M_L,			28 31)
+        COMBO(tog_mouse_r,       &tog MOUS_L,        31 23)
+        COMBO(tog_mouse_l,       &tog L_M_L,         29 22)
+        COMBO(tog_arrow,         &tog ARR_L,         30 31)
+        COMBO(tog_gaming,        &tog GA_L,           4  7)
+        COMBO(to_no_mods,        &tog N_M_L,         28 31)
 
-        COMBO(v_not_working_combo, &kp V, 10 12)
+        // MacOS gestures (Mission Control shortcuts: Ctrl + arrow)
+        COMBO(c_swipe_left,      &m_swipe_left,       0 29)
+        COMBO(c_mission_control, &m_mission_control,  1 29)
+        COMBO(c_swipe_right,     &m_swipe_right,      2 29)
     };
 
     conditional_layers {

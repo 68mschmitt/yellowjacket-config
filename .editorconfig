@@ -1,0 +1,34 @@
+; ZMK config formatting. Neovim (0.9+), VS Code, and most editors honor this
+; natively, so it overrides conflicting global editor defaults per-project.
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+
+; Devicetree: keymaps, shields, per-half overlays.
+; Spaces only -- the keymap's ASCII-art binding tables and key-position
+; diagrams rely on a fixed column width to stay readable.
+[*.{dts,dtsi,dtso,overlay,keymap}]
+indent_style = space
+indent_size = 4
+
+; Kconfig fragments (CONFIG_FOO=y). Flat, but keep it consistent with above.
+[*.conf]
+indent_style = space
+indent_size = 4
+
+; Kconfig language files use tabs by convention, and the existing
+; Kconfig.shield / Kconfig.defconfig files in this repo already do.
+[Kconfig*]
+indent_style = tab
+indent_size = 4
+
+[*.{yml,yaml}]
+indent_style = space
+indent_size = 2
+
+; Two trailing spaces are a meaningful line break in Markdown.
+[*.md]
+trim_trailing_whitespace = false
