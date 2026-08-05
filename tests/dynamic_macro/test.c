@@ -274,7 +274,7 @@ int main(void) {
 
     /* --- out of range slot must not corrupt memory --- */
     printf("\n== out of range slot ==\n");
-    cmd(DM_REC_CMD, 99);
+    cmd(DM_REC_CMD, 25); cmd(DM_REC_CMD, 99);
     cmd(DM_PLY_CMD, 99);
     printf("PASS  out-of-range slot rejected without crashing\n");
 

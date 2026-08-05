@@ -31,10 +31,35 @@
 #define PLY_L   9   /* "@" pressed: waiting for a register key */
 #define DMR_L  10   /* currently recording; everything is transparent */
 
-/* Dynamic macro registers -> slot indices.
- * Must stay below CONFIG_ZMK_BEHAVIOR_DYNAMIC_MACRO_MAX_SLOTS. */
-#define REG_A   0
-#define REG_B   1
+/* Dynamic macro registers -> slot indices. Slot numbers are chosen to equal the
+ * key position of the letter, which makes log lines self-explanatory: a
+ * "dynamic macro 8" message is register a, because A sits at position 8.
+ * All values must be < CONFIG_ZMK_BEHAVIOR_DYNAMIC_MACRO_MAX_SLOTS. */
+#define REG_W    0
+#define REG_F    1
+#define REG_P    2
+#define REG_B    3
+#define REG_J    4
+#define REG_L    5
+#define REG_U    6
+#define REG_Y    7
+#define REG_A    8
+#define REG_R    9
+#define REG_S   10
+#define REG_T   11
+#define REG_G   12
+#define REG_M   13
+#define REG_N   14
+#define REG_E   15
+#define REG_I   16
+#define REG_O   17
+#define REG_Z   18
+#define REG_X   19
+#define REG_C   20
+#define REG_D   21
+#define REG_V   22
+#define REG_K   23
+#define REG_H   24
 
 /* Abort key for the register-select layers: any unassigned position returns to
  * the base layer, so a mistyped register cancels instead of getting stuck. */
@@ -113,23 +138,55 @@
         /* ---- Vim-style dynamic macro wrappers ----
          * Each wrapper pairs a layer transition with a &dm command. None of
          * these emit keycodes, so the register-selection key and the stop key
-         * never end up inside the recording. */
+         * never end up inside the recording.
+         *
+         * DM_REGISTER generates the record and playback wrapper pair for one
+         * register. `#binding-cells` is hidden behind the object-like macro
+         * DM_BC0 because a bare `#` inside a *function-like* macro body would
+         * be parsed as the preprocessor stringify operator; in an object-like
+         * macro body it stays literal. */
+        #define DM_BC0 #binding-cells = <0>;
+        #define DM_REGISTER(NAME, SLOT)                                 \
+            dm_rec_##NAME: dm_rec_##NAME {                              \
+                compatible = "zmk,behavior-macro";                       \
+                DM_BC0                                                  \
+                wait-ms = <0>;                                          \
+                tap-ms = <0>;                                           \
+                bindings = <&to DMR_L>, <&dm DM_REC SLOT>;              \
+            };                                                          \
+            dm_ply_##NAME: dm_ply_##NAME {                              \
+                compatible = "zmk,behavior-macro";                       \
+                DM_BC0                                                  \
+                wait-ms = <0>;                                          \
+                tap-ms = <0>;                                           \
+                bindings = <&to BASE_L>, <&dm DM_PLY SLOT>;             \
+            };
 
-        dm_rec_a: dm_rec_a {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            wait-ms = <0>;
-            tap-ms = <0>;
-            bindings = <&to DMR_L>, <&dm DM_REC REG_A>;
-        };
-
-        dm_rec_b: dm_rec_b {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            wait-ms = <0>;
-            tap-ms = <0>;
-            bindings = <&to DMR_L>, <&dm DM_REC REG_B>;
-        };
+        DM_REGISTER(w, REG_W)
+        DM_REGISTER(f, REG_F)
+        DM_REGISTER(p, REG_P)
+        DM_REGISTER(b, REG_B)
+        DM_REGISTER(j, REG_J)
+        DM_REGISTER(l, REG_L)
+        DM_REGISTER(u, REG_U)
+        DM_REGISTER(y, REG_Y)
+        DM_REGISTER(a, REG_A)
+        DM_REGISTER(r, REG_R)
+        DM_REGISTER(s, REG_S)
+        DM_REGISTER(t, REG_T)
+        DM_REGISTER(g, REG_G)
+        DM_REGISTER(m, REG_M)
+        DM_REGISTER(n, REG_N)
+        DM_REGISTER(e, REG_E)
+        DM_REGISTER(i, REG_I)
+        DM_REGISTER(o, REG_O)
+        DM_REGISTER(z, REG_Z)
+        DM_REGISTER(x, REG_X)
+        DM_REGISTER(c, REG_C)
+        DM_REGISTER(d, REG_D)
+        DM_REGISTER(v, REG_V)
+        DM_REGISTER(k, REG_K)
+        DM_REGISTER(h, REG_H)
 
         /* One stop wrapper serves every register: the driver enforces that only
          * one slot records at a time, so DM_STP ignores its slot argument. */
@@ -138,23 +195,7 @@
             #binding-cells = <0>;
             wait-ms = <0>;
             tap-ms = <0>;
-            bindings = <&dm DM_STP REG_A>, <&to BASE_L>;
-        };
-
-        dm_ply_a: dm_ply_a {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            wait-ms = <0>;
-            tap-ms = <0>;
-            bindings = <&to BASE_L>, <&dm DM_PLY REG_A>;
-        };
-
-        dm_ply_b: dm_ply_b {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            wait-ms = <0>;
-            tap-ms = <0>;
-            bindings = <&to BASE_L>, <&dm DM_PLY REG_B>;
+            bindings = <&dm DM_STP 0>, <&to BASE_L>;
         };
     };
 
@@ -388,15 +429,16 @@
         };
 
         /* Layer 8 - after the "q" trigger: choose a register to record into.
-         * Physical A (pos 8) and B (pos 3) select the registers; every other
-         * position aborts back to base. */
+         * Every letter position is a register, matching the base layer legend,
+         * so "q then s" records into register s. The seven non-letter positions
+         * abort back to base. */
         dm_record_select_layer {
             label = "RecSel";
             bindings = <
         //               ╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
-                           XXX           XXX           XXX           &dm_rec_b         XXX           XXX           XXX           XXX
-             &dm_rec_a     XXX           XXX           XXX           XXX               XXX           XXX           XXX           XXX           XXX
-             XXX           XXX           XXX           XXX           XXX               XXX           XXX           XXX           XXX           XXX
+                           &dm_rec_w     &dm_rec_f     &dm_rec_p     &dm_rec_b         &dm_rec_j     &dm_rec_l     &dm_rec_u     &dm_rec_y
+             &dm_rec_a     &dm_rec_r     &dm_rec_s     &dm_rec_t     &dm_rec_g         &dm_rec_m     &dm_rec_n     &dm_rec_e     &dm_rec_i     &dm_rec_o
+             &dm_rec_z     &dm_rec_x     &dm_rec_c     &dm_rec_d     &dm_rec_v         &dm_rec_k     &dm_rec_h     XXX           XXX           XXX
         // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
                                                        XXX           XXX               XXX           XXX
         //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
@@ -408,9 +450,9 @@
             label = "PlaySel";
             bindings = <
         //               ╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
-                           XXX           XXX           XXX           &dm_ply_b         XXX           XXX           XXX           XXX
-             &dm_ply_a     XXX           XXX           XXX           XXX               XXX           XXX           XXX           XXX           XXX
-             XXX           XXX           XXX           XXX           XXX               XXX           XXX           XXX           XXX           XXX
+                           &dm_ply_w     &dm_ply_f     &dm_ply_p     &dm_ply_b         &dm_ply_j     &dm_ply_l     &dm_ply_u     &dm_ply_y
+             &dm_ply_a     &dm_ply_r     &dm_ply_s     &dm_ply_t     &dm_ply_g         &dm_ply_m     &dm_ply_n     &dm_ply_e     &dm_ply_i     &dm_ply_o
+             &dm_ply_z     &dm_ply_x     &dm_ply_c     &dm_ply_d     &dm_ply_v         &dm_ply_k     &dm_ply_h     XXX           XXX           XXX
         // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
                                                        XXX           XXX               XXX           XXX
         //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯

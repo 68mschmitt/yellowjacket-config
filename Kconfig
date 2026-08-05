@@ -10,8 +10,8 @@ if ZMK_BEHAVIOR_DYNAMIC_MACRO
 
 config ZMK_BEHAVIOR_DYNAMIC_MACRO_MAX_SLOTS
     int "Dynamic macro slots (registers)"
-    default 2
-    range 1 16
+    default 25
+    range 1 32
     help
       Number of independent dynamic macro registers. Each slot costs
       MAX_EVENTS * 12 bytes of RAM plus a small fixed overhead, allocated
@@ -19,7 +19,7 @@ config ZMK_BEHAVIOR_DYNAMIC_MACRO_MAX_SLOTS
 
 config ZMK_BEHAVIOR_DYNAMIC_MACRO_MAX_EVENTS
     int "Dynamic macro events per slot"
-    default 128
+    default 64
     range 8 1024
     help
       Maximum recorded key events per slot. One ordinary key tap is two events
