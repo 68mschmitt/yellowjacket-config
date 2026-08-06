@@ -239,6 +239,9 @@
         COMBO(one_shot_alt,   &sk LALT,   19 26)
         COMBO(one_shot_super, &sk LGUI,   18 27)
 
+        // Caps lock combo-combo
+        COMBO(one_shot_caps,  &kp CAPS,   20 21 24 25)
+
         // Left hand quotes
         COMBO(q_grave_l,        &kp GRAVE,          9 29)
         COMBO(q_single_quote_l, &kp SINGLE_QUOTE,  10 29)
