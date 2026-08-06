@@ -233,7 +233,11 @@
 
         COMBO(caps_word_combo, &caps_word, 29 30)
 
+        // One shot modifiers, meant for use with the layer without home row mods
         COMBO(one_shot_shift, &sk LSHIFT, 21 24)
+        COMBO(one_shot_ctrl,  &sk LCTRL,  20 25)
+        COMBO(one_shot_alt,   &sk LALT,   19 26)
+        COMBO(one_shot_super, &sk LGUI,   18 27)
 
         // Left hand quotes
         COMBO(q_grave_l,        &kp GRAVE,          9 29)
