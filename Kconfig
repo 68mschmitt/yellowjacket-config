@@ -1,0 +1,46 @@
+# Copyright (c) 2024 The ZMK Contributors
+# SPDX-License-Identifier: MIT
+
+config ZMK_BEHAVIOR_DYNAMIC_MACRO
+    bool
+    default y
+    depends on DT_HAS_ZMK_BEHAVIOR_DYNAMIC_MACRO_ENABLED
+
+if ZMK_BEHAVIOR_DYNAMIC_MACRO
+
+config ZMK_BEHAVIOR_DYNAMIC_MACRO_MAX_SLOTS
+    int "Dynamic macro slots (registers)"
+    default 25
+    range 1 32
+    help
+      Number of independent dynamic macro registers. Each slot costs
+      MAX_EVENTS * 12 bytes of RAM plus a small fixed overhead, allocated
+      statically whether or not the slot is ever used.
+
+config ZMK_BEHAVIOR_DYNAMIC_MACRO_MAX_EVENTS
+    int "Dynamic macro events per slot"
+    default 64
+    range 8 1024
+    help
+      Maximum recorded key events per slot. One ordinary key tap is two events
+      (press and release), so 128 events is roughly 64 keystrokes. A few events
+      of headroom are reserved so that stopping a recording can always append
+      releases for keys that are still held.
+
+config ZMK_BEHAVIOR_DYNAMIC_MACRO_MAX_HELD
+    int "Dynamic macro maximum simultaneously held keys"
+    default 10
+    range 2 32
+    help
+      How many keys may be held down at once while recording. Recording
+      auto-stops if this is exceeded, so that playback stays balanced.
+
+config ZMK_BEHAVIOR_DYNAMIC_MACRO_TAP_DELAY
+    int "Dynamic macro playback delay (ms)"
+    default 20
+    range 1 1000
+    help
+      Delay in milliseconds between events during playback. Original recording
+      timing is not retained. Values below ~10ms may overrun slow hosts.
+
+endif # ZMK_BEHAVIOR_DYNAMIC_MACRO

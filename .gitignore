@@ -1,0 +1,7 @@
+tests/dynamic_macro/test
+tests/dynamic_macro/test.dSYM/
+tests/dynamic_macro/dt-bindings/
+tests/dynamic_macro/zephyr/
+tests/dynamic_macro/drivers/
+tests/dynamic_macro/zmk/
+tests/dynamic_macro/behavior_dynamic_macro.c

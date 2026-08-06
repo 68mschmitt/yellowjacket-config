@@ -14,8 +14,10 @@
 #define ZMK_POINTING_DEFAULT_SCRL_VAL 20
 
 #include <dt-bindings/zmk/pointing.h>
+#include <dt-bindings/zmk/dynamic_macro.h>
 
 
+#define BASE_L  0
 #define NUM_L   1
 #define ARR_L   2
 #define MOUS_L  3
@@ -23,6 +25,45 @@
 #define SYS_L   5
 #define BR_L    6
 #define N_M_L   7
+
+/* Vim-style dynamic macro state machine layers */
+#define REC_L   8   /* "q" pressed: waiting for a register key */
+#define PLY_L   9   /* "@" pressed: waiting for a register key */
+#define DMR_L  10   /* currently recording; everything is transparent */
+
+/* Dynamic macro registers -> slot indices. Slot numbers are chosen to equal the
+ * key position of the letter, which makes log lines self-explanatory: a
+ * "dynamic macro 8" message is register a, because A sits at position 8.
+ * All values must be < CONFIG_ZMK_BEHAVIOR_DYNAMIC_MACRO_MAX_SLOTS. */
+#define REG_W    0
+#define REG_F    1
+#define REG_P    2
+#define REG_B    3
+#define REG_J    4
+#define REG_L    5
+#define REG_U    6
+#define REG_Y    7
+#define REG_A    8
+#define REG_R    9
+#define REG_S   10
+#define REG_T   11
+#define REG_G   12
+#define REG_M   13
+#define REG_N   14
+#define REG_E   15
+#define REG_I   16
+#define REG_O   17
+#define REG_Z   18
+#define REG_X   19
+#define REG_C   20
+#define REG_D   21
+#define REG_V   22
+#define REG_K   23
+#define REG_H   24
+
+/* Abort key for the register-select layers: any unassigned position returns to
+ * the base layer, so a mistyped register cancels instead of getting stuck. */
+#define XXX     &to BASE_L
 
 #define B0     BT_SEL 0
 #define B1     BT_SEL 1
@@ -51,6 +92,15 @@
             quick-tap-ms = <150>;
             flavor = "balanced";
             bindings = <&mo>, <&kp>;
+        };
+
+        /* Runtime-recordable macro behavior: &dm <command> <slot>.
+         * Provided by this repo as an out-of-tree module; see
+         * src/behaviors/behavior_dynamic_macro.c. */
+        dm: dynamic_macro {
+            compatible = "zmk,behavior-dynamic-macro";
+            #binding-cells = <2>;
+            display-name = "Dynamic Macro";
         };
     };
 
@@ -83,6 +133,69 @@
                 , <&macro_tap &kp UP>
                 , <&macro_release &kp LCTRL>
                 ;
+        };
+
+        /* ---- Vim-style dynamic macro wrappers ----
+         * Each wrapper pairs a layer transition with a &dm command. None of
+         * these emit keycodes, so the register-selection key and the stop key
+         * never end up inside the recording.
+         *
+         * DM_REGISTER generates the record and playback wrapper pair for one
+         * register. `#binding-cells` is hidden behind the object-like macro
+         * DM_BC0 because a bare `#` inside a *function-like* macro body would
+         * be parsed as the preprocessor stringify operator; in an object-like
+         * macro body it stays literal. */
+        #define DM_BC0 #binding-cells = <0>;
+        #define DM_REGISTER(NAME, SLOT)                                 \
+            dm_rec_##NAME: dm_rec_##NAME {                              \
+                compatible = "zmk,behavior-macro";                       \
+                DM_BC0                                                  \
+                wait-ms = <0>;                                          \
+                tap-ms = <0>;                                           \
+                bindings = <&to DMR_L>, <&dm DM_REC SLOT>;              \
+            };                                                          \
+            dm_ply_##NAME: dm_ply_##NAME {                              \
+                compatible = "zmk,behavior-macro";                       \
+                DM_BC0                                                  \
+                wait-ms = <0>;                                          \
+                tap-ms = <0>;                                           \
+                bindings = <&to BASE_L>, <&dm DM_PLY SLOT>;             \
+            };
+
+        DM_REGISTER(w, REG_W)
+        DM_REGISTER(f, REG_F)
+        DM_REGISTER(p, REG_P)
+        DM_REGISTER(b, REG_B)
+        DM_REGISTER(j, REG_J)
+        DM_REGISTER(l, REG_L)
+        DM_REGISTER(u, REG_U)
+        DM_REGISTER(y, REG_Y)
+        DM_REGISTER(a, REG_A)
+        DM_REGISTER(r, REG_R)
+        DM_REGISTER(s, REG_S)
+        DM_REGISTER(t, REG_T)
+        DM_REGISTER(g, REG_G)
+        DM_REGISTER(m, REG_M)
+        DM_REGISTER(n, REG_N)
+        DM_REGISTER(e, REG_E)
+        DM_REGISTER(i, REG_I)
+        DM_REGISTER(o, REG_O)
+        DM_REGISTER(z, REG_Z)
+        DM_REGISTER(x, REG_X)
+        DM_REGISTER(c, REG_C)
+        DM_REGISTER(d, REG_D)
+        DM_REGISTER(v, REG_V)
+        DM_REGISTER(k, REG_K)
+        DM_REGISTER(h, REG_H)
+
+        /* One stop wrapper serves every register: the driver enforces that only
+         * one slot records at a time, so DM_STP ignores its slot argument. */
+        dm_stop: dm_stop {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <0>;
+            tap-ms = <0>;
+            bindings = <&dm DM_STP 0>, <&to BASE_L>;
         };
     };
 
@@ -175,6 +288,33 @@
         COMBO(c_swipe_left,      &m_swipe_left,       0 29)
         COMBO(c_mission_control, &m_mission_control,  1 29)
         COMBO(c_swipe_right,     &m_swipe_right,      2 29)
+
+        /* ---- Vim-style dynamic macro triggers ----
+         * Z+X (18 19) is the "q" trigger. On the base layer it opens the
+         * register-select layer; while recording, the same chord stops. Two
+         * combos may share key positions because their `layers` filters are
+         * disjoint and ZMK filters candidates by the highest active layer.
+         * C+D (20 21) is the "@" playback trigger. */
+        dm_combo_record {
+            bindings = <&to REC_L>;
+            key-positions = <18 19>;
+            timeout-ms = <50>;
+            layers = <BASE_L>;
+        };
+
+        dm_combo_stop {
+            bindings = <&dm_stop>;
+            key-positions = <18 19>;
+            timeout-ms = <50>;
+            layers = <DMR_L>;
+        };
+
+        dm_combo_play {
+            bindings = <&to PLY_L>;
+            key-positions = <20 21>;
+            timeout-ms = <50>;
+            layers = <BASE_L>;
+        };
     };
 
     conditional_layers {
@@ -284,6 +424,52 @@
              &kp Z			  &kp X		  &kp C         &kp D         &kp V             &kp K         &kp H         &kp COMMA     &kp DOT       &kp FSLH
         // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
                                                         &trans        &trans            &trans        &trans 
+        //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
+            >;
+        };
+
+        /* Layer 8 - after the "q" trigger: choose a register to record into.
+         * Every letter position is a register, matching the base layer legend,
+         * so "q then s" records into register s. The seven non-letter positions
+         * abort back to base. */
+        dm_record_select_layer {
+            label = "RecSel";
+            bindings = <
+        //               ╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
+                           &dm_rec_w     &dm_rec_f     &dm_rec_p     &dm_rec_b         &dm_rec_j     &dm_rec_l     &dm_rec_u     &dm_rec_y
+             &dm_rec_a     &dm_rec_r     &dm_rec_s     &dm_rec_t     &dm_rec_g         &dm_rec_m     &dm_rec_n     &dm_rec_e     &dm_rec_i     &dm_rec_o
+             &dm_rec_z     &dm_rec_x     &dm_rec_c     &dm_rec_d     &dm_rec_v         &dm_rec_k     &dm_rec_h     XXX           XXX           XXX
+        // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
+                                                       XXX           XXX               XXX           XXX
+        //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
+            >;
+        };
+
+        /* Layer 9 - after the "@" trigger: choose a register to play back. */
+        dm_play_select_layer {
+            label = "PlaySel";
+            bindings = <
+        //               ╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
+                           &dm_ply_w     &dm_ply_f     &dm_ply_p     &dm_ply_b         &dm_ply_j     &dm_ply_l     &dm_ply_u     &dm_ply_y
+             &dm_ply_a     &dm_ply_r     &dm_ply_s     &dm_ply_t     &dm_ply_g         &dm_ply_m     &dm_ply_n     &dm_ply_e     &dm_ply_i     &dm_ply_o
+             &dm_ply_z     &dm_ply_x     &dm_ply_c     &dm_ply_d     &dm_ply_v         &dm_ply_k     &dm_ply_h     XXX           XXX           XXX
+        // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
+                                                       XXX           XXX               XXX           XXX
+        //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
+            >;
+        };
+
+        /* Layer 10 - recording. Fully transparent so typing (and all existing
+         * combos and hold-taps) behave normally; the Z+X combo stops. */
+        dm_recording_layer {
+            label = "Recording";
+            bindings = <
+        //               ╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
+                           &trans        &trans        &trans        &trans            &trans        &trans        &trans        &trans
+             &trans        &trans        &trans        &trans        &trans            &trans        &trans        &trans        &trans        &trans
+             &trans        &trans        &trans        &trans        &trans            &trans        &trans        &trans        &trans        &trans
+        // ╰─────────────┴─────────────┴─────────────╮                                                           ╭─────────────┴─────────────┴─────────────╯
+                                                       &trans        &trans            &trans        &trans
         //                                           ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
             >;
         };
