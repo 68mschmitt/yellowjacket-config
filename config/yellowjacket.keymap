@@ -297,7 +297,7 @@
         COMBO(c_swipe_right,     &m_swipe_right,      2 29)
 
         // OS shortcuts
-        COMBO(q_super_alt_d,     &kp LG(LA(D)),      17 27)
+        COMBO(q_super_alt_d,     &kp LG(LA(D)),      4 13)
 
         /* ---- Vim-style dynamic macro triggers ----
          * Z+X (18 19) is the "q" trigger. On the base layer it opens the
