@@ -4,8 +4,10 @@
  * SPDX-License-Identifier: MIT
  */
 
+/* Reuse the common Yellowjacket matrix/layout/GPIO definition. */
 #include "../yellowjacket/yellowjacket.dtsi"
 
+/* Right halves use the same shared transform with the second-half column offset. */
 &default_transform {
     col-offset = <16>;
 };
