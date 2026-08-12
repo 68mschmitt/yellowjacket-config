@@ -4,8 +4,10 @@
  * SPDX-License-Identifier: MIT
  */
 
+/* Direct legacy shield name; wrapper variants include this same DTSI. */
 #include "yellowjacket.dtsi"
 
+/* Right halves use the shared transform with the second-half column offset. */
 &default_transform {
     col-offset = <16>;
 };

@@ -4,4 +4,5 @@
  * SPDX-License-Identifier: MIT
  */
 
+/* Direct legacy shield name; wrapper variants include this same DTSI. */
 #include "yellowjacket.dtsi"

@@ -1,6 +1,9 @@
 # Copyright (c) 2020 The ZMK Contributors
 # SPDX-License-Identifier: MIT
 
+# YJ1 is a wrapper shield: hardware comes from ../yellowjacket/yellowjacket.dtsi;
+# this file only declares YJ1-specific shield symbols and keyboard names.
+
 if SHIELD_YELLOWJACKET_YJ1_LEFT
 
 config ZMK_KEYBOARD_NAME
