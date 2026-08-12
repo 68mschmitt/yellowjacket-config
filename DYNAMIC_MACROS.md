@@ -34,7 +34,7 @@ declares itself a Zephyr module (`zephyr/module.yml`) to provide its shields, so
 behavior was added to that same module. Consequences:
 
 - no ZMK fork to maintain and rebase
-- **no `config/west.yml` changes** — the config stays pinned to upstream `revision: main`
+- **no extra `config/west.yml` changes** for the behavior — the current policy is to track upstream `revision: main` rather than pin a ZMK fork or SHA
 - nothing extra to clone; GitHub Actions builds it as-is
 
 ## Files added
@@ -101,9 +101,10 @@ All transitions use `&to`, never `&sl`. This was chosen specifically to avoid th
 sticky-layer race the handoff worried about: `&to` is a single deterministic
 "deactivate everything, activate one layer" operation with no pending-release state.
 
-On `REC_L` / `PLY_L`, position 8 (physical `A`) and position 3 (physical `B`) select the
-register; **every other position is `&to BASE_L`**, so a mistyped register aborts
-cleanly rather than leaving the board unusable.
+On `REC_L` / `PLY_L`, every physical letter position selects the matching register
+(`a`-`z` except `q`). The seven non-letter positions (comma, dot, slash, and the
+four thumbs) are `&to BASE_L`, so a mistyped non-register aborts cleanly rather
+than leaving the board unusable.
 
 `DMR_L` is fully transparent, so normal typing, hold-taps and all 40+ existing combos
 keep working while recording.
@@ -130,23 +131,28 @@ The base layer has all 32 positions occupied, so the triggers are combos:
 | record / stop (`q`) | `18 19` | `Z` `X` |
 | play (`@`) | `20 21` | `C` `D` |
 
-Both chords were verified free of collisions with the existing combos, and no key
-exceeds `CONFIG_ZMK_COMBO_MAX_COMBOS_PER_KEY` (default 5). Edit `key-positions` in the
-three `dm_combo_*` nodes to move them.
+Both chords were checked against the existing combo definitions. On current ZMK
+`main`, combo storage is sized from the devicetree, so no
+`CONFIG_ZMK_COMBO_MAX_COMBOS_PER_KEY` tuning is needed. Edit `key-positions` in
+the three `dm_combo_*` nodes to move them.
 
 ## Configuration
 
 ```conf
-CONFIG_ZMK_BEHAVIOR_DYNAMIC_MACRO_MAX_SLOTS=2     # registers
-CONFIG_ZMK_BEHAVIOR_DYNAMIC_MACRO_MAX_EVENTS=128  # ~64 keystrokes per slot
+CONFIG_ZMK_BEHAVIOR_DYNAMIC_MACRO_MAX_SLOTS=25    # letter registers
+CONFIG_ZMK_BEHAVIOR_DYNAMIC_MACRO_MAX_EVENTS=64   # ~32 ordinary key taps per register
 CONFIG_ZMK_BEHAVIOR_DYNAMIC_MACRO_TAP_DELAY=20    # ms between events on playback
 CONFIG_ZMK_BEHAVIOR_DYNAMIC_MACRO_MAX_HELD=10     # max keys held at once (default)
 ```
 
-RAM cost is `SLOTS * EVENTS * 12` bytes, statically allocated **on the central half
-only** — 3 KB at these values. One ordinary key tap is **two** events (press +
-release). Playback does *not* use the ZMK behavior queue, so
-`CONFIG_ZMK_BEHAVIORS_QUEUE_SIZE` does not need raising.
+These are the checked-in values in `config/yellowjacket.conf`. Earlier sizing
+examples used smaller register counts or longer slots, but the repository now
+ships **25 registers x 64 events**. RAM cost is about
+`SLOTS * (96 + EVENTS * 12)` bytes, statically allocated **on the central half
+only** — roughly 21.6 KB at the shipped values. One ordinary key tap is **two**
+events (press + release), and a little headroom is reserved so stopping can
+always append releases for held keys. Playback does *not* use the ZMK behavior
+queue, so `CONFIG_ZMK_BEHAVIORS_QUEUE_SIZE` does not need raising.
 
 ## Registers
 
@@ -225,7 +231,7 @@ For logging, build the `yj1_left_logging` artifact already in `build.yaml` and w
 | 7 | Record `Ctrl` down, `c`, `Ctrl` up | host sees a real Ctrl+C |
 | 8 | Start recording, hold `Shift`+`a`, stop **while still held** | playback leaves nothing stuck |
 | 9 | `Z+X` then a non-register key | returns to base, key does not type |
-| 10 | Record >64 keystrokes | recording auto-stops, playback balanced |
+| 10 | Record beyond slot capacity (more than ~32 ordinary taps at 64 events/register) | recording auto-stops, playback balanced |
 | 11 | Trigger playback during playback | second request ignored |
 | 12 | Type normally: `a`, `b`, `Z`, `X`, `C`, `D` alone | completely unchanged |
 
@@ -234,9 +240,9 @@ behavior and need hardware.
 
 ## Verification performed
 
-The driver was compiled and executed **on the host** against stub Zephyr/ZMK headers
-(`/tmp/dmtest/`), with playback output routed back into the recording listener exactly
-as ZMK's event manager would. 16/16 assertions pass, including: basic recording,
+The driver is compiled and executed **on the host** by `tests/dynamic_macro` against
+stub Zephyr/ZMK headers, with playback output routed back into the recording
+listener exactly as ZMK's event manager would. The suite passes, including: basic recording,
 playback-not-re-recorded, register independence, overwrite, empty slot, immediate stop,
 `Ctrl+C` round trip, synthetic releases in reverse order, play-while-recording refused,
 record-while-playing refused with buffer intact, capacity truncation to a balanced
@@ -280,8 +286,8 @@ gate.
   forwarded to the central before keycode resolution), but the buffers and playback are
   on the left half. Changing which half is central discards all recordings. A right-half
   disconnect does not affect playback of already-recorded macros.
-- No `app/tests`-style ZMK snapshot tests were added; verification is the host harness
-  above.
+- No `app/tests`-style ZMK snapshot tests were added; verification is the
+  `tests/dynamic_macro` host harness above plus CI firmware builds.
 - **Your existing combos are not layer-restricted, so they are live on the register-select
   layers.** A single deliberate tap cannot trigger a combo, but a sloppy simultaneous
   press of two register keys can: pressing `R`+`S` together on the select layer fires
