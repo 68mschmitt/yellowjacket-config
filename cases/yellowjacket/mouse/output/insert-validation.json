@@ -1,0 +1,28 @@
+{
+  "part": {
+    "size_mm": [
+      20.0,
+      28.0,
+      1.8000000000000032
+    ],
+    "cad_valid": true,
+    "solid_count": 1,
+    "watertight": true,
+    "mesh_components": 1,
+    "self_intersections": false,
+    "facets": 656,
+    "volume_mm3": 449.0082092285156
+  },
+  "aperture_mm": [
+    9.5,
+    16.5
+  ],
+  "body_clearance_per_side_mm": 0.2,
+  "rib_interference_mm": 0.05,
+  "case_intersection_mm3": 0.19800000000000903,
+  "unintended_case_intersection_mm3": 0.0,
+  "sensor_intersection_mm3": 0.0,
+  "lens_envelope_intersection_mm3": 0.0,
+  "installed_bottom_z": 0.0,
+  "installed_top_z": 1.7999999999999998
+}

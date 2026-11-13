@@ -1,0 +1,7 @@
+# SPDX-License-Identifier: MIT
+
+config SHIELD_YELLOWJACKET_MOUSE_LEFT
+	def_bool $(shields_list_contains,yellowjacket_mouse_left)
+
+config SHIELD_YELLOWJACKET_MOUSE_RIGHT
+	def_bool $(shields_list_contains,yellowjacket_mouse_right)

@@ -1,0 +1,56 @@
+/* SPDX-License-Identifier: MIT */
+
+#include "yellowjacket_mouse.dtsi"
+#include <zephyr/dt-bindings/pinctrl/nrf-pinctrl.h>
+#include <zephyr/dt-bindings/input/input-event-codes.h>
+
+&default_transform {
+    col-offset = <16>;
+};
+
+&pinctrl {
+    mouse_spi_default: mouse_spi_default {
+        group1 {
+            /* SCLK=P0.06; bidirectional SDIO=P0.08. */
+            psels = <NRF_PSEL(SPIM_SCK, 0, 6)>,
+                    <NRF_PSEL(SPIM_MOSI, 0, 8)>,
+                    <NRF_PSEL(SPIM_MISO, 0, 8)>;
+        };
+    };
+
+    mouse_spi_sleep: mouse_spi_sleep {
+        group1 {
+            psels = <NRF_PSEL(SPIM_SCK, 0, 6)>,
+                    <NRF_PSEL(SPIM_MOSI, 0, 8)>,
+                    <NRF_PSEL(SPIM_MISO, 0, 8)>;
+            low-power-enable;
+        };
+    };
+};
+
+&spi0 {
+    status = "okay";
+    compatible = "nordic,nrf-spim";
+    pinctrl-0 = <&mouse_spi_default>;
+    pinctrl-1 = <&mouse_spi_sleep>;
+    pinctrl-names = "default", "sleep";
+    cs-gpios = <&gpio1 1 GPIO_ACTIVE_LOW>;
+
+    mouse_sensor: pmw3610@0 {
+        compatible = "pixart,pmw3610-alt";
+        status = "okay";
+        reg = <0>;
+        spi-max-frequency = <2000000>;
+        irq-gpios = <&gpio1 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+        cpi = <1000>;
+        /* Initial orientation; adjust to match the physical mounting. */
+        invert-y;
+        evt-type = <INPUT_EV_REL>;
+        x-input-code = <INPUT_REL_X>;
+        y-input-code = <INPUT_REL_Y>;
+    };
+};
+
+&mouse_split {
+    device = <&mouse_sensor>;
+};

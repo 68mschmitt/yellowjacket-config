@@ -1,0 +1,7 @@
+/* SPDX-License-Identifier: MIT */
+
+#include "yellowjacket_mouse.dtsi"
+
+&mouse_listener {
+    status = "okay";
+};

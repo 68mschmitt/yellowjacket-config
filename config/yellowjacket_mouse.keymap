@@ -1,0 +1,2 @@
+/* Reuse the existing keyboard layout and mouse-button bindings. */
+#include "yellowjacket.keymap"

@@ -1,0 +1,16 @@
+{
+  "pcb_clearance": 0.3,
+  "wall_thickness": 2.0,
+  "floor_thickness": 2.0,
+  "under_pcb_clearance": 3.0,
+  "wall_above_pcb_underside": 1.2,
+  "power_switch_relief_width": 10.0,
+  "power_switch_relief_depth": 3.2,
+  "ledge_width": 1.0,
+  "ledge_thickness": 1.6,
+  "support_diameter": 5.0,
+  "adhesive_allowance": 0.2,
+  "pad_keepout_margin": 0.6,
+  "outline_chord_error": 0.01,
+  "mesh_deflection": 0.05
+}

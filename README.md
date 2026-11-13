@@ -4,6 +4,13 @@ ZMK user configuration and custom shield definitions for the 32-key split Yellow
 
 This repository targets `nice_nano@2.0.0//zmk` and builds firmware for two named variants, `yellowjacket_yj1` and `yellowjacket_yj2`, plus utility and debug images defined in `build.yaml`.
 
+The `test/pmw3610-right` branch also includes **YJ Mouse Test**, a named variant
+with a right-half PMW3610 sensor. See [PMW3610_TEST.md](PMW3610_TEST.md) for wiring,
+firmware artifacts, flashing, and tuning.
+
+Printable pressure-fit cases, sensor fit coupons, and the lens-cover insert
+are in [cases/yellowjacket/mouse/](cases/yellowjacket/mouse/README.md).
+
 ## Repository Layout
 
 - `config/` contains the ZMK user config entry points: `west.yml`, `yellowjacket.conf`, and `yellowjacket.keymap`.

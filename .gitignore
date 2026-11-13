@@ -1,2 +1,4 @@
 /build/
+cases/**/__pycache__/
+cases/**/*.FCBak
 tests/dynamic_macro/build/

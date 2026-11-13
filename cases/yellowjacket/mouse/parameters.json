@@ -1,0 +1,19 @@
+{
+  "floor_thickness": 1.2,
+  "under_pcb_clearance": 2.0,
+  "wall_thickness": 1.6,
+  "pcb_clearance": 0.2,
+  "pcb_grip_interference": 0.08,
+  "skate_thickness": 0.6,
+  "sensor_width": 23.5,
+  "sensor_depth": 31.5,
+  "sensor_thickness": 1.6,
+  "sensor_peg_diameter": 2.6,
+  "sensor_top_to_desk": 7.4,
+  "lens_reference_to_desk": 2.4,
+  "sensor_board_gap": 2.2,
+  "sensor_clearance": 0.25,
+  "sensor_grip_interference": 0.08,
+  "sensor_wall": 1.6,
+  "mesh_deflection": 0.04
+}

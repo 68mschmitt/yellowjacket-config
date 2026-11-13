@@ -35,6 +35,19 @@ include:
     shield: yellowjacket_yj2_right
     artifact-name: yj2_right
 
+  # ========== PMW3610 right-half mouse test ==========
+  - board: nice_nano@2.0.0//zmk
+    shield: yellowjacket_mouse_left
+    artifact-name: yj_mouse_left
+  - board: nice_nano@2.0.0//zmk
+    shield: yellowjacket_mouse_right
+    artifact-name: yj_mouse_right
+  - board: nice_nano@2.0.0//zmk
+    shield: yellowjacket_mouse_right
+    snippet: zmk-usb-logging
+    cmake-args: -DCONFIG_PMW3610_ALT_LOG_LEVEL_DBG=y
+    artifact-name: yj_mouse_right_logging
+
   # ========== Utilities ==========
   - board: nice_nano@2.0.0//zmk
     shield: settings_reset

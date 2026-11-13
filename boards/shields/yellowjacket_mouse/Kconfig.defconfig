@@ -1,0 +1,25 @@
+# SPDX-License-Identifier: MIT
+
+if SHIELD_YELLOWJACKET_MOUSE_LEFT
+
+config ZMK_KEYBOARD_NAME
+	default "YJ Mouse Test"
+
+config ZMK_SPLIT_ROLE_CENTRAL
+	default y
+
+endif
+
+if SHIELD_YELLOWJACKET_MOUSE_RIGHT
+
+config ZMK_KEYBOARD_NAME
+	default "YJ Mouse Test R"
+
+endif
+
+if SHIELD_YELLOWJACKET_MOUSE_LEFT || SHIELD_YELLOWJACKET_MOUSE_RIGHT
+
+config ZMK_SPLIT
+	default y
+
+endif
