@@ -1,0 +1,6 @@
+description: Adjust PMW3610 CPI by 200, bounded to the sensor range
+compatible: "zmk,behavior-pmw3610-dpi"
+include: one_param.yaml
+properties:
+  "#binding-cells":
+    const: 1

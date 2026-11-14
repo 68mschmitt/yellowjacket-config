@@ -1,2 +1,32 @@
-/* Reuse the existing keyboard layout and mouse-button bindings. */
+/* Reuse the layout, with mouse-variant overrides. */
 #include "yellowjacket.keymap"
+
+/ {
+    behaviors {
+        dpi: dpi {
+            compatible = "zmk,behavior-pmw3610-dpi";
+            #binding-cells = <1>;
+            display-name = "Sensor DPI";
+        };
+    };
+
+    combos {
+        mouse_middle {
+            bindings = <&mkp MB3>;
+            key-positions = <6 15>;
+            layers = <MOUS_L>;
+            timeout-ms = <50>;
+        };
+    };
+
+    keymap {
+        mouse_layer {
+            bindings = <
+                        &mkp MB2 &mkp MB3 &mkp MB1 &dpi 1   &dpi 1  &mkp MB1 &msc SCRL_UP   &mkp MB2
+                &trans  &trans   &trans   &trans   &dpi 0   &dpi 0  &mkp MB4 &msc SCRL_DOWN &mkp MB5 &trans
+                &trans  &trans   &trans   &trans   &trans   &trans  &msc SCRL_LEFT &mkp MB3 &msc SCRL_RIGHT &trans
+                                         &trans &trans    &trans &trans
+            >;
+        };
+    };
+};

@@ -1,0 +1,2 @@
+/* All three parts share the same behavior names for split DPI commands. */
+#include "yellowjacket_mouse.keymap"

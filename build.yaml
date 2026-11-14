@@ -48,6 +48,17 @@ include:
     cmake-args: -DCONFIG_PMW3610_ALT_LOG_LEVEL_DBG=y
     artifact-name: yj_mouse_right_logging
 
+  # ========== Pinchwing USB dongle (both halves are peripherals) ==========
+  - board: nice_nano@2.0.0//zmk
+    shield: pinchwing_dongle_left
+    artifact-name: pinchwing_dongle_left
+  - board: nice_nano@2.0.0//zmk
+    shield: pinchwing_dongle_right
+    artifact-name: pinchwing_dongle_right
+  - board: nice_nano@2.0.0//zmk
+    shield: pinchwing_dongle_receiver
+    artifact-name: pinchwing_dongle_receiver
+
   # ========== Utilities ==========
   - board: nice_nano@2.0.0//zmk
     shield: settings_reset

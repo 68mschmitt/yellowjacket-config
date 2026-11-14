@@ -1,0 +1,12 @@
+/* SPDX-License-Identifier: MIT */
+#include "../yellowjacket_mouse/yellowjacket_mouse_right.overlay"
+#include "pinchwing-input.dtsi"
+
+/* Motion is consumed on the dongle, not locally on this peripheral. */
+/ {
+    /delete-node/ mouse_listener;
+};
+
+&mouse_split {
+    device = <&mouse_sensor>;
+};

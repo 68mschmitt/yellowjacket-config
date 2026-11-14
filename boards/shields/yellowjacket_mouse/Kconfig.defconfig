@@ -3,17 +3,17 @@
 if SHIELD_YELLOWJACKET_MOUSE_LEFT
 
 config ZMK_KEYBOARD_NAME
-	default "YJ Mouse Test"
-
-config ZMK_SPLIT_ROLE_CENTRAL
-	default y
+	default "Pinchwing V0 L"
 
 endif
 
 if SHIELD_YELLOWJACKET_MOUSE_RIGHT
 
 config ZMK_KEYBOARD_NAME
-	default "YJ Mouse Test R"
+	default "Pinchwing V0"
+
+config ZMK_SPLIT_ROLE_CENTRAL
+	default y
 
 endif
 

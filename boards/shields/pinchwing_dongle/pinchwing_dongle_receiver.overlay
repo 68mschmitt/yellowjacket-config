@@ -1,0 +1,25 @@
+/* SPDX-License-Identifier: MIT */
+#include "../yellowjacket/yellowjacket.dtsi"
+#include "pinchwing-input.dtsi"
+
+&kscan0 {
+    status = "disabled";
+};
+
+/ {
+    chosen {
+        zmk,kscan = &mock_kscan;
+    };
+
+    mock_kscan: mock_kscan {
+        compatible = "zmk,kscan-mock";
+        columns = <0>;
+        rows = <0>;
+        events = <0>;
+    };
+
+    mouse_listener {
+        compatible = "zmk,input-listener";
+        device = <&mouse_split>;
+    };
+};

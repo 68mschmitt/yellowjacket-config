@@ -5,9 +5,10 @@ Printable cases, fit coupons, and the lens-cover insert are in
 
 Branch: `test/pmw3610-right`
 
-Host Bluetooth name: **YJ Mouse Test**. The left half remains the central;
-the right half forwards sensor events over the existing BLE split connection.
-The test keymap includes `config/yellowjacket.keymap`.
+Host Bluetooth name: **Pinchwing V0**. The right half is the central;
+its sensor feeds a local input listener, avoiding the inter-half BLE hop for
+motion. The left half forwards key events to the right.
+The test keymap includes `config/yellowjacket.keymap` with mouse-layer overrides.
 
 ## Hardware
 
@@ -54,15 +55,15 @@ the successful build:
 | `yj_mouse_right` | Right half |
 | `yj_mouse_right_logging` | Right half, instead of the normal image, for debugging |
 
-Flash **both** mouse-test halves. Connect the computer to the **left** half over
-USB or Bluetooth for keyboard/mouse input. USB on the right logging build is for
-logs; it does not make the right half the host-facing central.
+For migration from the left-primary firmware:
 
-Existing bonds/settings survive a firmware flash. The new name does not create
-a new Bluetooth identity, and the host may retain the old display name. If
-pairing or split reconnection fails, use the existing `settings_reset` image on
-both halves, then reflash their respective mouse-test images and pair the left
-half again. This clears saved Bluetooth pairings.
+1. Forget the existing keyboard pairing on the host.
+2. Flash `settings_reset.uf2` to **both halves**, allowing each to boot.
+3. Flash `yj_mouse_left.uf2` to the left and `yj_mouse_right.uf2` to the right.
+4. Power-cycle both halves and pair **Pinchwing V0** again.
+
+This clears saved Bluetooth pairings. Connect the computer to the **right**
+half for USB input. The right logging image also provides USB serial logs.
 
 For a local build, use a west workspace initialized from this branch's
 `config/west.yml`, run `west update`, and pass this repository as
@@ -85,24 +86,32 @@ commands build the new mouse shields.
 ## Initial behavior and tuning
 
 - Sensor movement is always enabled, including on the base layer.
-- Initial resolution is **1000 CPI**.
-- `invert-y` is an initial orientation assumption. In
-  `boards/shields/yellowjacket_mouse/yellowjacket_mouse_right.overlay`, adjust
-  `invert-x`, `invert-y`, and/or `swap-xy` to match the mounting.
-- Existing mouse-layer buttons and scrolling still work. Hold the Backspace
-  thumb key to access the mouse layer; the base-layer L position is left click,
-  and the Y position is right click on that layer.
+- Startup resolution is **1600 CPI**. DPI up/down changes by **200** per press,
+  clamped to **200–3200**. Changes are volatile; reboot restores 1600.
+  The custom behavior calls the pinned driver's runtime CPI API.
+- Orientation keeps `invert-y` and swaps the reported X/Y event codes in
+  `boards/shields/yellowjacket_mouse/yellowjacket_mouse_right.overlay`.
+  This corrects the observed left→up, up→left, right→down, down→right mapping.
+- Hold the Backspace thumb key to access the mouse layer:
+  - Former move up/down (positions 6/15): scroll up/down.
+  - Press those two together within 50 ms: middle click (mouse layer only).
+  - Former vertical scroll keys on both halves (3/4 and 12/13): DPI up/down.
+  - Former move left/right (14/16): mouse buttons 4/5.
+  - Former buttons 4/5 (23/27): transparent.
+  - Other click and horizontal-scroll bindings are retained.
 - The right-half config adds a 1000 ms sensor startup delay for switched VCC.
 - Existing sleep settings are retained. Press a key to wake from deep sleep;
   sensor-only wake is not established by this configuration.
 
 ## Hardware checks
 
-1. Verify typing from both halves and USB/Bluetooth input through the left.
+1. Verify typing from both halves and USB/Bluetooth input through the right.
 2. Slide right, left, forward, and backward; adjust axes if needed.
 3. Check clicks, dragging, and scrolling through the existing mouse layer.
 4. Lift and reposition the keyboard, then confirm tracking resumes.
 5. Test after idle, deep sleep, and a power cycle, including battery-only use.
+6. Check DPI up/down, both limits, and return to 1600 after reboot.
+7. Check the scroll-key middle-click combo and buttons 4/5.
 
 If typing works but motion does not, flash the right logging image and read its
 USB serial logs. An incorrect product ID (especially `0xFF`) points toward
