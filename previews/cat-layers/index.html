@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pinchwing · Cat layer preview</title>
+<style>
+  :root { color-scheme: dark; font-family: system-ui, sans-serif; background: #0c121d; color: #eaf0fa; }
+  body { max-width: 980px; margin: 40px auto; padding: 0 24px; }
+  h1 { font-size: 28px; margin-bottom: 8px; } p { color: #a9b8cb; line-height: 1.6; }
+  .views { display: flex; align-items: center; justify-content: space-around; gap: 36px; flex-wrap: wrap; margin: 32px 0; }
+  figure { margin: 0; text-align: center; } figcaption { margin: 18px; color: #a9b8cb; font-size: 13px; }
+  canvas { border-radius: 50%; box-shadow: 0 0 0 8px #202b3c, 0 16px 50px #0008; width: 240px; height: 240px; }
+  #large { width: min(480px, 80vw); height: min(480px, 80vw); image-rendering: pixelated; }
+  .controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; padding: 20px; background: #151f2e; border-radius: 16px; }
+  button, select { background: #26364c; color: #eef5ff; border: 1px solid #445974; padding: 10px 14px; border-radius: 8px; font: inherit; cursor: pointer; }
+  button:hover { background: #365171; } label { display: flex; align-items: center; gap: 10px; }
+  #state { color: #72ddec; } small { color: #a9b8cb; }
+</style>
+<h1>Pinchwing · a cat for every layer</h1>
+<p>Tour all eleven layers, or pick a favorite to inspect.<br>
+Each demo cycles through idle → active → catnap. Choose Interactive to drive the paws yourself.</p>
+<div class="views">
+  <figure><canvas id="large" width="240" height="240" aria-label="Enlarged animated cat preview"></canvas><figcaption>2× inspection view</figcaption></figure>
+  <figure><canvas id="actual" width="240" height="240" aria-label="Native resolution animated cat preview"></canvas><figcaption>240 × 240 · native display pixels</figcaption></figure>
+</div>
+<div class="controls">
+  <label>Layer <select id="layer"><option value="tour">All layers · tour</option><option value="base">Base</option><option value="number">Number</option><option value="arrows">Arrows</option><option value="mouse">Mouse</option><option value="functions">Functions</option><option value="system">System</option><option value="brackets">Brackets</option><option value="nomods">No Mods</option><option value="recsel">RecSel</option><option value="playsel">PlaySel</option><option value="recording">Recording</option></select></label>
+  <label>Scene <select id="mode"><option value="demo">Auto demo</option><option value="interactive">Interactive</option><option value="hunt">Idle</option><option value="swat">Active</option><option value="sleep">Catnap</option></select></label>
+  <label><input type="checkbox" id="record">Recording overlay</label>
+  <button id="left">Left paw · A</button><button id="right">Right paw · L</button>
+  <button id="pause">Pause</button>
+  <label>Speed <select id="speed"><option value="0.5">½×</option><option value="1" selected>1×</option><option value="1.5">1½×</option></select></label>
+</div>
+<p id="state" aria-live="polite"></p>
+<small>Animation study · 10 frames/sec, matching the current firmware timer. Status values are mock data.
+In Interactive, use A/L or the paw buttons; the cat dozes after 15 seconds without input.</small>
+<script src="layers.js"></script>
+<script src="preview.js"></script>
+</html>

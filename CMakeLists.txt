@@ -21,8 +21,10 @@ if(CONFIG_SHIELD_PINCHWING_SHARP OR CONFIG_SHIELD_PINCHWING_ROUND)
 endif()
 
 target_sources_ifdef(CONFIG_SHIELD_PINCHWING_ROUND app PRIVATE
-                     ${CMAKE_CURRENT_SOURCE_DIR}/src/display/pinchwing_pet.c
-                     ${CMAKE_CURRENT_SOURCE_DIR}/src/display/bongo_cat.c)
+                      ${CMAKE_CURRENT_SOURCE_DIR}/src/display/pinchwing_pet.c
+                      ${CMAKE_CURRENT_SOURCE_DIR}/src/display/pinchwing_scenes.c
+                      ${CMAKE_CURRENT_SOURCE_DIR}/src/display/cat_overlays.c
+                      ${CMAKE_CURRENT_SOURCE_DIR}/src/display/bongo_cat.c)
 
 if(CONFIG_SHIELD_PINCHWING_DONGLE_RIGHT OR CONFIG_SHIELD_PINCHWING_DONGLE_RECEIVER)
   target_sources(app PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/pointing/pinchwing_dpi.c)

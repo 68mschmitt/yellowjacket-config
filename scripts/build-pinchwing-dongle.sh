@@ -5,7 +5,7 @@ set -euo pipefail
 repo="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 : "${ZMK_APP:?Set ZMK_APP to the absolute path of zmk/app in your west workspace}"
 build_root="${PINCHWING_BUILD_DIR:-$repo/build/pinchwing-dongle}"
-output="${PINCHWING_OUTPUT_DIR:-$repo/build/firmware/pinchwing-dongle}"
+output="${PINCHWING_OUTPUT_DIR:-$repo/build/firmware/pinchwing-dongle/development}"
 mkdir -p "$build_root" "$output"
 cd "$ZMK_APP"
 

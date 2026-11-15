@@ -1,4 +1,4 @@
-# Friction
+# Development follow-ups
 
 Known friction, limitations, and follow-up checks for this config.
 

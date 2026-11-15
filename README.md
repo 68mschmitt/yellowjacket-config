@@ -5,11 +5,16 @@ ZMK user configuration and custom shield definitions for the 32-key split Yellow
 This repository targets `nice_nano@2.0.0//zmk` and builds firmware for two named variants, `yellowjacket_yj1` and `yellowjacket_yj2`, plus utility and debug images defined in `build.yaml`.
 
 The `test/pmw3610-right` branch also includes **Pinchwing V0**, a named variant
-with a right-half PMW3610 sensor. See [PMW3610_TEST.md](PMW3610_TEST.md) for wiring,
+with a right-half PMW3610 sensor. See [PMW3610 guide](docs/hardware/pmw3610.md) for wiring,
 firmware artifacts, flashing, and tuning.
 
 For a third nice!nano acting as a BLE-to-USB receiver for both Pinchwing halves,
-see [PINCHWING_DONGLE.md](PINCHWING_DONGLE.md) for firmware and flashing instructions.
+see the [dongle guide](docs/hardware/pinchwing-dongle.md) for wiring and
+the [current v4 release](docs/releases/pinchwing-v4.md) for firmware and flashing.
+
+**Quick links:** [Documentation](docs/README.md) ·
+[Cat animation preview](previews/cat-layers/README.md) ·
+[Build tools](scripts/README.md)
 
 A printable 60° round-display dongle enclosure, snap-on base, and fit-test
 pieces are in [cases/pinchwing-dongle/](cases/pinchwing-dongle/README.md).
@@ -26,9 +31,13 @@ are in [cases/yellowjacket/mouse/](cases/yellowjacket/mouse/README.md).
 - `zephyr/module.yml` exposes this repo as a Zephyr module with `board_root: .`.
 - `build.yaml` defines the firmware build matrix.
 - `.github/workflows/build.yml` delegates builds to ZMK's shared `build-user-config.yml` workflow.
-- `DYNAMIC_MACROS.md` documents the Vim-style runtime macro implementation, trigger flow, limits, and verification.
+- `docs/` separates hardware guides, features, release notes, and development follow-ups.
+- `previews/cat-layers/` is the playable desktop animation demo and source of firmware overlay artwork.
+- `src/display/` contains the display runtime, original sprites, and generated overlay tiles.
+- `build/firmware/pinchwing-dongle/current/` points to the latest locally published release.
+- `build/firmware/pinchwing-dongle/releases/` holds versioned firmware bundles; `archive/` holds earlier experiments.
 - `tests/dynamic_macro/` contains the host-side dynamic macro driver test harness.
-- `FRICTION.md` tracks known reproducibility, local-build, dynamic-macro, and hardware-verification follow-ups.
+- `docs/development/follow-ups.md` tracks reproducibility and hardware-verification follow-ups.
 
 ## Firmware Targets
 
@@ -65,7 +74,7 @@ ZMK Studio is not enabled on any target. Keymap changes are made by editing `con
 | 9 | `PlaySel` (`PLY_L`) |
 | 10 | `Recording` (`DMR_L`) |
 
-Layer indices are declared as `#define`s at the top of the keymap and must stay in sync with the declaration order of the nodes in the `keymap` block. Layers 8-10 implement the dynamic macro state machine: `Z+X` opens record selection, `C+D` opens playback selection, and the transparent recording layer keeps normal typing available until `Z+X` stops recording. See [DYNAMIC_MACROS.md](DYNAMIC_MACROS.md) for the register map, limits, and verification details.
+Layer indices are declared as `#define`s at the top of the keymap and must stay in sync with the declaration order of the nodes in the `keymap` block. Layers 8-10 implement the dynamic macro state machine: `Z+X` opens record selection, `C+D` opens playback selection, and the transparent recording layer keeps normal typing available until `Z+X` stops recording. See [Dynamic macros](docs/features/dynamic-macros.md) for the register map, limits, and verification details.
 
 Notable behaviors in the keymap:
 
@@ -93,7 +102,9 @@ Notable behaviors in the keymap:
 
 No combo Kconfig tuning is needed. `CONFIG_ZMK_COMBO_MAX_COMBOS_PER_KEY` was deprecated upstream in [zmk#2849](https://github.com/zmkfirmware/zmk/pull/2849) (April 2025) — combo storage is now sized automatically from the devicetree, and setting the option emits a deprecation warning. Since `config/west.yml` tracks `zmkfirmware/zmk@main`, the option has been removed. If this config is ever pinned to a ZMK revision older than that, the option must come back, or the key positions carrying more than five combos will be silently dropped at runtime.
 
-Display support is not enabled. The user config no longer carries display options, and the i2c pin control fragment has been removed from the shield. Some `ZMK_DISPLAY`/`LVGL` scaffolding is still present in the shield `Kconfig.defconfig` files but is inert unless `CONFIG_ZMK_DISPLAY` is turned on.
+The standard keyboard halves have no display. Optional `pinchwing_sharp` and
+`pinchwing_round` shields enable the dongle's dashboard; the round display also
+includes the layer-aware cat animations.
 
 ## Building
 

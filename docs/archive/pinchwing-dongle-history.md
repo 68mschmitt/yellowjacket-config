@@ -1,4 +1,10 @@
-# Pinchwing BLE-to-USB dongle
+# Pinchwing dongle: historical builds and investigation notes
+
+**Current release:** [Layer cats v4](../releases/pinchwing-v4.md).
+These notes preserve earlier build names, experiments, and diagnosis. Old
+artifacts formerly under `build/firmware/pinchwing-dongle/` are now under its
+`archive/pre-v4/` subdirectory. Use the release guide for current flashing
+instructions and the [hardware guide](../hardware/pinchwing-dongle.md) for wiring.
 
 A third nice!nano v2-compatible nRF52840 board is the split central. Both
 keyboard halves connect to it over BLE; the dongle sends keyboard and mouse

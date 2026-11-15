@@ -18,6 +18,16 @@ LOGGING_SNIPPET ?= zmk-usb-logging
 
 .PHONY: help test-dm clean-dm build-yj1-left build-logging
 
+.PHONY: test-display preview-cats build-dongle
+test-display: ## Render every cat layer using real LVGL (set LVGL_DIR).
+	bash tests/pinchwing_display/run.sh
+
+preview-cats: ## Open the playable desktop cat-layer demo.
+	xdg-open "$(CURDIR)/previews/cat-layers/index.html"
+
+build-dongle: ## Build all Pinchwing dongle targets (set ZMK_APP).
+	ZMK_APP="$(ZMK_APP)" bash scripts/build-pinchwing-dongle.sh
+
 help: ## Show available make targets and common override variables.
 	@printf 'Targets:\n'
 	@awk 'BEGIN {FS = ":.*##"} /^[a-zA-Z0-9_.-]+:.*##/ {printf "  %-18s %s\n", $$1, $$2}' $(MAKEFILE_LIST)

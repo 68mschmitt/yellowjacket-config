@@ -4,8 +4,10 @@
 #include <zephyr/kernel.h>
 #include <zephyr/sys/atomic.h>
 #include <zmk/wpm.h>
+#include <zmk/keymap.h>
 #include "pinchwing_pet.h"
 #include "bongo_cat.h"
+#include "pinchwing_scenes.h"
 #if IS_ENABLED(CONFIG_PINCHWING_DISPLAY_DIAGNOSTICS)
 #include <zephyr/logging/log.h>
 LOG_MODULE_REGISTER(pinchwing_pet, LOG_LEVEL_INF);
@@ -34,6 +36,37 @@ static unsigned int pose;
 static lv_obj_t *stars[STAR_COUNT];
 static unsigned int radius[STAR_COUNT], frame, warp;
 static bool warping;
+static unsigned int last_layer = UINT32_MAX;
+static bool last_recording;
+static unsigned int foreground_mask = UINT32_MAX;
+
+/* Select by keymap names so transparent Recording doesn't hide a working layer. */
+static unsigned int scene_layer(bool *recording) {
+    static const char *const names[] = {
+        "Base", "Number", "Arrows", "Mouse", "Functions", "System",
+        "Brackets", "No Mods", "RecSel", "PlaySel", "Recording",
+    };
+    *recording = false;
+    unsigned int selected = 0;
+    for (unsigned int index = 0; index < ZMK_KEYMAP_LAYERS_LEN; index++) {
+        zmk_keymap_layer_id_t id = zmk_keymap_layer_index_to_id(index);
+        if (!zmk_keymap_layer_active(id)) {
+            continue;
+        }
+        const char *name = zmk_keymap_layer_name(id);
+        for (unsigned int i = 0; name && i < ARRAY_SIZE(names); i++) {
+            if (strcmp(name, names[i]) == 0) {
+                if (i == 10) {
+                    *recording = true;
+                } else {
+                    selected = i;
+                }
+                break;
+            }
+        }
+    }
+    return *recording && selected == 0 ? 10 : selected;
+}
 
 /* Unit-ish radial vectors, scaled by 100; no floating point required. */
 static const int8_t directions[STAR_COUNT][2] = {
@@ -66,8 +99,18 @@ static void animate(lv_timer_t *timer) {
     ARG_UNUSED(timer);
     uint32_t now = k_uptime_get_32();
     unsigned int wpm = zmk_wpm_get_state();
+    bool recording;
+    unsigned int layer = scene_layer(&recording);
+    if (layer != last_layer || recording != last_recording) {
+        last_press = now;
+        last_layer = layer;
+        last_recording = recording;
+    }
     frame++;
-    if (wpm >= WARP_ENTER_WPM) {
+    if (layer != 0) {
+        warping = false;
+        warp = 0;
+    } else if (wpm >= WARP_ENTER_WPM) {
         warping = true;
     } else if (wpm < WARP_EXIT_WPM) {
         warping = false;
@@ -90,7 +133,7 @@ static void animate(lv_timer_t *timer) {
     for (int side = 0; side < 2; side++) {
         bool hit = (int32_t)(paw_until[side] - now) > 0;
         /* Alternate return frames so sustained typing still visibly drums. */
-        if (hit && !(pose & BIT(side))) {
+        if (sleeping || (hit && !(pose & BIT(side)))) {
             next_pose |= BIT(side);
         }
     }
@@ -100,10 +143,33 @@ static void animate(lv_timer_t *timer) {
                 const struct pinchwing_bongo_sprite *sprite =
                     &pinchwing_bongo_paws[side][!!(next_pose & BIT(side))];
                 lv_image_set_src(paw_images[side], &sprite->image);
-                lv_obj_set_pos(paw_images[side], sprite->x, sprite->y);
             }
         }
         pose = next_pose;
+    }
+    bool active = (uint32_t)(now - last_press) < 600;
+    pinchwing_scenes_update(layer, recording, sleeping, active, frame);
+    /* Siblings allow each paw to cross the prop plane independently. */
+    unsigned int moving_mask = 0;
+    for (int side = 0; side < 2; side++) {
+        const struct pinchwing_bongo_sprite *sprite =
+            &pinchwing_bongo_paws[side][!!(pose & BIT(side))];
+        lv_obj_set_pos(paw_images[side], 24 + shake + sprite->x, 92 + bob + sprite->y);
+        if (!sleeping && (int32_t)(paw_until[side] - now) > 0) {
+            moving_mask |= BIT(side);
+        }
+    }
+    if (moving_mask != foreground_mask) {
+        for (int side = 0; side < 2; side++) {
+            lv_obj_move_to_index(paw_images[side], -1);
+        }
+        pinchwing_scenes_foreground();
+        for (int side = 0; side < 2; side++) {
+            if (moving_mask & BIT(side)) {
+                lv_obj_move_to_index(paw_images[side], -1);
+            }
+        }
+        foreground_mask = moving_mask;
     }
 
     for (unsigned int i = 0; i < STAR_COUNT; i++) {
@@ -121,15 +187,16 @@ static void animate(lv_timer_t *timer) {
                        120 + dy * (int)radius[i] / 100 - h / 2);
         lv_obj_set_style_bg_opa(stars[i], 60 + warp * 195 / 100, 0);
     }
-    const char *text = sleeping ? "zzz... catnap in space" :
+    const char *text = sleeping ? (layer == 3 ? "truce until further notice" : "catnap on the job") :
                        warping ? (warp < 100 ? "ENGAGING NYAN DRIVE" : "HYPERSPACE: MEOW") :
-                       warp ? "returning to orbit..." : "all paws on deck";
+                       warp ? "returning to orbit..." : pinchwing_scenes_caption(layer, active && layer != 0);
     if (strcmp(lv_label_get_text(caption), text) != 0) {
         lv_label_set_text(caption, text);
     }
 }
 
 void pinchwing_pet_create(lv_obj_t *screen) {
+    lv_obj_remove_flag(screen, LV_OBJ_FLAG_SCROLLABLE);
 #if IS_ENABLED(CONFIG_PINCHWING_DISPLAY_DIAGNOSTICS)
     LOG_INF("Creating starfield and cat image");
     lv_display_add_event_cb(lv_display_get_default(), render_complete,
@@ -154,10 +221,11 @@ void pinchwing_pet_create(lv_obj_t *screen) {
     }
     for (int side = 0; side < 2; side++) {
         const struct pinchwing_bongo_sprite *sprite = &pinchwing_bongo_paws[side][0];
-        paw_images[side] = lv_image_create(cat);
+        paw_images[side] = lv_image_create(screen);
         lv_image_set_src(paw_images[side], &sprite->image);
-        lv_obj_set_pos(paw_images[side], sprite->x, sprite->y);
+        lv_obj_set_pos(paw_images[side], 24 + sprite->x, 92 + sprite->y);
     }
+    pinchwing_scenes_create(screen);
     caption = lv_label_create(screen);
     lv_obj_set_pos(caption, 20, 190);
     lv_obj_set_width(caption, 200);
