@@ -6,6 +6,9 @@
 #include <zephyr/logging/log.h>
 #include <drivers/behavior.h>
 #include <zmk/behavior.h>
+#if IS_ENABLED(CONFIG_SHIELD_PINCHWING_DONGLE_RIGHT)
+#include <pinchwing_dpi.h>
+#endif
 #if DT_NODE_HAS_STATUS(DT_NODELABEL(mouse_sensor), okay)
 #include "pmw3610.h"
 #endif
@@ -13,7 +16,8 @@
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
 /* Track only successfully applied changes; reboot restores the DT default. */
-#if DT_NODE_HAS_STATUS(DT_NODELABEL(mouse_sensor), okay)
+#if DT_NODE_HAS_STATUS(DT_NODELABEL(mouse_sensor), okay) && \
+    !IS_ENABLED(CONFIG_SHIELD_PINCHWING_DONGLE_RIGHT)
 static int current_cpi = DT_PROP(DT_NODELABEL(mouse_sensor), cpi);
 #endif
 
@@ -22,7 +26,13 @@ static int pressed(struct zmk_behavior_binding *binding,
     if (binding->param1 > 1) {
         return -EINVAL;
     }
-#if DT_NODE_HAS_STATUS(DT_NODELABEL(mouse_sensor), okay)
+#if IS_ENABLED(CONFIG_SHIELD_PINCHWING_DONGLE_RIGHT)
+    int err = pinchwing_dpi_adjust(binding->param1 != 0);
+    if (err) {
+        LOG_WRN("Unable to set sensor CPI: %d", err);
+        return err;
+    }
+#elif DT_NODE_HAS_STATUS(DT_NODELABEL(mouse_sensor), okay)
     const struct device *sensor = DEVICE_DT_GET(DT_NODELABEL(mouse_sensor));
     if (!device_is_ready(sensor)) {
         return -ENODEV;

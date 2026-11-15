@@ -245,6 +245,48 @@ high-byte-first pixel transfers. A 10% render buffer takes approximately
 11.5 KB, with a 48 KB LVGL object/decode pool. Status updates run on the dedicated
 display queue every 250 ms.
 
+The round panel is rotated 180 degrees using the controller's hardware
+orientation setting in `boards/shields/pinchwing_round/pinchwing_round.overlay`.
+The rotated local image is
+`build/firmware/pinchwing-dongle/pinchwing_dongle_round_cat_180.uf2`.
+
+### Optical DPI readout
+
+The round screen now shows the right optical sensor's reported DPI setting
+beneath WPM. This is the configured sensor CPI (labeled DPI), not a measurement
+of cursor speed or host-side sensitivity.
+
+Flash these two images, without settings reset:
+
+| Device | File in `build/firmware/pinchwing-dongle/` |
+| --- | --- |
+| Right half | `pinchwing_dongle_right_dpi.uf2` |
+| Round-display dongle | `pinchwing_dongle_round_cat_180_dpi.uf2` |
+
+The left half needs no update. The receiver image retains the 180-degree panel
+orientation, Bongo Cat, warp transitions, and physical-left/right battery layout.
+Both builds pass the legacy UF2-size check.
+
+The right half confirms its startup setting (1600 CPI) by successfully applying
+it after asynchronous sensor initialization. DPI keys on either half still
+adjust it in 200-CPI steps from 200 to 3200; failed writes do not advance the
+reported setting. A report is scheduled after each successful adjustment and
+repeated every two seconds, so receiver reboot/reconnection recovers the value.
+Reports expire after five seconds: `-- DPI` means no recent confirmed setting,
+including with old right-half firmware, an unavailable sensor, or a sleeping/
+disconnected right half. A right-half reboot restores its default DPI.
+
+Implementation: `src/pointing/pinchwing_dpi.c` sends a private, non-synchronizing
+MSC event through the existing optical split transport. It neither flushes mouse
+reports nor generates local input activity that would prevent peripheral sleep.
+No new GATT characteristic or pairing reset is needed. The receiver reads the
+reported value independently of the active mouse layer.
+
+Run `bash tests/pinchwing_dpi/run.sh` for host regression checks. Compilation
+and host tests pass; verify on hardware that the value appears after connection,
+changes from keys on both halves, expires when the right half is powered off,
+and returns to 1600 after reboot.
+
 Source: `boards/shields/pinchwing_round/` and
 `src/display/pinchwing_status.c`. The CI shield combination is
 `pinchwing_dongle_receiver pinchwing_round`. For a local build, use the

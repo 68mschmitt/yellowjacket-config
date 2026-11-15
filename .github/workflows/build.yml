@@ -11,3 +11,5 @@ jobs:
       - uses: actions/checkout@v4
       - name: Run dynamic macro host tests
         run: make test-dm
+      - name: Run optical DPI telemetry host tests
+        run: bash tests/pinchwing_dpi/run.sh

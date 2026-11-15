@@ -19,6 +19,8 @@ LOG_MODULE_REGISTER(pinchwing_display, LOG_LEVEL_INF);
 #endif
 #if IS_ENABLED(CONFIG_SHIELD_PINCHWING_ROUND)
 #include "pinchwing_pet.h"
+#include <pinchwing_dpi.h>
+static lv_obj_t *dpi_label;
 #endif
 
 /* BLE slots are assigned by pairing order, not handedness. Learn each side
@@ -75,6 +77,15 @@ static void refresh(lv_timer_t *timer) {
     set_text(layer_label, text);
     snprintf(text, sizeof(text), "%u WPM", (unsigned int)zmk_wpm_get_state());
     set_text(wpm_label, text);
+#if IS_ENABLED(CONFIG_SHIELD_PINCHWING_ROUND)
+    uint16_t dpi = pinchwing_dpi_get();
+    if (dpi) {
+        snprintf(text, sizeof(text), "%u DPI", dpi);
+    } else {
+        snprintf(text, sizeof(text), "-- DPI");
+    }
+    set_text(dpi_label, text);
+#endif
 
     struct zmk_endpoint_instance endpoint = zmk_endpoint_get_selected();
     if (endpoint.transport == ZMK_TRANSPORT_USB) {
@@ -168,11 +179,13 @@ lv_obj_t *zmk_display_status_screen(void) {
 #if IS_ENABLED(CONFIG_PINCHWING_DISPLAY_DIAGNOSTICS)
         LOG_INF("Cat and animation timer created; creating status labels");
 #endif
-        layer_label = label_at(screen, 45, 19, 150, &lv_font_montserrat_14, "");
+        layer_label = label_at(screen, 45, 15, 150, &lv_font_montserrat_14, "");
         lv_obj_set_style_text_color(layer_label, lv_color_hex(0x55ddff), 0);
-        wpm_label = label_at(screen, 45, 39, 150, &lv_font_montserrat_28, "");
-        output_label = label_at(screen, 25, 69, 110, &lv_font_montserrat_14, "");
-        links_label = label_at(screen, 135, 69, 80, &lv_font_montserrat_14, "");
+        wpm_label = label_at(screen, 45, 34, 150, &lv_font_montserrat_20, "");
+        dpi_label = label_at(screen, 45, 58, 150, &lv_font_montserrat_14, "");
+        lv_obj_set_style_text_color(dpi_label, lv_color_hex(0x55ddff), 0);
+        output_label = label_at(screen, 25, 75, 110, &lv_font_montserrat_14, "");
+        links_label = label_at(screen, 135, 75, 80, &lv_font_montserrat_14, "");
         battery_labels[0] = label_at(screen, 50, 211, 70, &lv_font_montserrat_14, "");
         battery_labels[1] = label_at(screen, 120, 211, 70, &lv_font_montserrat_14, "");
 #endif

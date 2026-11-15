@@ -85,7 +85,7 @@ static void animate(lv_timer_t *timer) {
     bool sleeping = (uint32_t)(now - last_press) > 15000 && warp == 0;
     int bob = (int)((frame / (sleeping ? 12 : 4)) % 3) - 1;
     int shake = warp > 50 ? (int)(frame % 3) - 1 : 0;
-    lv_obj_set_pos(cat, 24 + shake, 88 + bob);
+    lv_obj_set_pos(cat, 24 + shake, 92 + bob);
     unsigned int next_pose = 0;
     for (int side = 0; side < 2; side++) {
         bool hit = (int32_t)(paw_until[side] - now) > 0;
@@ -145,7 +145,7 @@ void pinchwing_pet_create(lv_obj_t *screen) {
     lv_obj_remove_style_all(cat);
     lv_obj_set_size(cat, 192, 96);
     lv_obj_remove_flag(cat, LV_OBJ_FLAG_SCROLLABLE);
-    lv_obj_set_pos(cat, 24, 88);
+    lv_obj_set_pos(cat, 24, 92);
     for (int i = 0; i < 3; i++) {
         const struct pinchwing_bongo_sprite *sprite = &pinchwing_bongo_base[i];
         lv_obj_t *image = lv_image_create(cat);

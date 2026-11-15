@@ -1,0 +1,48 @@
+{
+  "brace_parameters": {
+    "side_center_x": 19.5,
+    "side_thickness": 2.4,
+    "retainer_contact_half_height": 4.0,
+    "retainer_gap": 0.0,
+    "base_lip_clearance": 0.15,
+    "rear_foot_height": 2.4,
+    "crossbar_front_y": 26.0,
+    "crossbar_depth": 3.0,
+    "crossbar_height": 3.0
+  },
+  "source_assembly_sha256": "4f1d657b040fbb9be10a60ede54d0d0be23e302ce1f62385d56844d32a3a9e0b",
+  "original_files_unchanged": true,
+  "print": {
+    "size_mm": [
+      41.40000000000008,
+      48.88834569041464,
+      32.114101615137756
+    ],
+    "cad_valid": true,
+    "solid_count": 1,
+    "watertight": true,
+    "mesh_components": 1,
+    "self_intersections": false,
+    "facets": 148,
+    "volume_mm3": 4854.56591796875
+  },
+  "intersections_mm3": {
+    "Housing": 0.0,
+    "Bottom18_3": 0.0,
+    "DisplayRetainer": 0.0,
+    "DisplayPCB": 0.0,
+    "DisplayGlass": 0.0,
+    "DisplayPins": 0.0,
+    "DisplayPlugEnvelope": 0.0,
+    "DisplayHeaderTops": 0.0,
+    "DisplayRibbon": 0.0,
+    "NanoPCB": 0.0,
+    "NanoPlugEnvelopes": 0.0
+  },
+  "nano_component_clearance_intersection_mm3": 0.0,
+  "retainer_distance_mm": 3.552713678800501e-15,
+  "retainer_contact_area_from_0_02_mm_probe_mm2": 38.4821739440639,
+  "rear_stop_overlap_after_0_4_mm_displacement_mm3": 2.542560040542375,
+  "retainer_pcb_nominal_gap_mm": 0.2,
+  "physical_fit_verified": false
+}

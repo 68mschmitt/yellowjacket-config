@@ -47,7 +47,7 @@
             pixel-format = <PANEL_PIXEL_FORMAT_RGB_565>;
             width = <240>;
             height = <240>;
-            orientation = "normal";
+            orientation = "180";
             display-inversion;
         };
     };
