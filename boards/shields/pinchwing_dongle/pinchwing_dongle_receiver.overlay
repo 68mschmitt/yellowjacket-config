@@ -1,7 +1,12 @@
 /* SPDX-License-Identifier: MIT */
 #include "../yellowjacket/yellowjacket.dtsi"
 #include "pinchwing-input.dtsi"
+#include "pinchwing-power.dtsi"
 #include <input/processors.dtsi>
+
+&power_left {
+    status = "okay";
+};
 
 &kscan0 {
     status = "disabled";

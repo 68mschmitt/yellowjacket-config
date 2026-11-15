@@ -1,2 +1,9 @@
 /* SPDX-License-Identifier: MIT */
 #include "../yellowjacket_mouse/yellowjacket_mouse_left.overlay"
+#include "pinchwing-power.dtsi"
+
+&power_left {
+    status = "okay";
+    /* Battery telemetry is sent directly; this sensor emits no input events. */
+    device = <&vbatt>;
+};

@@ -161,8 +161,9 @@ IC:GC9A01`, use:
 
 `build/firmware/pinchwing-dongle/pinchwing_dongle_round.uf2`
 
-Flash **only the dongle**, without settings reset. Both halves keep their
-existing firmware and bonds. Disconnect the SHARP display before replacing it.
+For current battery/USB-power support, flash all three images listed under
+[Battery and USB-power indicator](#battery-and-usb-power-indicator), without
+settings reset. Disconnect the SHARP display before replacing it.
 
 With USB unplugged, wire these seven connections:
 
@@ -189,10 +190,11 @@ screen-side paw, including a both-paws pose. After 15 seconds without keypresses
 the cat gently bobs with a catnap caption. WPM, layer, USB/BLE host status,
 connected-half count, and both batteries remain visible.
 
-Battery values are **percentages only**, with physical left always on the left
-and physical right always on the right, regardless of BLE slot order. Press a
-key on each half after boot to identify it. Until identified, or when its battery
-reading is unavailable, that side shows `--`.
+Each half shows a **lightning-bolt charging indicator while USB power is present**,
+with no percentage, and its estimated battery percentage when unplugged.
+Physical left is always on the left and physical right always on the right,
+regardless of BLE slot order; no identifying keypress is needed with the current
+half firmware. Missing or stale power reports show `--`.
 
 At 80 WPM the starfield accelerates into warp over approximately 1.7 seconds:
 stars brighten and stretch, the cat shakes, and the caption announces hyperspace.
@@ -297,3 +299,75 @@ physical test. Confirm the screen lights, text orientation, colors, both
 battery readings, typing, and mouse movement. If the panel is lit but blank,
 first check DC/RST and the SPI connections. Report any rotation or color issue
 so the panel configuration can be adjusted to this module.
+
+### Battery and USB-power indicator
+
+Flash these three images from `build/firmware/pinchwing-dongle/`, without
+settings reset, then restart all three devices:
+
+| Device | File |
+| --- | --- |
+| Left half | `pinchwing_dongle_left_charging.uf2` |
+| Right half | `pinchwing_dongle_right_charging_v3.uf2` |
+| Round-display dongle | `pinchwing_dongle_round_cat_180_dpi_charging_v3.uf2` |
+
+If an earlier charging firmware is already installed, update **only the right
+half and dongle** to these `v3` images. Keep the left half's charging firmware.
+Restart the right half and dongle after updating both.
+
+The first charging release left the right battery at `--`. Its extra right-side
+input channel exposed a pending-subscription collision with channel zero in
+the pinned ZMK code. Changing the optical channel to 3 in `v2` passed an isolated
+discovery test, but hardware testing still showed no battery and also lost
+optical motion/DPI. That test did not establish end-to-end Bluetooth operation.
+
+Version 3 restores the original right-side channel 0 and its single-characteristic
+GATT layout. Power reports share that channel with DPI and motion, distinguished
+by their event codes; there is no separate right-side power subscription.
+Both right half and dongle must be updated together. The builds and host checks
+pass, and version 3 has been confirmed working on hardware.
+
+The cat display replaces a half's percentage with a lightning bolt whenever
+that half detects USB power. This includes charge-only USB supplies and a fully
+charged battery still connected to USB: the indicator means **USB power present**,
+not a measurement of charging current or charge completion.
+
+Unplugging restores a fresh voltage-based percentage, rather than the cached
+USB-era 100%. Reports repeat every two seconds and the display refreshes every
+250 ms. Unavailable readings and reports older than five seconds show `--`;
+an actual zero-percent reading shows `0%`. Old half firmware cannot provide
+these reports and shows `--` on the updated cat display.
+
+`src/pinchwing_power.c` reads the nRF52840's VBUS detector directly, so the halves
+keep USB data disabled. While unplugged, it samples the battery sensor on ZMK's
+low-priority work queue, serializing ADC use with the normal battery worker.
+Split input channel 1 identifies left power reports. The right half uses its
+original channel 0 for optical motion, DPI, and power reports. Power and DPI use
+distinct private MSC codes with `sync = false`, so neither flushes partial mouse
+reports. Heartbeats use the split transport
+directly and do not generate local input activity that would prevent half sleep.
+The ordinary BLE Battery Service and SHARP dashboard retain their existing
+voltage-based behavior.
+
+Run `bash tests/pinchwing_power/run.sh` for host checks covering USB detection,
+plugging in during a sample, unplugging, sensor failures, physical-side routing,
+zero/full readings, lost reports, and clock wraparound. The three images compile
+and pass the legacy UF2-size check. On hardware, check each half independently:
+plug into a charger to see only the bolt, unplug to restore its percentage, and
+turn it off to see `--` within five seconds. Also check typing, pointer motion,
+and DPI reporting after reconnecting.
+
+The discovery regression check verifies the built devicetrees expose exactly
+one channel per half, then exercises the actual ZMK subscription helpers with
+both connection orders and reconnects. The mouse check runs ZMK's actual mouse
+handler with power and DPI reports inserted between the X and Y events:
+
+```sh
+python3 tests/pinchwing_power/check_split_discovery.py \
+    "$ZMK_APP/src/split/bluetooth/central.c" \
+    build/pinchwing-power/left/zephyr/zephyr.dts \
+    build/pinchwing-power/right/zephyr/zephyr.dts \
+    build/pinchwing-power/round/zephyr/zephyr.dts
+python3 tests/pinchwing_power/check_mouse_interleaving.py \
+    "$ZMK_APP/src/pointing/input_listener.c"
+```

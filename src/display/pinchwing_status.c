@@ -20,6 +20,7 @@ LOG_MODULE_REGISTER(pinchwing_display, LOG_LEVEL_INF);
 #if IS_ENABLED(CONFIG_SHIELD_PINCHWING_ROUND)
 #include "pinchwing_pet.h"
 #include <pinchwing_dpi.h>
+#include <pinchwing_power.h>
 static lv_obj_t *dpi_label;
 #endif
 
@@ -103,27 +104,22 @@ static void refresh(lv_timer_t *timer) {
              "%u/2 linked" : "Halves: %u/2 linked", links);
     set_text(links_label, text);
 
-    if (IS_ENABLED(CONFIG_SHIELD_PINCHWING_ROUND)) {
-        /* Screen positions are physical sides, never BLE pairing-order slots.
-         * Don't display an unidentified slot's battery on a guessed side. */
-        int sides[2] = {atomic_get(&side_by_source[0]), atomic_get(&side_by_source[1])};
-        for (int side = 1; side <= 2; side++) {
-            uint8_t level = 0;
-            for (int source = 0; source < 2; source++) {
-                if (sides[source] == side) {
-                    zmk_split_central_get_peripheral_battery_level(source, &level);
-                    break;
-                }
-            }
-            if (level > 0 && level <= 100) {
-                snprintf(text, sizeof(text), "%u%%", level);
-            } else {
-                snprintf(text, sizeof(text), "--");
-            }
-            set_text(battery_labels[side - 1], text);
+#if IS_ENABLED(CONFIG_SHIELD_PINCHWING_ROUND)
+    /* Power reports identify physical sides without a keypress.
+     * A USB report intentionally contains no battery percentage. */
+    for (unsigned int side = 0; side < 2; side++) {
+        int power = pinchwing_power_get(side);
+        if (power == PINCHWING_POWER_USB) {
+            snprintf(text, sizeof(text), LV_SYMBOL_CHARGE);
+        } else if (power >= 0 && power <= 100) {
+            snprintf(text, sizeof(text), "%d%%", power);
+        } else {
+            snprintf(text, sizeof(text), "--");
         }
-        return;
+        set_text(battery_labels[side], text);
     }
+    return;
+#endif
 
     for (int source = 0; source < 2; source++) {
         uint8_t level = 0;
