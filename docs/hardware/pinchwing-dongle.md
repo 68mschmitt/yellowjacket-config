@@ -14,6 +14,17 @@ board, let it run briefly, then flash each board's assigned image. The halves
 bond to the receiver automatically; do not pair them through the computer.
 For existing working devices, normal updates do not require settings reset.
 
+## Printable enclosure and add-ons
+
+- [60° round-display enclosure](../../cases/pinchwing-dongle/README.md).
+- [Internal display brace](../../cases/pinchwing-dongle/brace/README.md).
+- [MCU keeper and recessed USB-C bezel](../../cases/pinchwing-dongle/usb-retrofit/README.md):
+  two retrofit prototypes for the existing 18.3 mm nano base and housing.
+  Test the keeper first, then verify bezel/socket alignment and cable seating.
+
+Printable sources and outputs live under `cases/`; firmware build tools remain
+under `scripts/`, with release artifacts under `build/firmware/`.
+
 ## Round GC9A01 display (240×240)
 
 With USB unplugged:

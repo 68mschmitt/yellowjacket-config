@@ -21,6 +21,13 @@ and a nice!nano / Pro Micro nRF52840 controller with downward-facing headers.
 
 ## Print files
 
+### Add-ons for already printed cases
+
+- [Internal display brace](brace/README.md): supports the retaining ring against
+  the base.
+- [MCU keeper and USB-C bezel](usb-retrofit/README.md): positive MCU retention
+  and a recessed socket mask, using the existing housing and larger nano base.
+
 All files are in [`output/`](output/). STL units are millimeters.
 
 ### Print fit tests first

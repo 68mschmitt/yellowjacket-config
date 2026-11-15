@@ -1,0 +1,140 @@
+{
+  "parameters": {
+    "fit_clearance": 0.15,
+    "keeper_outer_x": 12.55,
+    "keeper_side_inner_x": 11.15,
+    "keeper_top_thickness": 1.4,
+    "front_latch_bottom_z": 5.6,
+    "front_latch_thickness": 1.0,
+    "rear_hook_inner_x": 6.0,
+    "rear_hook_width": 0.8,
+    "rear_hook_end_y": 67.25,
+    "socket_width": 9.0,
+    "socket_height": 3.2,
+    "socket_length": 6.0,
+    "socket_center_above_pcb_underside": 0.8,
+    "socket_face_offset_from_pcb_rear": 0.0,
+    "bezel_port_width": 9.4,
+    "bezel_port_height": 3.8,
+    "bezel_mask_thickness": 0.4,
+    "bezel_outer_clearance": 0.25,
+    "bezel_mouth_width": 11.6,
+    "bezel_mouth_height": 8.0,
+    "cable_body_width": 10.5,
+    "cable_body_height": 6.5,
+    "cable_body_corner_radius": 1.5,
+    "cable_metal_width": 8.4,
+    "cable_metal_height": 2.6,
+    "cable_metal_projection": 6.5,
+    "cable_insertion_depth": 5.5
+  },
+  "source_assembly_sha256": "4f1d657b040fbb9be10a60ede54d0d0be23e302ce1f62385d56844d32a3a9e0b",
+  "assumptions": [
+    "18.3 x 34.1 x 1.6 mm MCU PCB",
+    "USB socket centered on PCB, dimensions/position not physically measured",
+    "10.5 x 6.5 mm cable body with 6.5 mm metal projection and 5.5 mm engagement",
+    "Bare PCB front-corner contact patches ahead of header pins"
+  ],
+  "intersections_mm3": {
+    "mcu-keeper": {
+      "Housing": 0.0,
+      "Bottom18_3": 0.0,
+      "DisplayRetainer": 0.0,
+      "DisplayPCB": 0.0,
+      "DisplayGlass": 0.0,
+      "DisplayPins": 0.0,
+      "DisplayPlugEnvelope": 0.0,
+      "DisplayHeaderTops": 0.0,
+      "DisplayRibbon": 0.0,
+      "NanoPCB": 0.0,
+      "NanoPlugEnvelopes": 0.0,
+      "DisplayBrace": 0.0,
+      "UsbSocket": 0.0,
+      "McuCentralComponents": 0.0,
+      "CableMetal": 0.0,
+      "CableBody": 0.0
+    },
+    "usb-bezel": {
+      "Housing": 0.0,
+      "Bottom18_3": 0.0,
+      "DisplayRetainer": 0.0,
+      "DisplayPCB": 0.0,
+      "DisplayGlass": 0.0,
+      "DisplayPins": 0.0,
+      "DisplayPlugEnvelope": 0.0,
+      "DisplayHeaderTops": 0.0,
+      "DisplayRibbon": 0.0,
+      "NanoPCB": 0.0,
+      "NanoPlugEnvelopes": 0.0,
+      "DisplayBrace": 0.0,
+      "UsbSocket": 0.0,
+      "McuCentralComponents": 0.0,
+      "CableMetal": 0.0,
+      "CableBody": 0.0
+    },
+    "keeper_bezel": 0.0
+  },
+  "parts": {
+    "mcu-keeper": {
+      "size_mm": [
+        25.100000000000005,
+        37.65,
+        17.55
+      ],
+      "cad_valid": true,
+      "solid_count": 1,
+      "watertight": true,
+      "mesh_components": 1,
+      "self_intersections": false,
+      "facets": 270,
+      "volume_mm3": 444.566162109375
+    },
+    "usb-bezel": {
+      "size_mm": [
+        29.0,
+        12.8,
+        3.800000000000054
+      ],
+      "cad_valid": true,
+      "solid_count": 1,
+      "watertight": true,
+      "mesh_components": 1,
+      "self_intersections": false,
+      "facets": 1266,
+      "volume_mm3": 253.1286163330078
+    }
+  },
+  "positive_stop_probes_mm3": {
+    "pcb_forward_into_keeper": 0.4799999999999981,
+    "pcb_lift_into_keeper": 0.5099999999999966,
+    "keeper_forward_into_rear_stops": 1.7599999999999696,
+    "keeper_backward_into_front_bridge": 0.11999999999998058,
+    "keeper_lift_into_front_and_rear_hooks": 1.3683928571429371,
+    "bezel_inward_into_keeper": 2.4373179054091745,
+    "bezel_outward_into_housing": 24.024836224279056
+  },
+  "rear_first_housing_closure_sample_intersections_mm3": {
+    "1": {
+      "mcu-keeper": 0.0,
+      "usb-bezel": 0.0
+    },
+    "3": {
+      "mcu-keeper": 0.0,
+      "usb-bezel": 0.0
+    },
+    "5": {
+      "mcu-keeper": 0.0,
+      "usb-bezel": 0.0
+    },
+    "8": {
+      "mcu-keeper": 0.0,
+      "usb-bezel": 0.0
+    },
+    "12": {
+      "mcu-keeper": 0.0,
+      "usb-bezel": 0.0
+    }
+  },
+  "original_outputs_unchanged": true,
+  "physical_fit_verified": false
+}
