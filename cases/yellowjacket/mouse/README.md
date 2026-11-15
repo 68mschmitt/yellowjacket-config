@@ -3,7 +3,61 @@
 A one-piece, pressure-fit bottom tray with a raised sensor pocket **outside the
 PCB outline, beside the controller**. The pocket extends from the controller-side
 straight edge of the right half (the left edge when viewed in typing orientation).
-USB and the power-switch opening remain above the low tray rim.
+The USB/power-switch access notch retains its original bottom height.
+
+## Snap-on sensor cap
+
+`output/pmw3610-snap-cap.stl` is the separate, print-oriented cover; matching
+STEP and editable FreeCAD files are included. The main case FreeCAD document
+also contains `SensorCapInstalledReference` for assembly inspection.
+
+- Pegs now extend **9.0 mm above their seats / 7.4 mm above the sensor PCB**.
+  Their split tips have 2.2 mm necks and tapered 2.6 mm heads, snapping through
+  2.4 mm cap holes (0.1 mm nominal radial engagement).
+- Four tubular cap feet seat around the PCB mounting holes. The 1.6 mm roof
+  leaves **5 mm above the PCB** for components; this is a design clearance,
+  not a measured envelope of your populated module.
+- **1.6 mm thick perimeter walls** extend **4 mm down from the roof** and
+  sit flush on the mount's 7.8 mm-high rim, closing the side gaps. The existing
+  lower wire exit remains accessible. Use the underside lens insert to close
+  the bottom surround; the optical aperture remains open.
+- A **2.75 × 18 mm open edge relief** on the keyboard-facing long side clears
+  the header. Install the sensor with its header toward the keyboard PCB.
+  The notch continues through the roof edge, allowing upright pins to project
+  above it. The cap wall below the notch remains intact.
+- Header location comes from SideraKB Rev 1 J1: six pins at 2.54 mm pitch,
+  centred 10.25 mm from the PCB centre on a long side. Source:
+  `pmw3610_pcb.kicad_pcb` at upstream commit
+  `3cfb40c96e02dbb858a15fb085580616548bf1f3`.
+
+Print the cap **in its exported orientation: roof on the bed, walls and feet upwards**.
+PETG is recommended for the split snap pegs. First print the updated sensor
+pocket coupon and cap together to check peg flex, retention and your actual
+header/connector clearance. Press the cap evenly over all four pegs after
+installing the sensor PCB. The snaps are a CAD-checked prototype, not a
+physically verified fit; connector housings wider than the relief need adjustment.
+Cap settings are the `sensor_cap_*`, `sensor_snap_*` and
+`sensor_header_relief_*` parameters. Peg height must equal sensor thickness +
+cap clearance + cap thickness + snap-head height.
+
+## Deeper-grip revision
+
+Based on the printed fit feedback:
+
+- Main keyboard rims rise from **4.4 to 5.4 mm** above the printed bottom,
+  surrounding the full 1.6 mm PCB edge and extending 0.6 mm above it.
+- The straight gripping portion of each keyboard rib increases from 0.35 to
+  **1.4 mm**; the tapered entrance remains.
+- Sensor walls extend **1.0 mm above the sensor PCB**, instead of 0.3 mm.
+- Sensor pegs were extended to 2.2 mm above their seats in the deeper-grip
+  revision; the snap-cap revision above now extends them to **9.0 mm**.
+  Maximum diameter stays 2.6 mm.
+- Sensor ribs now have **1.4 mm** of straight grip rather than 0.5 mm.
+
+PCB support levels and the lens-to-desk height are unchanged. The PCBs sit
+deeper relative to the taller rims, not closer to the desk. The existing
+lens-cover insert still fits. Check the taller rims against your populated
+board and keycap travel using the revised perimeter fit frame.
 
 ## Print files
 
@@ -34,6 +88,22 @@ Generate only the left files with:
 ```sh
 python cases/yellowjacket/mouse/generate_mouse.py --left-only
 ```
+
+### Plain right-hand case (no sensor)
+
+An exact mirror of the left pressure-fit tray, including the taller rim and
+extended gripping ribs:
+
+- `output/yellowjacket-pressure-fit-right.stl`
+- `output/yellowjacket-pressure-fit-right-frame.stl`
+- Matching STEP files and `output/yellowjacket-pressure-fit-right.FCStd`
+- `output/right-validation.json`
+
+```sh
+python cases/yellowjacket/mouse/generate_mouse.py --right-only
+```
+
+Print flat-bottom-down, using the same settings as the left case.
 
 ### Underside lens-cover insert
 
@@ -95,10 +165,13 @@ including near the sensor pocket, with all contact points coplanar.
 | Sensor PCB top above desk | 7.4 mm |
 | Sensor raised relative to keyboard PCB | 2.0 mm |
 | Lens reference plane above desk | 2.4 mm nominal |
-| Sensor pocket rim above printed bottom | 7.1 mm |
+| Main keyboard rim above printed bottom | 5.4 mm |
+| Sensor pocket rim above printed bottom | 7.8 mm |
+| Snap-cap roof above printed bottom | 13.4 mm |
+| Snap-peg tips above printed bottom | 14.2 mm |
 
 Switches, keycaps and your existing controller/socket/battery stack determine
-the final assembled height; this is not a 7.1 mm total-height keyboard.
+the final assembled height; this is not a 7.8 mm total-height keyboard.
 The 2 mm underside cavity assumes trimmed solder tails and no components
 protruding farther than 2 mm below the keyboard PCB.
 

@@ -11,6 +11,9 @@ firmware artifacts, flashing, and tuning.
 For a third nice!nano acting as a BLE-to-USB receiver for both Pinchwing halves,
 see [PINCHWING_DONGLE.md](PINCHWING_DONGLE.md) for firmware and flashing instructions.
 
+A printable 60° round-display dongle enclosure, snap-on base, and fit-test
+pieces are in [cases/pinchwing-dongle/](cases/pinchwing-dongle/README.md).
+
 Printable pressure-fit cases, sensor fit coupons, and the lens-cover insert
 are in [cases/yellowjacket/mouse/](cases/yellowjacket/mouse/README.md).
 

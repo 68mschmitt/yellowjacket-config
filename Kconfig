@@ -1,6 +1,14 @@
 # Copyright (c) 2024 The ZMK Contributors
 # SPDX-License-Identifier: MIT
 
+config PINCHWING_DISPLAY_DIAGNOSTICS
+    bool "Log Pinchwing display startup and delay it for USB log capture"
+    depends on SHIELD_PINCHWING_ROUND && ZMK_USB_LOGGING
+    default n
+    help
+      Wait ten seconds on the display queue before constructing the screen,
+      then log startup stages and completed display frames over USB.
+
 config ZMK_BEHAVIOR_DYNAMIC_MACRO
     bool
     default y

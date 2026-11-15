@@ -3,6 +3,8 @@
     "floor_thickness": 1.2,
     "under_pcb_clearance": 2.0,
     "wall_thickness": 1.6,
+    "wall_above_pcb_underside": 2.2,
+    "pcb_grip_height": 1.4,
     "pcb_clearance": 0.2,
     "pcb_grip_interference": 0.08,
     "skate_thickness": 0.6,
@@ -10,6 +12,9 @@
     "sensor_depth": 31.5,
     "sensor_thickness": 1.6,
     "sensor_peg_diameter": 2.6,
+    "sensor_peg_height": 2.2,
+    "sensor_wall_above_pcb_top": 1.0,
+    "sensor_grip_height": 1.4,
     "sensor_top_to_desk": 7.4,
     "lens_reference_to_desk": 2.4,
     "sensor_board_gap": 2.2,
@@ -21,7 +26,7 @@
   "source_sha256": "fb6dbbd622a1e4bd1a63dddb621b471371de2c08c21ade5d7930ea7789043397",
   "keyboard_pcb_underside_z": 3.2,
   "keyboard_pcb_top_above_desk": 5.4,
-  "intentional_keyboard_grip_interference_mm3": 0.5432639465106183,
+  "intentional_keyboard_grip_interference_mm3": 1.8813274245597238,
   "base_checks": {
     "maximum_source_endpoint_gap_mm": 1.6278820598211444e-05,
     "pcb_intersection_mm3": 0.0,
@@ -57,7 +62,7 @@
       ],
       "upper_pcb_edge_source_y_mm": 56.7705275,
       "bottom_z_mm": 2.2,
-      "removed_material_mm3": 41.35226105004265,
+      "removed_material_mm3": 57.352261050043715,
       "remaining_material_mm3": 0.0
     }
   },
@@ -66,7 +71,7 @@
       "size_mm": [
         118.59626964610658,
         87.8044499242284,
-        4.4
+        5.4
       ],
       "cad_valid": true,
       "solid_count": 1,
@@ -74,13 +79,13 @@
       "mesh_components": 1,
       "self_intersections": false,
       "facets": 11288,
-      "volume_mm3": 11591.578125
+      "volume_mm3": 12217.6123046875
     },
     "yellowjacket-pressure-fit-left-frame": {
       "size_mm": [
         118.59626964610658,
         87.8044499242284,
-        4.4
+        5.4
       ],
       "cad_valid": true,
       "solid_count": 1,
@@ -88,7 +93,7 @@
       "mesh_components": 1,
       "self_intersections": false,
       "facets": 10332,
-      "volume_mm3": 4667.1572265625
+      "volume_mm3": 5293.1171875
     }
   }
 }

@@ -1,0 +1,43 @@
+/* SPDX-License-Identifier: MIT */
+#include <zephyr/dt-bindings/pinctrl/nrf-pinctrl.h>
+
+/* Three adjacent Pro Micro pads: D2=clock, D3=data, D4=CS. */
+&pinctrl {
+    sharp_spi_default: sharp_spi_default {
+        group1 {
+            psels = <NRF_PSEL(SPIM_SCK, 0, 17)>,
+                    <NRF_PSEL(SPIM_MOSI, 0, 20)>;
+        };
+    };
+    sharp_spi_sleep: sharp_spi_sleep {
+        group1 {
+            psels = <NRF_PSEL(SPIM_SCK, 0, 17)>,
+                    <NRF_PSEL(SPIM_MOSI, 0, 20)>;
+            low-power-enable;
+        };
+    };
+};
+
+&pro_micro_spi {
+    status = "okay";
+    pinctrl-0 = <&sharp_spi_default>;
+    pinctrl-1 = <&sharp_spi_sleep>;
+    pinctrl-names = "default", "sleep";
+    cs-gpios = <&pro_micro 4 GPIO_ACTIVE_HIGH>;
+
+    sharp_display: ls0xx@0 {
+        compatible = "sharp,ls0xx";
+        reg = <0>;
+        spi-max-frequency = <1000000>;
+        width = <400>;
+        height = <240>;
+        serial-vcom-inversion;
+        serial-vcom-interval = <500>;
+    };
+};
+
+/ {
+    chosen {
+        zephyr,display = &sharp_display;
+    };
+};

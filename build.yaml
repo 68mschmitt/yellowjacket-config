@@ -58,6 +58,12 @@ include:
   - board: nice_nano@2.0.0//zmk
     shield: pinchwing_dongle_receiver
     artifact-name: pinchwing_dongle_receiver
+  - board: nice_nano@2.0.0//zmk
+    shield: pinchwing_dongle_receiver pinchwing_sharp
+    artifact-name: pinchwing_dongle_display
+  - board: nice_nano@2.0.0//zmk
+    shield: pinchwing_dongle_receiver pinchwing_round
+    artifact-name: pinchwing_dongle_round
 
   # ========== Utilities ==========
   - board: nice_nano@2.0.0//zmk

@@ -1,0 +1,262 @@
+{
+  "parameters": {
+    "display_width": 38.0,
+    "display_height": 45.5,
+    "display_pcb_thickness": 1.6,
+    "display_pin_projection": 11.32,
+    "display_hole_diameter": 2.0,
+    "display_hole_spacing": 19.5,
+    "display_hole_from_header_edge": 5.8,
+    "display_angle": 60.0,
+    "display_center_y": 9.0,
+    "display_center_z": 35.0,
+    "display_seat_depth": 4.6,
+    "display_window_diameter": 33.0,
+    "display_glass_recess_diameter": 36.2,
+    "display_peg_diameter": 1.75,
+    "display_header_center_v": -24.0,
+    "display_ribbon_relief_width": 18.6,
+    "display_ribbon_relief_end_v": -19.3,
+    "roof_front_v": 30.0,
+    "display_plug_rear_depth": 26.0,
+    "body_width": 50.0,
+    "body_depth": 68.0,
+    "body_height": 64.0,
+    "body_shoulder_height": 28.0,
+    "body_front_shoulder_height": 21.0,
+    "display_collar_depth": 12.0,
+    "wall": 2.4,
+    "base_thickness": 2.4,
+    "nano_width": 18.3,
+    "nano_alternate_width": 17.8,
+    "nano_length": 34.1,
+    "nano_pcb_thickness": 1.6,
+    "nano_pcb_underside_z": 18.4,
+    "nano_rear_y": 65.2,
+    "nano_slot_height": 2.2,
+    "nano_side_clearance": 0.15,
+    "nano_grip_interference": 0.05,
+    "nano_connector_and_bend_clearance": 16.0,
+    "usb_opening_width": 14.0,
+    "usb_opening_height": 10.0,
+    "snap_side_clearance": 0.3,
+    "snap_hook_projection": 0.7,
+    "mesh_deflection": 0.08
+  },
+  "hole_local_centers_mm": [
+    [
+      -9.75,
+      -20.7
+    ],
+    [
+      9.75,
+      -20.7
+    ]
+  ],
+  "assumptions": {
+    "display_pcb_thickness": 1.6,
+    "glass_diameter": 35.6,
+    "header_center_from_header_edge": 2.5,
+    "nano_dimensions_source": "https://mechboards.co.uk/products/nice-nano-v2"
+  },
+  "parts": {
+    "housing": {
+      "size_mm": [
+        50.0,
+        62.73242816337273,
+        67.39549882328195
+      ],
+      "cad_valid": true,
+      "solid_count": 1,
+      "watertight": true,
+      "mesh_components": 1,
+      "self_intersections": false,
+      "facets": 3818,
+      "volume_mm3": 31057.7890625
+    },
+    "bottom-nano-18_3": {
+      "size_mm": [
+        50.0,
+        68.0,
+        21.6
+      ],
+      "cad_valid": true,
+      "solid_count": 1,
+      "watertight": true,
+      "mesh_components": 1,
+      "self_intersections": false,
+      "facets": 1408,
+      "volume_mm3": 11319.5126953125
+    },
+    "bottom-nano-17_8": {
+      "size_mm": [
+        50.0,
+        68.0,
+        21.6
+      ],
+      "cad_valid": true,
+      "solid_count": 1,
+      "watertight": true,
+      "mesh_components": 1,
+      "self_intersections": false,
+      "facets": 1408,
+      "volume_mm3": 11316.109375
+    },
+    "display-retainer": {
+      "size_mm": [
+        43.999741189319124,
+        45.24965431703396,
+        2.400000000000002
+      ],
+      "cad_valid": true,
+      "solid_count": 1,
+      "watertight": true,
+      "mesh_components": 1,
+      "self_intersections": false,
+      "facets": 2508,
+      "volume_mm3": 1187.8160400390625
+    },
+    "display-fit-test": {
+      "size_mm": [
+        47.999999999999766,
+        53.999999999999886,
+        9.000000000000039
+      ],
+      "cad_valid": true,
+      "solid_count": 1,
+      "watertight": true,
+      "mesh_components": 1,
+      "self_intersections": false,
+      "facets": 2954,
+      "volume_mm3": 10126.640625
+    },
+    "nano-fit-test-18_3": {
+      "size_mm": [
+        21.900000000000002,
+        35.1,
+        5.200000000000003
+      ],
+      "cad_valid": true,
+      "solid_count": 1,
+      "watertight": true,
+      "mesh_components": 1,
+      "self_intersections": false,
+      "facets": 188,
+      "volume_mm3": 751.9855346679688
+    },
+    "nano-fit-test-17_8": {
+      "size_mm": [
+        21.400000000000002,
+        35.1,
+        5.200000000000003
+      ],
+      "cad_valid": true,
+      "solid_count": 1,
+      "watertight": true,
+      "mesh_components": 1,
+      "self_intersections": false,
+      "facets": 188,
+      "volume_mm3": 748.1056518554688
+    },
+    "snap-test-tongue": {
+      "size_mm": [
+        6.0,
+        16.0,
+        14.4
+      ],
+      "cad_valid": true,
+      "solid_count": 1,
+      "watertight": true,
+      "mesh_components": 1,
+      "self_intersections": false,
+      "facets": 72,
+      "volume_mm3": 332.4129333496094
+    },
+    "snap-test-wall": {
+      "size_mm": [
+        16.0,
+        16.0,
+        2.400000000000002
+      ],
+      "cad_valid": true,
+      "solid_count": 1,
+      "watertight": true,
+      "mesh_components": 1,
+      "self_intersections": false,
+      "facets": 32,
+      "volume_mm3": 545.2800903320312
+    }
+  },
+  "intersections_mm3": {
+    "DisplayPCB": {
+      "housing": 0.0,
+      "bottom": 0.0,
+      "retainer": 0.0
+    },
+    "DisplayGlass": {
+      "housing": 0.0,
+      "bottom": 0.0,
+      "retainer": 0.0
+    },
+    "DisplayPins": {
+      "housing": 0.0,
+      "bottom": 0.0,
+      "retainer": 0.0
+    },
+    "DisplayPlugEnvelope": {
+      "housing": 0.0,
+      "bottom": 0.0,
+      "retainer": 0.0
+    },
+    "DisplayHeaderTops": {
+      "housing": 0.0,
+      "bottom": 0.0,
+      "retainer": 0.0
+    },
+    "DisplayRibbon": {
+      "housing": 0.0,
+      "bottom": 0.0,
+      "retainer": 0.0
+    },
+    "NanoPCB": {
+      "housing": 0.0,
+      "bottom": 0.3199999999999991,
+      "retainer": 0.0
+    },
+    "NanoPlugEnvelopes": {
+      "housing": 0.0,
+      "bottom": 0.0,
+      "retainer": 0.0
+    },
+    "case_parts": {
+      "shell_bottom": 0.0,
+      "shell_retainer_intentional_grip": 0.25338326223052166,
+      "bottom_retainer": 0.0
+    }
+  },
+  "outside_housing_envelope_mm3": {
+    "DisplayPCB": 0.0,
+    "DisplayGlass": 0.0,
+    "DisplayPins": 0.0,
+    "DisplayPlugEnvelope": 0.0,
+    "DisplayHeaderTops": 0.0,
+    "DisplayRibbon": 0.0,
+    "NanoPCB": 0.0,
+    "NanoPlugEnvelopes": 0.0,
+    "DisplayRetainer": 0.0
+  },
+  "assembled_size_mm": [
+    50.00000000000001,
+    68.00000000000033,
+    60.58076211353317
+  ],
+  "display_controller_clearance_mm3": {
+    "DisplayPCB": 0.0,
+    "DisplayGlass": 0.0,
+    "DisplayPins": 0.0,
+    "DisplayPlugEnvelope": 0.0,
+    "DisplayHeaderTops": 0.0,
+    "DisplayRibbon": 0.0
+  },
+  "front_panel_missing_material_mm3": 0.0
+}

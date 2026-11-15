@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Z-buffered preview of the actual CAD solids, using the enclosure renderer style."""
 from pathlib import Path
+import json
 import sys
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
@@ -79,11 +80,14 @@ def panel(objects, left, heading):
 blue=("PrintableCase",(130,174,206))
 panel([blue],20,"Printable case • right hand")
 panel([blue,("KeyboardPCBReference",(65,118,90)),
-       ("SensorPCBReference",(222,181,85)),("LensEnvelopeReference",(177,221,225))],
-      820,"PCB references • sensor raised 2 mm")
-draw.text((35,780),"144.3 × 87.8 mm footprint • 1.2 mm floor • 7.1 mm maximum shell height",
+       ("SensorPCBReference",(222,181,85)),("LensEnvelopeReference",(177,221,225)),
+       ("SensorCapInstalledReference",(196,202,216))],
+      820,"Assembly • snap cap and header relief")
+p = json.loads((HERE/"parameters.json").read_text())
+bounds = doc.getObject("PrintableCase").Shape.BoundBox
+draw.text((35,780),f"{bounds.XLength:.1f} × {bounds.YLength:.1f} mm footprint • {p['floor_thickness']:.1f} mm floor • {bounds.ZLength:.1f} mm maximum shell height",
           fill="#334155",font=small)
-draw.text((35,815),"Blue: case   Green: keyboard PCB   Gold: sensor PCB   |   Print fit tests first",
+draw.text((35,815),"Blue: case   Green: keyboard PCB   Gold: sensor PCB   Grey: snap cap",
           fill="#334155",font=small)
 draw.text((35,850),"Switches/controller omitted. Optical height assumes 0.6 mm mouse skates.",
           fill="#334155",font=small)

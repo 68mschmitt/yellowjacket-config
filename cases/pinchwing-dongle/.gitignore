@@ -1,0 +1,4 @@
+__pycache__/
+output/*.brep
+output/*.FCStd1
+output/*.zip

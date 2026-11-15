@@ -3,6 +3,8 @@
     "floor_thickness": 1.2,
     "under_pcb_clearance": 2.0,
     "wall_thickness": 1.6,
+    "wall_above_pcb_underside": 2.2,
+    "pcb_grip_height": 1.4,
     "pcb_clearance": 0.2,
     "pcb_grip_interference": 0.08,
     "skate_thickness": 0.6,
@@ -10,6 +12,18 @@
     "sensor_depth": 31.5,
     "sensor_thickness": 1.6,
     "sensor_peg_diameter": 2.6,
+    "sensor_peg_height": 9.0,
+    "sensor_cap_clearance": 5.0,
+    "sensor_cap_thickness": 1.6,
+    "sensor_cap_hole_diameter": 2.4,
+    "sensor_snap_neck_diameter": 2.2,
+    "sensor_snap_head_height": 0.8,
+    "sensor_snap_slot_width": 0.6,
+    "sensor_snap_slot_depth": 4.0,
+    "sensor_header_relief_width": 2.75,
+    "sensor_header_relief_length": 18.0,
+    "sensor_wall_above_pcb_top": 1.0,
+    "sensor_grip_height": 1.4,
     "sensor_top_to_desk": 7.4,
     "lens_reference_to_desk": 2.4,
     "sensor_board_gap": 2.2,
@@ -23,7 +37,7 @@
   "keyboard_pcb_top_above_desk": 5.4,
   "sensor_pcb_underside_z": 5.200000000000001,
   "sensor_raise_mm": 2.000000000000001,
-  "intentional_keyboard_grip_interference_mm3": 0.5432639465106183,
+  "intentional_keyboard_grip_interference_mm3": 1.8813274245597238,
   "base_checks": {
     "maximum_source_endpoint_gap_mm": 1.6278820598211444e-05,
     "pcb_intersection_mm3": 0.0,
@@ -59,7 +73,7 @@
       ],
       "upper_pcb_edge_source_y_mm": 56.7705275,
       "bottom_z_mm": 2.2,
-      "removed_material_mm3": 41.35226105004265,
+      "removed_material_mm3": 57.352261050043715,
       "remaining_material_mm3": 0.0
     }
   },
@@ -68,43 +82,73 @@
       "size_mm": [
         144.32626927846226,
         87.8044499242284,
-        7.1000000000000005
+        14.200000000000001
       ],
       "cad_valid": true,
       "solid_count": 1,
       "watertight": true,
       "mesh_components": 1,
       "self_intersections": false,
-      "facets": 14108,
-      "volume_mm3": 13541.2578125
+      "facets": 17124,
+      "volume_mm3": 14383.9169921875
     },
     "yellowjacket-mouse-right-fit-frame": {
       "size_mm": [
         144.32626927846226,
         87.8044499242284,
-        7.1000000000000005
+        14.200000000000001
       ],
       "cad_valid": true,
       "solid_count": 1,
       "watertight": true,
       "mesh_components": 1,
       "self_intersections": false,
-      "facets": 13152,
-      "volume_mm3": 6616.7578125
+      "facets": 16168,
+      "volume_mm3": 7459.68505859375
     },
     "pmw3610-pocket-fit-test": {
       "size_mm": [
         27.19999999999999,
         35.2,
-        7.1000000000000005
+        14.200000000000001
       ],
       "cad_valid": true,
       "solid_count": 1,
       "watertight": true,
       "mesh_components": 1,
       "self_intersections": false,
-      "facets": 2824,
-      "volume_mm3": 2170.116943359375
+      "facets": 5840,
+      "volume_mm3": 2426.504150390625
+    },
+    "pmw3610-snap-cap": {
+      "size_mm": [
+        27.19999999999999,
+        35.2,
+        6.600000000000004
+      ],
+      "cad_valid": true,
+      "solid_count": 1,
+      "watertight": true,
+      "mesh_components": 1,
+      "self_intersections": false,
+      "facets": 4100,
+      "volume_mm3": 2309.046630859375
     }
+  },
+  "sensor_cap": {
+    "pcb_top_clearance_mm": 5.0,
+    "wall_thickness_mm": 1.6,
+    "wall_height_mm": 4.0,
+    "wall_seating_z_mm": 7.800000000000001,
+    "wall_to_mount_gap_mm": 0.0,
+    "peg_extension_above_pcb_mm": 7.4,
+    "snap_radial_engagement_mm": 0.10000000000000009,
+    "case_intersection_mm3": 0.0,
+    "pcb_intersection_mm3": 0.0,
+    "header_relief_side": "keyboard-facing",
+    "header_relief_mm": [
+      2.75,
+      18.0
+    ]
   }
 }

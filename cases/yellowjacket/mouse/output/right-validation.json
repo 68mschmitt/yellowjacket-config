@@ -1,0 +1,99 @@
+{
+  "parameters": {
+    "floor_thickness": 1.2,
+    "under_pcb_clearance": 2.0,
+    "wall_thickness": 1.6,
+    "wall_above_pcb_underside": 2.2,
+    "pcb_grip_height": 1.4,
+    "pcb_clearance": 0.2,
+    "pcb_grip_interference": 0.08,
+    "skate_thickness": 0.6,
+    "sensor_width": 23.5,
+    "sensor_depth": 31.5,
+    "sensor_thickness": 1.6,
+    "sensor_peg_diameter": 2.6,
+    "sensor_peg_height": 2.2,
+    "sensor_wall_above_pcb_top": 1.0,
+    "sensor_grip_height": 1.4,
+    "sensor_top_to_desk": 7.4,
+    "lens_reference_to_desk": 2.4,
+    "sensor_board_gap": 2.2,
+    "sensor_clearance": 0.25,
+    "sensor_grip_interference": 0.08,
+    "sensor_wall": 1.6,
+    "mesh_deflection": 0.04
+  },
+  "source_sha256": "fb6dbbd622a1e4bd1a63dddb621b471371de2c08c21ade5d7930ea7789043397",
+  "keyboard_pcb_underside_z": 3.2,
+  "keyboard_pcb_top_above_desk": 5.4,
+  "intentional_keyboard_grip_interference_mm3": 1.8813274245597238,
+  "base_checks": {
+    "maximum_source_endpoint_gap_mm": 1.6278820598211444e-05,
+    "pcb_intersection_mm3": 0.0,
+    "pad_envelope_intersection_mm3": 0.0,
+    "minimum_pcb_to_wall_mm": 0.20609709553957517,
+    "pcb_size_mm": [
+      114.9594810002072,
+      84.17098901484133
+    ],
+    "tape_support_count": 4,
+    "support_centres_source_xy_mm": [
+      [
+        71.371456,
+        83.4963
+      ],
+      [
+        68.417693,
+        66.744712
+      ],
+      [
+        119,
+        64
+      ],
+      [
+        148.226199,
+        74.810934
+      ]
+    ],
+    "power_switch_relief": {
+      "switch_centre_source_xy_mm": [
+        148.23468,
+        58.947747
+      ],
+      "upper_pcb_edge_source_y_mm": 56.7705275,
+      "bottom_z_mm": 2.2,
+      "removed_material_mm3": 57.352261050043715,
+      "remaining_material_mm3": 0.0
+    }
+  },
+  "parts": {
+    "yellowjacket-pressure-fit-right": {
+      "size_mm": [
+        118.59626964610658,
+        87.8044499242284,
+        5.4
+      ],
+      "cad_valid": true,
+      "solid_count": 1,
+      "watertight": true,
+      "mesh_components": 1,
+      "self_intersections": false,
+      "facets": 11288,
+      "volume_mm3": 12217.5380859375
+    },
+    "yellowjacket-pressure-fit-right-frame": {
+      "size_mm": [
+        118.59626964610658,
+        87.8044499242284,
+        5.4
+      ],
+      "cad_valid": true,
+      "solid_count": 1,
+      "watertight": true,
+      "mesh_components": 1,
+      "self_intersections": false,
+      "facets": 10332,
+      "volume_mm3": 5293.15478515625
+    }
+  }
+}

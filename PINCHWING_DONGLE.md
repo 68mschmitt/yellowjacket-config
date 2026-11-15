@@ -13,6 +13,8 @@ Build artifacts are in `build/firmware/pinchwing-dongle/`:
 | `pinchwing_dongle_left.uf2` | Left keyboard half |
 | `pinchwing_dongle_right.uf2` | Right keyboard half with PMW3610 |
 | `pinchwing_dongle_receiver.uf2` | USB dongle |
+| `pinchwing_dongle_display.uf2` | USB dongle with Adafruit 2.7" SHARP display |
+| `pinchwing_dongle_round.uf2` | USB dongle with 1.28" GC9A01 round TFT |
 | `settings_reset.uf2` | Temporary reset firmware for **each of the three boards** |
 
 These target `nice_nano@2.0.0//zmk`, matching the existing halves. A clone
@@ -59,7 +61,7 @@ receiver with these images, including when their own USB cable is connected.
 
 ## Rebuild
 
-The three dongle targets and existing reset target are in `build.yaml` for CI.
+The dongle targets, optional SHARP/GC9A01 display images, and reset target are in `build.yaml` for CI.
 For a local build, initialize a west workspace using `config/west.yml`, install
 its dependencies, and use:
 
@@ -71,7 +73,7 @@ export ZEPHYR_SDK_INSTALL_DIR="$HOME/zephyr-sdk-0.17.0"
 bash scripts/build-pinchwing-dongle.sh
 ```
 
-The script builds all four UF2 files and saves logs, resolved Kconfig and
+The script builds all six UF2 files and saves logs, resolved Kconfig and
 devicetree files, checked-out dependency revisions, and SHA-256 checksums.
 Override `PINCHWING_BUILD_DIR` and `PINCHWING_OUTPUT_DIR` with absolute paths
 if desired.
@@ -84,3 +86,172 @@ checks above remain useful when changing firmware or wiring.
 
 Reference: [ZMK dongles](https://zmk.dev/docs/hardware-integration/dongle)
 and [split pointing devices](https://zmk.dev/docs/hardware-integration/pointing).
+
+## Adafruit 2.7" 400x240 SHARP display
+
+Flash `build/firmware/pinchwing-dongle/pinchwing_dongle_display.uf2` onto the
+**dongle only**, instead of `pinchwing_dongle_receiver.uf2`. The existing half
+firmware already advertises battery levels and needs no update.
+**Do not flash settings reset for this upgrade:** existing split bonds are kept.
+
+With the dongle unplugged, connect the Adafruit breakout as follows:
+
+| Adafruit display pin | nice!nano / Pro Micro pad | nRF52840 GPIO |
+| --- | --- | --- |
+| `VIN` | `VCC` (3.3 V) | Power, not GPIO |
+| `GND` | `GND` | Ground |
+| `CLK` | `D2` / `2` | `P0.17` |
+| `DI` / `MOSI` | `D3` / `3` | `P0.20` |
+| `CS` | `D4` / `4` | `P0.22` |
+
+Use **VCC**, not the battery/B+ pad. These are Pro Micro **pad names**, not
+physical pin counts from the USB connector. Clones sometimes print the nRF
+GPIO numbers instead; use the third column in that case. There is no MISO
+connection. Any optional display control pins remain unconnected with the
+Adafruit breakout's normal serial-control configuration.
+
+The breakout accepts 3.3 V power and logic; its onboard boost converter supplies
+the panel. This wiring is for the **Adafruit breakout**, not a bare LCD ribbon.
+Use short wires, then reconnect the dongle to USB.
+
+The black-on-white landscape dashboard shows:
+
+- Active layer name and number.
+- Words per minute.
+- USB readiness or Bluetooth host-profile connection.
+- Number of connected half links (`0/2`, `1/2`, or `2/2`).
+- Battery percentage for both peripheral slots.
+
+BLE pairing order does not determine left/right. Initially the battery rows
+are labeled **Half 1** and **Half 2**; pressing a key on each half identifies
+them as **Left** and **Right** until the dongle reboots. Rows stay in BLE slot
+order. `--` means no usable battery reading (including disconnected/zero-level
+slots); battery percentages are estimates and are not charging indicators.
+The link count is the number of established BLE connections, not a guarantee
+that service discovery has finished.
+
+The screen checks status every 250 ms and redraws changed labels only on a
+dedicated display work queue. The Sharp driver maintains VCOM inversion every
+500 ms even while the screen is static. Idle blanking is disabled.
+
+Implementation:
+
+- `boards/shields/pinchwing_sharp/`: SPI pins, 400x240 panel, LVGL configuration.
+- `src/display/pinchwing_status.c`: custom dashboard.
+- CI shield combination: `pinchwing_dongle_receiver pinchwing_sharp`.
+
+Local build (from the west workspace, with the same environment as above):
+
+```sh
+west build -p -b nice_nano@2.0.0//zmk -d build/pinchwing-display "$ZMK_APP" -- \
+  -DSHIELD="pinchwing_dongle_receiver pinchwing_sharp" \
+  -DZMK_CONFIG=/absolute/path/to/yellowjacket-config/config \
+  -DZMK_EXTRA_MODULES=/absolute/path/to/yellowjacket-config
+```
+
+The display image has been compiled and its pin mapping checked, but physical
+display operation still needs verification. After flashing, check all four
+dashboard sections, both batteries after typing on each side, and normal
+typing/mouse movement while the screen updates. The display has no backlight.
+
+## 1.28" GC9A01 round TFT (240x240)
+
+For the photographed blue board labeled `1.28"TFT VER1.0 / 240*240 /
+IC:GC9A01`, use:
+
+`build/firmware/pinchwing-dongle/pinchwing_dongle_round.uf2`
+
+Flash **only the dongle**, without settings reset. Both halves keep their
+existing firmware and bonds. Disconnect the SHARP display before replacing it.
+
+With USB unplugged, wire these seven connections:
+
+| GC9A01 module label | nice!nano / Pro Micro pad | nRF52840 GPIO |
+| --- | --- | --- |
+| `RST` | `D6` / `6` | `P1.00` |
+| `CS` | `D4` / `4` | `P0.22` |
+| `DC` | `D5` / `5` | `P0.24` |
+| `SDA` | `D3` / `3` | `P0.20` |
+| `SCL` | `D2` / `2` | `P0.17` |
+| `GND` | `GND` | Ground |
+| `VCC` | `VCC` (3.3 V) | Power, not GPIO |
+
+The table follows the header order visible in the photo. **SDA/SCL mean SPI
+MOSI/clock here, not I2C.** The display's RST connects to **D6**, not to the
+dongle's own RST pad. No MISO wire is required. Use the 3.3 V supply; the photo
+does not establish 5 V tolerance. This module has no exposed BL/BLK control pin,
+so this configuration does not provide backlight dimming.
+
+The round display shows the artist-drawn white Bongo Cat from
+[BongoCat-mac](https://github.com/Gamma-Software/BongoCat-mac), with pink paw
+pads, over a spaceship starfield. Left/right keypresses animate the corresponding
+screen-side paw, including a both-paws pose. After 15 seconds without keypresses
+the cat gently bobs with a catnap caption. WPM, layer, USB/BLE host status,
+connected-half count, and both batteries remain visible.
+
+Battery values are **percentages only**, with physical left always on the left
+and physical right always on the right, regardless of BLE slot order. Press a
+key on each half after boot to identify it. Until identified, or when its battery
+reading is unavailable, that side shows `--`.
+
+At 80 WPM the starfield accelerates into warp over approximately 1.7 seconds:
+stars brighten and stretch, the cat shakes, and the caption announces hyperspace.
+Below 65 WPM it decelerates back to calm over approximately 2.5 seconds.
+The separate thresholds prevent mode flicker. These use ZMK's reported WPM,
+so changes follow its measurement window rather than instantaneous typing.
+Tune `WARP_ENTER_WPM` and `WARP_EXIT_WPM` in `src/display/pinchwing_pet.c`.
+Animation runs at a target 10 frames per second on the dedicated display queue;
+actual smoothness needs hardware verification.
+
+Artwork source, revision, and license are in `src/display/assets/bongo_cat/`.
+`scripts/convert-bongo-cat.py` reproducibly downsamples the original sprites onto
+a 192x96 canvas and stores the body and independent paws as indexed-color layers.
+The body is tiled to bound decode allocations. Artwork occupies about 38 KB of
+flash instead of four duplicated RGB565A8 poses occupying 221 KB. The generated
+`src/display/bongo_cat.c` is checked in; firmware builds do not require Pillow.
+The compact local Bongo Cat firmware is saved as
+`build/firmware/pinchwing-dongle/pinchwing_dongle_round_cat_compact.uf2`.
+
+### Diagnosing a blank screen with no USB input
+
+If a display update stops both the screen and keyboard, double-tap the dongle's
+reset button and restore a previously working receiver UF2. Do **not** use
+settings reset; recovering the firmware does not require clearing split bonds.
+
+The original full-pose Bongo Cat UF2 stayed in the bootloader after copying.
+Its firmware extended to `0xC2F00`, beyond the `0xAD000` application boundary
+in older Adafruit nRF52 bootloaders (for example v0.6.0). The exact installed
+bootloader version has not been read, but a smaller older image restored the
+device. A failed transfer must not be mistaken for a rendering crash.
+
+The compact version ends at `0x96500` (460,032 payload bytes / 920,064 UF2 bytes).
+`scripts/check-pinchwing-uf2.py` validates block integrity, family, and address
+continuity and enforces a conservative budget below 512 KiB of payload. The local
+build script runs it before publishing round-display firmware. Desktop rendering
+and Cortex-M4/QEMU tests pass with the 48 KB LVGL heap and 4 KB display stack;
+physical flashing and display operation still need confirmation.
+
+`config/pinchwing_round_diagnostics.conf`, appended with `EXTRA_CONF_FILE` and
+the `zmk-usb-logging` snippet, enables display startup checkpoints and stack
+sentinel checks. It delays screen creation by ten seconds on the display queue
+so the receiver can enumerate over USB before rendering starts. The diagnostic
+artifact is `pinchwing_dongle_round_cat_diagnostics.uf2` in the firmware directory.
+This is an investigation build, not a confirmed fix. It logs through the USB
+serial port (typically `/dev/ttyACM0`); open the port before display startup.
+
+The configuration uses the existing Zephyr GC9x01 driver with its default
+initialization sequence, display inversion, 8 MHz SPI, and RGB565 with
+high-byte-first pixel transfers. A 10% render buffer takes approximately
+11.5 KB, with a 48 KB LVGL object/decode pool. Status updates run on the dedicated
+display queue every 250 ms.
+
+Source: `boards/shields/pinchwing_round/` and
+`src/display/pinchwing_status.c`. The CI shield combination is
+`pinchwing_dongle_receiver pinchwing_round`. For a local build, use the
+SHARP command above with that shield combination and a separate build directory.
+
+Compilation and resolved wiring are verified; the module still needs a
+physical test. Confirm the screen lights, text orientation, colors, both
+battery readings, typing, and mouse movement. If the panel is lit but blank,
+first check DC/RST and the SPI connections. Report any rotation or color issue
+so the panel configuration can be adjusted to this module.
