@@ -20,9 +20,14 @@ def main():
     angle = p["display_angle"]
     center = V(0, p["display_center_y"], p["display_center_z"])
     seat = p["display_seat_depth"]
+    lip = p["display_front_lip"]
+    glass_front = seat - p["display_glass_height"]
     board_bottom = p["display_width"] / 2 - p["display_height"]
     hole_v = board_bottom + p["display_hole_from_header_edge"]
     hole_x = p["display_hole_spacing"] / 2
+    tail_width = p["display_tail_pocket_width"]
+    tail_start = board_bottom - p["display_tail_end_clearance"]
+    tail_front = p["display_tail_pocket_front_depth"]
     pcbz, rear = p["nano_pcb_underside_z"], p["nano_rear_y"]
     front = rear - p["nano_length"]
 
@@ -124,11 +129,22 @@ def main():
     outside = outside.common(placed(depth_box(-100,-100,0,200,200,200)))
     outside = outside.common(placed(depth_box(-100,-100,0,200,
                                              100+p["roof_front_v"],200)))
-    # Small external chamfers soften the front perimeter without changing
-    # the tested circular opening or introducing a bed-facing round-over.
     normal = V(0,math.sin(math.radians(angle)),-math.cos(math.radians(angle)))
+    up = V(0,math.cos(math.radians(angle)),math.sin(math.radians(angle)))
+    # A real tangent radius blends the front into the sloping roof.
+    top_front_edges = [e for e in outside.Edges if all(
+        abs((v.Point-center).dot(normal)) < 1e-6 and
+        abs((v.Point-center).dot(up)-p["roof_front_v"]) < 1e-6
+        for v in e.Vertexes)]
+    assert len(top_front_edges) == 1
+    outside = outside.makeFillet(p["roof_front_radius"],top_front_edges)
+    # Retain small chamfers on the remaining front perimeter; the tangent
+    # edge of the roof blend must not be chamfered.
     front_edges = [e for e in outside.Edges if all(
-        abs((v.Point-center).dot(normal)) < 1e-6 for v in e.Vertexes)]
+        abs((v.Point-center).dot(normal)) < 1e-6 for v in e.Vertexes)
+        and not all(abs((v.Point-center).dot(up) -
+                        (p["roof_front_v"]-p["roof_front_radius"])) < 1e-6
+                    for v in e.Vertexes)]
     outside = outside.makeChamfer(0.8,front_edges)
     inside = P.Face(rounded(p["body_width"]-2*wall,p["body_depth"]-2*wall,
                             8-wall,y=wall,z=floor-0.1)).extrude(
@@ -139,29 +155,34 @@ def main():
     shell = outside.cut(inside)
     cuts = [
         cyl(p["display_window_diameter"]/2,-1,seat+3),
-        cyl(p["display_glass_recess_diameter"]/2,1.2,seat-1.2+0.01),
+        # Full PCB clearance behind the thin front lip, rather than a
+        # glass-sized step that can stop the module before it seats.
+        cyl(p["display_pcb_pocket_diameter"]/2,lip,seat-lip+0.01),
         cyl(22.25,seat,4.8),
-        depth_box(-13,board_bottom-0.6,seat,26,11.5,4.8),
+        # The square PCB extension needs the same uninterrupted seating path
+        # as the circle. Previously its recess only started at the PCB seat,
+        # leaving a broad ledge around the mounting ears and header.
+        depth_box(-tail_width/2,tail_start,tail_front,tail_width,
+                  -13-tail_start,seat+4.8-tail_front),
         depth_box(-9.5,p["display_header_center_v"]-1.9,seat+1.6,
                   19.0,3.8,p["display_plug_rear_depth"]-seat-1.6+0.5)]
     # Reference bezel has an 18 mm-wide central relief. Add 0.3 mm per
     # side and extend it to 19.3 mm from center, beneath the front lip.
     ribbon = depth_box(-p["display_ribbon_relief_width"]/2,
-                       p["display_ribbon_relief_end_v"],1.2,
+                       p["display_ribbon_relief_end_v"],lip,
                        p["display_ribbon_relief_width"],
-                       -14-p["display_ribbon_relief_end_v"],seat-1.2)
+                       -14-p["display_ribbon_relief_end_v"],seat-lip)
     header_top = depth_box(-9.5,p["display_header_center_v"]-1.9,
-                           1.2,19,3.8,seat-1.2)
+                           lip,19,3.8,seat-lip)
     cuts += [ribbon,header_top]
     shell = shell.cut(board_placed(fuse(cuts)))
-    # Hole seats are outside the circular glass recess.
-    pegs = [cyl(p["display_peg_diameter"]/2,seat-0.05,3.1,x,hole_v)
+    # Straight locating shafts run all the way to the pocket floor.
+    # Only the insertion tips taper inward; there is no widened base.
+    pegs = [cyl(p["display_peg_diameter"]/2,0,seat+3.05,x,hole_v)
             .fuse(P.makeCone(p["display_peg_diameter"]/2,0.6,0.7,
                             V(x,hole_v,-seat-3.05),V(0,0,-1)))
             for x in (-hole_x,hole_x)]
-    # Re-add the small seat pads removed by the header well.
-    seats = [cyl(2.4,0,seat,x,hole_v) for x in (-hole_x,hole_x)]
-    shell = fuse([shell,board_placed(fuse(seats+pegs))])
+    shell = fuse([shell,board_placed(fuse(pegs))])
     shell = shell.cut(board_placed(fuse([ribbon,header_top])))
     # USB opening accepts a molded plug, not merely the metal connector.
     usb = P.Face(rounded(p["usb_opening_width"],p["usb_opening_height"],2))
@@ -171,9 +192,10 @@ def main():
     shell = shell.cut(usb)
 
     # Four releasable side snap windows.
-    for sign in (-1,1):
-        for y in (19,55):
-            shell = shell.cut(box(22.3 if sign>0 else -26,y-4.5,12.1,3.7,9,3.2))
+    release_windows = [box(22.3 if sign>0 else -26,y-4.5,12.1,3.7,9,3.2)
+                       for sign in (-1,1) for y in (19,55)]
+    for window in release_windows:
+        shell = shell.cut(window)
     # Keep the entire enclosure behind the display plane. This also makes the
     # front bezel a flat print-bed contact surface when the case is face-down.
     shell = shell.common(placed(depth_box(-100,-100,0,200,200,200))).removeSplitter()
@@ -255,7 +277,7 @@ def main():
         depth_box(-12.5,board_bottom,seat,25,12.5,p["display_pcb_thickness"]))
     for x in (-hole_x,hole_x):
         display = display.cut(cyl(p["display_hole_diameter"]/2,seat-0.1,2,x,hole_v))
-    glass = cyl(17.8,1.5,seat-1.5)
+    glass = cyl(17.8,glass_front,p["display_glass_height"])
     header = depth_box(-8.9,p["display_header_center_v"]-1.4,seat+1.6,
                        17.8,2.8,p["display_pin_projection"])
     display_plugs = depth_box(-9.1,p["display_header_center_v"]-1.6,
@@ -268,9 +290,15 @@ def main():
     hardware = {"DisplayPCB":board_placed(display), "DisplayGlass":board_placed(glass),
                 "DisplayPins":board_placed(header), "DisplayPlugEnvelope":board_placed(display_plugs),
                 "DisplayHeaderTops":board_placed(depth_box(-8.9,p["display_header_center_v"]-1.4,
-                                                          1.5,17.8,2.8,seat-1.5)),
-                "DisplayRibbon":board_placed(depth_box(-9,-19,1.5,18,5,seat-1.5)),
+                                                          glass_front,17.8,2.8,p["display_glass_height"])),
+                "DisplayRibbon":board_placed(depth_box(-9,-19,glass_front,18,5,p["display_glass_height"])),
                 "NanoPCB":nano, "NanoPlugEnvelopes":nano_plugs}
+    # Additional front-side clearance around the square PCB area, including
+    # space beside the pegs for solder/unevenness that the bare-PCB model misses.
+    # The 1.2 mm envelope is a fit allowance, not a measured component height.
+    tail_clearance = depth_box(-12.5,board_bottom,seat-1.2,25,12.5,1.2)
+    for x in (-hole_x,hole_x):
+        tail_clearance = tail_clearance.cut(cyl(p["display_hole_diameter"]/2,seat-1.3,1.5,x,hole_v))
 
     # Print-oriented exports. Retainer lies face-down, peg ends are not printed.
     ret_print = retainer.copy()
@@ -336,17 +364,47 @@ def main():
     report["outside_housing_envelope_mm3"]["DisplayRetainer"] = retainer_world.cut(outside).Volume
     report["assembled_size_mm"] = [outside.BoundBox.XLength,
                                    outside.BoundBox.YLength,outside.BoundBox.ZMax]
+    report["display_seating"] = {
+        "pocket_diameter_mm":p["display_pcb_pocket_diameter"],
+        "pcb_diameter_mm":p["display_width"],
+        "radial_clearance_mm":(p["display_pcb_pocket_diameter"]-p["display_width"])/2,
+        "front_lip_mm":lip,
+        "glass_face_recess_mm":glass_front,
+        "pcb_front_depth_mm":seat,
+        "pocket_obstruction_mm3":shell.common(board_placed(
+            cyl(p["display_pcb_pocket_diameter"]/2,lip+0.01,seat-lip-0.02))).Volume}
+    assert report["display_seating"]["pocket_obstruction_mm3"] < 0.02
+    report["square_extension_clearance"] = {
+        "pocket_width_mm":tail_width,
+        "pocket_front_depth_mm":tail_front,
+        "peg_shaft_diameter_mm":p["display_peg_diameter"],
+        "front_side_allowance_mm":1.2,
+        "front_side_obstruction_mm3":shell.common(board_placed(tail_clearance)).Volume}
+    assert report["square_extension_clearance"]["front_side_obstruction_mm3"] < 0.02
+    peg_base_clearance = fuse([
+        cyl(1.8,tail_front+0.01,seat-tail_front-0.02,x,hole_v).cut(
+            cyl(p["display_peg_diameter"]/2,tail_front,seat-tail_front,x,hole_v))
+        for x in (-hole_x,hole_x)])
+    report["square_extension_clearance"]["peg_base_flare_mm3"] = shell.common(
+        board_placed(peg_base_clearance)).Volume
+    assert report["square_extension_clearance"]["peg_base_flare_mm3"] < 0.02
     report["display_controller_clearance_mm3"] = {
         name: hw.common(fuse([nano,nano_plugs])).Volume
         for name, hw in hardware.items() if name.startswith("Display")}
     assert max(report["display_controller_clearance_mm3"].values()) < 0.02
-    front_skin = outside.common(placed(depth_box(-100,-100,0.2,200,200,0.8)))
-    front_skin = front_skin.cut(placed(cyl(p["display_window_diameter"]/2,0,1.2)))
+    front_skin = outside.common(placed(depth_box(-100,-100,0.05,200,200,lip-0.1)))
+    front_skin = front_skin.cut(placed(cyl(p["display_window_diameter"]/2,0,lip)))
     report["front_panel_missing_material_mm3"] = front_skin.cut(shell).Volume
     assert report["front_panel_missing_material_mm3"] < 0.02
+    exterior = P.makeCompound([face for face in outside.Faces if not all(
+        abs(v.Point.z-floor) < 1e-6 for v in face.Vertexes)])
+    openings = fuse([board_placed(cyl(p["display_window_diameter"]/2,-1,seat+3)),
+                     usb]+release_windows)
+    report["unintended_exterior_opening_mm2"] = exterior.cut(shell).cut(openings).Area
+    assert report["unintended_exterior_opening_mm2"] < 0.05, report["unintended_exterior_opening_mm2"]
     (out/"validation.json").write_text(json.dumps(report,indent=2)+"\n")
     # These must have no solid interference, independent of assumed PCB details.
-    for name in ("DisplayGlass","DisplayPlugEnvelope","DisplayHeaderTops","DisplayRibbon","NanoPlugEnvelopes"):
+    for name in ("DisplayPCB","DisplayGlass","DisplayPlugEnvelope","DisplayHeaderTops","DisplayRibbon","NanoPlugEnvelopes"):
         assert max(report["intersections_mm3"][name].values()) < 0.02, (name,report["intersections_mm3"][name])
     assert report["intersections_mm3"]["case_parts"]["shell_bottom"] < 0.02
     assert report["intersections_mm3"]["case_parts"]["bottom_retainer"] < 0.02
@@ -359,6 +417,9 @@ def main():
         obj.Shape = shape
     doc.saveAs(str(out/"pinchwing-dongle.FCStd"))
     P.makeCompound([shell,base,retainer_world]).exportStep(str(out/"assembly.step"))
+    # OCC adds trailing spaces to STEP entity continuations.
+    for path in out.glob("*.step"):
+        path.write_text("\n".join(line.rstrip() for line in path.read_text().splitlines())+"\n")
     # BREP geometry in assembly coordinates for the renderer.
     for name, shape in {"housing":shell,"bottom":base,"retainer":retainer_world,**hardware}.items():
         shape.exportBrep(str(out/(name+".brep")))

@@ -8,16 +8,22 @@
     "display_hole_spacing": 19.5,
     "display_hole_from_header_edge": 5.8,
     "display_angle": 60.0,
-    "display_center_y": 9.0,
+    "display_center_y": 10.0,
     "display_center_z": 35.0,
-    "display_seat_depth": 4.6,
+    "display_seat_depth": 3.7,
+    "display_front_lip": 0.4,
+    "display_glass_height": 3.1,
     "display_window_diameter": 33.0,
-    "display_glass_recess_diameter": 36.2,
+    "display_pcb_pocket_diameter": 38.6,
+    "display_tail_pocket_width": 28.0,
+    "display_tail_pocket_front_depth": 1.0,
+    "display_tail_end_clearance": 0.6,
     "display_peg_diameter": 1.75,
     "display_header_center_v": -24.0,
     "display_ribbon_relief_width": 18.6,
     "display_ribbon_relief_end_v": -19.3,
     "roof_front_v": 30.0,
+    "roof_front_radius": 5.0,
     "display_plug_rear_depth": 26.0,
     "body_width": 50.0,
     "body_depth": 68.0,
@@ -62,17 +68,17 @@
   "parts": {
     "housing": {
       "size_mm": [
-        50.0,
-        62.73242816337273,
-        67.39549882328195
+        50.000000000000014,
+        63.23242816337276,
+        66.52947341949749
       ],
       "cad_valid": true,
       "solid_count": 1,
       "watertight": true,
       "mesh_components": 1,
       "self_intersections": false,
-      "facets": 3818,
-      "volume_mm3": 31057.7890625
+      "facets": 4150,
+      "volume_mm3": 28781.564453125
     },
     "bottom-nano-18_3": {
       "size_mm": [
@@ -106,7 +112,7 @@
       "size_mm": [
         43.999741189319124,
         45.24965431703396,
-        2.400000000000002
+        2.4000000000000004
       ],
       "cad_valid": true,
       "solid_count": 1,
@@ -120,15 +126,15 @@
       "size_mm": [
         47.999999999999766,
         53.999999999999886,
-        9.000000000000039
+        9.000000000000052
       ],
       "cad_valid": true,
       "solid_count": 1,
       "watertight": true,
       "mesh_components": 1,
       "self_intersections": false,
-      "facets": 2954,
-      "volume_mm3": 10126.640625
+      "facets": 3122,
+      "volume_mm3": 8183.35546875
     },
     "nano-fit-test-18_3": {
       "size_mm": [
@@ -230,7 +236,7 @@
     },
     "case_parts": {
       "shell_bottom": 0.0,
-      "shell_retainer_intentional_grip": 0.25338326223052166,
+      "shell_retainer_intentional_grip": 0.253383262230653,
       "bottom_retainer": 0.0
     }
   },
@@ -246,10 +252,27 @@
     "DisplayRetainer": 0.0
   },
   "assembled_size_mm": [
-    50.00000000000001,
-    68.00000000000033,
-    60.58076211353317
+    50.000000000001705,
+    68.00000000000053,
+    59.15063509461097
   ],
+  "display_seating": {
+    "pocket_diameter_mm": 38.6,
+    "pcb_diameter_mm": 38.0,
+    "radial_clearance_mm": 0.3000000000000007,
+    "front_lip_mm": 0.4,
+    "glass_face_recess_mm": 0.6000000000000001,
+    "pcb_front_depth_mm": 3.7,
+    "pocket_obstruction_mm3": 0.0
+  },
+  "square_extension_clearance": {
+    "pocket_width_mm": 28.0,
+    "pocket_front_depth_mm": 1.0,
+    "peg_shaft_diameter_mm": 1.75,
+    "front_side_allowance_mm": 1.2,
+    "front_side_obstruction_mm3": 0.0,
+    "peg_base_flare_mm3": 0.0
+  },
   "display_controller_clearance_mm3": {
     "DisplayPCB": 0.0,
     "DisplayGlass": 0.0,
@@ -258,5 +281,6 @@
     "DisplayHeaderTops": 0.0,
     "DisplayRibbon": 0.0
   },
-  "front_panel_missing_material_mm3": 0.0
+  "front_panel_missing_material_mm3": 0.0,
+  "unintended_exterior_opening_mm2": 0.0
 }

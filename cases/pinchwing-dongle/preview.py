@@ -6,7 +6,6 @@ import numpy as np
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0,str(HERE.parent/"yellowjacket"))
@@ -32,7 +31,7 @@ def draw(ax,s,color,alpha=1,offset=(0,0,0)):
     shade=0.62+0.38*np.abs(normals@light)
     import matplotlib.colors as colors
     rgb=np.array(colors.to_rgb(color))
-    # One collection per view gives consistent depth sorting across components.
+    # Keep actual CAD triangles for per-pixel depth testing below.
     rgba=np.column_stack((np.clip(shade[:,None]*rgb,0,1),np.full(len(tris),alpha)))
     if not hasattr(ax,"cad_triangles"):
         ax.cad_triangles=[]; ax.cad_colors=[]
@@ -40,20 +39,55 @@ def draw(ax,s,color,alpha=1,offset=(0,0,0)):
 
 def setup(ax,title,elev,azim,exploded=False):
     ax.set_title(title,color="#182b3a",fontsize=12,pad=8)
-    ax.set_xlim(-28,28); ax.set_ylim(-12,75); ax.set_zlim(-25 if exploded else 0,82)
-    ax.set_box_aspect((56,87,107 if exploded else 82),zoom=1.25)
-    ax.set_proj_type("ortho")
-    ax.view_init(elev=elev,azim=azim)
+    ax.cad_view=(elev,azim)
     ax.set_axis_off()
 
+def render(ax):
+    # Matplotlib's 3D painter sorting shows interior triangles through large
+    # front panels. An orthographic z-buffer resolves each pixel correctly.
+    tris=np.concatenate(ax.cad_triangles)
+    colors=np.concatenate(ax.cad_colors)
+    elev,azim=np.radians(ax.cad_view)
+    right=np.array([-np.sin(azim),np.cos(azim),0])
+    up=np.array([-np.sin(elev)*np.cos(azim),-np.sin(elev)*np.sin(azim),np.cos(elev)])
+    toward=np.array([np.cos(elev)*np.cos(azim),np.cos(elev)*np.sin(azim),np.sin(elev)])
+    view=tris@np.stack((right,up,toward),axis=1)
+    size=900
+    lo=view[:,:,:2].min(axis=(0,1)); hi=view[:,:,:2].max(axis=(0,1))
+    scale=(size-70)/max(hi-lo)
+    view[:,:,:2]=(view[:,:,:2]-(lo+hi)/2)*scale+size/2
+    bg=np.array([244,246,248])/255
+    image=np.broadcast_to(bg,(size,size,3)).copy()
+    depth=np.full((size,size),-np.inf)
+    for tri,color in zip(view,colors):
+        x0,y0=np.maximum(np.floor(tri[:,:2].min(axis=0)).astype(int),0)
+        x1,y1=np.minimum(np.ceil(tri[:,:2].max(axis=0)).astype(int),size-1)
+        if x1<x0 or y1<y0:
+            continue
+        a,b,c=tri
+        denom=(b[1]-c[1])*(a[0]-c[0])+(c[0]-b[0])*(a[1]-c[1])
+        if abs(denom)<1e-10:
+            continue
+        xx,yy=np.meshgrid(np.arange(x0,x1+1)+0.5,np.arange(y0,y1+1)+0.5)
+        w0=((b[1]-c[1])*(xx-c[0])+(c[0]-b[0])*(yy-c[1]))/denom
+        w1=((c[1]-a[1])*(xx-c[0])+(a[0]-c[0])*(yy-c[1]))/denom
+        w2=1-w0-w1
+        z=w0*a[2]+w1*b[2]+w2*c[2]
+        current=depth[y0:y1+1,x0:x1+1]
+        visible=(w0>=-1e-8)&(w1>=-1e-8)&(w2>=-1e-8)&(z>current)
+        current[visible]=z[visible]
+        # Clearance volumes are tinted; geometry remains depth-correct.
+        image[y0:y1+1,x0:x1+1][visible]=color[:3]*color[3]+bg*(1-color[3])
+    ax.imshow(image,origin="lower",interpolation="antialiased")
+
 fig=plt.figure(figsize=(15,11),facecolor="#f4f6f8")
-axes=[fig.add_subplot(2,2,i+1,projection="3d",facecolor="#f4f6f8") for i in range(4)]
+axes=[fig.add_subplot(2,2,i+1,facecolor="#f4f6f8") for i in range(4)]
 shell,base,ret=[read(n) for n in ("housing","bottom","retainer")]
 glass,nano,pcb=[read(n) for n in ("DisplayGlass","NanoPCB","DisplayPCB")]
 for i in (0,1):
     draw(axes[i],shell,"#426b80");draw(axes[i],base,"#273c4c")
     draw(axes[i],glass,"#101921")
-setup(axes[0],"60° flat front • circular display opening",24,-115)
+setup(axes[0],"5 mm roof blend • recessed PCB pocket",24,-115)
 setup(axes[1],"Rear USB-C cable opening • side release windows",22,60)
 cut=P.makeBox(60,120,100,A.Vector(-60,-20,0))
 draw(axes[2],shell.cut(cut),"#426b80")
@@ -72,9 +106,7 @@ draw(axes[3],base,"#273c4c",offset=(0,0,-22))
 draw(axes[3],ret,"#d4a550",offset=(0,-25,10))
 setup(axes[3],"Header-up mount • lowered 18.3 mm nano base",20,-65,True)
 for ax in axes:
-    ax.add_collection3d(Poly3DCollection(np.concatenate(ax.cad_triangles),
-                        facecolors=np.concatenate(ax.cad_colors),linewidths=0,
-                        rasterized=True))
+    render(ax)
 fig.suptitle("PINCHWING  /  ROUND-DISPLAY DONGLE\nFirst-fit prototype · dimensions in millimeters",
              fontsize=19,color="#182b3a",y=0.98)
 fig.tight_layout(rect=(0,0,1,0.93))

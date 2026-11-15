@@ -8,11 +8,16 @@ and a nice!nano / Pro Micro nRF52840 controller with downward-facing headers.
 - USB-C: rear, opposite the display.
 - Controller: horizontal in the lower housing, components up.
 - Continuous flat 60° front panel with a circular display opening, rounded
-  side corners, 0.8 mm front-edge chamfers, and a roof perpendicular to the
+  side corners, and a **5 mm tangent radius** blending the front into the roof.
+  Other front edges have 0.8 mm chamfers. The roof is perpendicular to the
   display face (sloping down 30° toward the rear).
 - Four releasable PLA cantilever snaps hold the bottom.
-- The display sits on PCB support surfaces and two 1.75 mm locating pegs.
-  A separate push-fit retainer captures the PCB; it does not clamp the glass.
+- Two straight 1.75 mm locating pegs align the display. A separate push-fit
+  retainer captures the PCB behind the front lip.
+- The front pocket clears the full **38 mm PCB** with a **38.6 mm diameter**.
+  The glass sits nominally **0.6 mm behind the front face**, beside a 0.4 mm lip.
+- A **28 mm-wide rectangular relief** surrounds the square header extension.
+  The pegs stay 1.75 mm diameter down to the pocket floor, without flared bases.
 
 ## Print files
 
@@ -22,6 +27,8 @@ All files are in [`output/`](output/). STL units are millimeters.
 
 1. **`display-fit-test.stl`** and **`display-retainer.stl`**:
    check the window, PCB depth, 19.5 mm hole spacing, pegs and header clearance.
+   Reprint the display coupon for the straight-peg revision. The rectangular
+   relief includes straight peg bases so the mounting holes can slide fully down.
 2. The **18.3 mm nano** has been confirmed by the printed fit test.
    Use **`bottom-nano-18_3.stl`**. The 17.8 mm files are alternate-board options.
 3. **`snap-test-tongue.stl`** and **`snap-test-wall.stl`**:
@@ -48,6 +55,7 @@ cutaway, and exploded views.
 ## Ender 3 V3 KE / PLA / 0.4 mm nozzle
 
 - 0.20 mm layers; 0.16 mm is useful for the fit coupons.
+- The 0.4 mm front lip is two 0.20 mm layers; inspect those layers in the slicer.
 - 3–4 walls, 4 bottom/top layers, approximately 15% infill.
 - Print at **100% scale**. Global scaling changes the mounting-hole spacing.
 - Bottom and nano coupons: flat underside on the bed, as exported.
@@ -55,8 +63,9 @@ cutaway, and exploded views.
 - Display coupon: bezel/front face down, as exported. Its pegs point upward.
 - Housing: **display/bezel face down**, as exported, so the small locating
   pegs print upward rather than dangling below an inclined face.
-  The perpendicular roof prints vertically in this orientation. Rounded side
-  corners and front-edge chamfers avoid large decorative overhangs.
+  The perpendicular roof prints vertically in this orientation. Its new 5 mm
+  front blend curves outward from the bed, so inspect its first few layers
+  as well as the rear wall before attempting a supports-off print.
   For a single-piece, supports-off trial, use a 5 mm brim and tuned PLA cooling.
   Inspect the rear wall and USB bridge in the slicer: the rear wall still reaches
   a 60° overhang from vertical in this orientation, and the USB opening bridges
@@ -95,7 +104,7 @@ committing to the final print.
 
 ## Dimensions, references and remaining first-fit assumptions
 
-The housing's assembled nominal envelope is approximately **50 × 68 × 61 mm**
+The housing's assembled nominal envelope is approximately **50 × 68 × 59 mm**
 (width × depth × height). Print-oriented bounding boxes differ because the
 housing is exported face-down.
 
@@ -103,6 +112,26 @@ The header-up revision lowers the nano PCB by **4 mm** (underside at 18.4 mm
 above the desk, 16 mm above the inner floor). The USB opening follows it.
 The display center is at 35 mm above the desk. Modeled display and controller
 connector envelopes are checked for mutual interference.
+
+The current PCB pocket has **0.3 mm radial clearance** for the measured
+38 mm board. The PCB's front surface seats 3.7 mm behind the housing face.
+With the assumed 3.1 mm glass height, its surface is 0.6 mm behind the face,
+with nominally 0.2 mm clearance behind the 0.4 mm retaining lip. The straight
+pegs align the mounting holes; the front lip and rear retainer limit axial travel.
+There is no shoulder on the pegs setting a hard PCB depth, so the actual seating
+depth depends on the module's glass/PCB stack.
+The display plane moved 1 mm rearward to keep the enlarged pocket enclosed
+at the lower front edge. The opening diameter and peg sizes/spacing are unchanged.
+
+The square-extension pocket now starts **1.0 mm behind the front face** and
+continues through to the interior, instead of starting only at the 3.7 mm PCB
+seat. It is 28 mm wide, with 0.6 mm clearance past the header-side PCB edge.
+The locating pins are **1.75 mm diameter continuously down to the pocket floor**,
+on 19.5 mm centers. Their small inward-tapered insertion tips remain at the same
+height. There are no wider collars or conical bases below the PCB holes.
+Validation includes a 1.2 mm front-side allowance around this
+section for solder/unevenness, excluding the mounting holes; this is
+a clearance allowance rather than a measured component envelope.
 
 User-measured display dimensions:
 
@@ -147,10 +176,11 @@ Still **assumed**, not measured on your hardware:
 
 - Display PCB thickness: 1.6 mm.
 - Glass outer diameter: 35.6 mm; visible opening: 33 mm.
-- Front glass-to-PCB relationship: 3.1 mm clearance in front of its seat.
+- Glass height above PCB: 3.1 mm. This controls the nominal 0.6 mm face recess;
+  exact flushness depends on the actual module thickness.
 - Header center: 2.5 mm from the header-side PCB edge.
 - Female connector bank: 18.2 mm wide, 3.2 mm tall, extending to 26 mm behind
-  the front display plane (19.8 mm behind the PCB underside).
+  the front display plane (20.7 mm behind the PCB underside).
 - Controller female connectors: 2.9 mm width envelope per pin row, 14.5 mm
    below the PCB. The lowered board is 16 mm above the inner floor, leaving
    1.5 mm below this modeled connector envelope. Wire-bend clearance has not
@@ -174,6 +204,10 @@ Matplotlib. The generator reuses the repository's CAD/STL validation helpers.
 
 `output/validation.json` records solid validity, watertightness, connected mesh
 count, self-intersection checks, dimensions and modeled component clearances.
+It also verifies the full-diameter pocket is unobstructed and checks all outer
+faces for unintended openings beyond the display, USB, and snap windows.
+`square_extension_clearance` records the front-side relief check and verifies
+that there is no flared material around the peg bases.
 Small, intentional intersections are used for controller pressure ribs and
 retainer crush ribs. Connector and glass envelopes must not intersect any
 printed component.
