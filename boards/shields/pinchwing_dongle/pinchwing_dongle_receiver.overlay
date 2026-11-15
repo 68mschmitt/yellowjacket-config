@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: MIT */
 #include "../yellowjacket/yellowjacket.dtsi"
 #include "pinchwing-input.dtsi"
+#include <input/processors.dtsi>
 
 &kscan0 {
     status = "disabled";
@@ -21,5 +22,12 @@
     mouse_listener {
         compatible = "zmk,input-listener";
         device = <&mouse_split>;
+        /* Ignore optical motion unless the mouse layer is active. */
+        input-processors = <&zip_xy_scaler 0 1>;
+
+        mouse_layer {
+            layers = <3>; /* MOUS_L in config/yellowjacket.keymap */
+            input-processors = <&zip_xy_scaler 1 1>;
+        };
     };
 };
