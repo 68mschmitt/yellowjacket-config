@@ -6,18 +6,73 @@
 
 #if IS_ENABLED(CONFIG_SHIELD_PINCHWING_DONGLE_RIGHT)
 
+#include <string.h>
 #include <zephyr/drivers/sensor.h>
 #include <zephyr/init.h>
+#include <zephyr/logging/log.h>
+#include <zephyr/settings/settings.h>
 #include <zmk/split/peripheral.h>
 #include "pmw3610.h"
 
+LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
+
+#define DPI_SAVE_DELAY_MS 1000
+
 static const struct device *sensor = DEVICE_DT_GET(DT_NODELABEL(mouse_sensor));
 static int current_cpi = DT_PROP(DT_NODELABEL(mouse_sensor), cpi);
+static uint16_t saved_cpi = DT_PROP(DT_NODELABEL(mouse_sensor), cpi);
 static bool confirmed;
 K_MUTEX_DEFINE(dpi_lock);
 
 static void announce(struct k_work *work);
 K_WORK_DELAYABLE_DEFINE(announce_work, announce);
+
+static void save_dpi(struct k_work *work);
+K_WORK_DELAYABLE_DEFINE(save_work, save_dpi);
+
+static int dpi_settings_set(const char *name, size_t len, settings_read_cb read_cb, void *cb_arg) {
+    if (strcmp(name, "cpi") != 0) {
+        return -ENOENT;
+    }
+    uint16_t cpi;
+    if (len != sizeof(cpi)) {
+        return -EINVAL;
+    }
+    int err = read_cb(cb_arg, &cpi, sizeof(cpi));
+    if (err < 0) {
+        return err;
+    }
+    if (err != (int)sizeof(cpi) || cpi < PMW3610_MIN_CPI || cpi > PMW3610_MAX_CPI ||
+        cpi % 200 != 0) {
+        return -EINVAL;
+    }
+    k_mutex_lock(&dpi_lock, K_FOREVER);
+    current_cpi = saved_cpi = cpi;
+    /* Settings load may precede asynchronous sensor initialization. Let the
+     * announcement worker retry until the restored value is actually applied. */
+    confirmed = false;
+    k_work_reschedule(&announce_work, K_NO_WAIT);
+    k_mutex_unlock(&dpi_lock);
+    return 0;
+}
+
+SETTINGS_STATIC_HANDLER_DEFINE(pinchwing_dpi, "pinchwing_dpi", NULL, dpi_settings_set, NULL, NULL);
+
+static void save_dpi(struct k_work *work) {
+    ARG_UNUSED(work);
+    k_mutex_lock(&dpi_lock, K_FOREVER);
+    if (confirmed && current_cpi != saved_cpi) {
+        uint16_t cpi = current_cpi;
+        int err = settings_save_one("pinchwing_dpi/cpi", &cpi, sizeof(cpi));
+        if (err) {
+            LOG_WRN("Unable to save sensor CPI: %d", err);
+            k_work_reschedule(&save_work, K_MSEC(DPI_SAVE_DELAY_MS));
+        } else {
+            saved_cpi = cpi;
+        }
+    }
+    k_mutex_unlock(&dpi_lock);
+}
 
 /* Called with dpi_lock held. The sensor initializes asynchronously: a successful
  * write, rather than device_is_ready alone, confirms the initial setting. */
@@ -39,8 +94,12 @@ int pinchwing_dpi_adjust(bool increase) {
     k_mutex_lock(&dpi_lock, K_FOREVER);
     int next = CLAMP(current_cpi + (increase ? 200 : -200),
                      PMW3610_MIN_CPI, PMW3610_MAX_CPI);
+    bool changed = next != current_cpi;
     int err = next == current_cpi && confirmed ? 0 : apply(next);
     if (!err) {
+        if (changed) {
+            k_work_reschedule(&save_work, K_MSEC(DPI_SAVE_DELAY_MS));
+        }
         k_work_reschedule(&announce_work, K_NO_WAIT);
     }
     k_mutex_unlock(&dpi_lock);

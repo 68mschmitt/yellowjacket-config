@@ -49,6 +49,14 @@ not measured charge current. Unplugged halves show estimated battery level;
 missing/stale reports show `--`. Physical left/right are independent of pairing
 order. Current half firmware reports every two seconds and expires after five.
 
+The right half saves DPI to flash one second after the last successful DPI
+change and restores it after reboot, including battery power cycles. Wait at
+least one second after adjusting DPI before switching it off. The default is
+1600 DPI when no saved value exists; a settings reset also clears saved DPI.
+This feature requires updated right-half firmware. To check it, select a
+different DPI, wait a second, power-cycle the right half, and verify the dongle
+shows that value again after reconnection.
+
 The original Bongo Cat now has [layer-specific scenes](../development/display.md).
 Paws respond to each half, layer changes wake the cat, and Base retains the
 80-WPM warp / 65-WPM exit thresholds. The scene timer is 100 ms; status is 250 ms.

@@ -11,11 +11,15 @@
 #define K_NO_WAIT 0
 #define K_MSEC(x) (x)
 struct k_work { int unused; };
-struct k_work_delayable { void (*handler)(struct k_work *); };
+struct k_work_delayable {
+    void (*handler)(struct k_work *);
+    int delay, schedules;
+};
 #define K_WORK_DELAYABLE_DEFINE(name, cb) struct k_work_delayable name = {.handler = cb}
 static int scheduled_delay;
 static inline int k_work_reschedule(struct k_work_delayable *work, int delay) {
-    (void)work;
+    work->delay = delay;
+    work->schedules++;
     scheduled_delay = delay;
     return 0;
 }
